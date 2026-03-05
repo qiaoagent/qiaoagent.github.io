@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Qiao Jin</title>
+  <meta name="description" content="Qiao Jin, MD — Researcher at NIH/NLM working on medical AI.">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header>
+    <nav>
+      <a class="site-name" href="#" data-tab="home">Qiao Jin</a>
+    </nav>
+  </header>
+
+  <main>
+
+    <!-- ═══════════════════════════════ HOME ═══════════════════════ -->
+    <div id="tab-home" class="tab-panel active">
+
+      <div class="home-layout">
+        <aside class="home-sidebar">
+          <img src="assets/profile.jpeg" alt="Qiao Jin">
+        </aside>
+        <div class="home-main">
+        <div class="hero-bio">
+          <script type="text/plain" id="bio-md">
+I am a medical AI researcher at NIH, supported by the Pathway to Independence (K99/R00) Award (~$1M, one of ~3 awarded per year by NLM). I received my MD from Tsinghua University.
+
+My first-author [research](https://scholar.google.com/citations?user=tYy-bzgAAAAJ&hl=en) (e.g., [PubMedQA](https://aclanthology.org/D19-1259/) and [TrialGPT](https://www.nature.com/articles/s41467-024-53081-z)) has appeared in [Nature Methods](https://www.nature.com/articles/s41592-025-02748-6), [Nature](https://www.nature.com/articles/s41467-024-53081-z) [Communications](https://www.nature.com/articles/s41467-025-64430-x), [npj Digital Medicine](https://www.nature.com/articles/s41746-024-01185-7), [EBioMedicine](https://www.thelancet.com/journals/ebiom/article/PIIS2352-3964(24)00023-9/fulltext), [NeurIPS](https://proceedings.neurips.cc/paper_files/paper/2024/hash/99e81750f3fdfcaf9613db2dbf4bd623-Abstract-Datasets_and_Benchmarks_Track.html), [ACL](https://aclanthology.org/2024.findings-acl.372/), <a href="https://aclanthology.org/D19-1259/">EM</a>N<a href="https://aclanthology.org/2020.emnlp-main.114/">LP</a>, and [SIGIR](https://dl.acm.org/doi/10.1145/3539618.3592005).
+
+We developed the [MedCPT](https://huggingface.co/ncbi/MedCPT-Query-Encoder) [foundation](https://huggingface.co/ncbi/MedCPT-Article-Encoder) [models](https://huggingface.co/ncbi/MedCPT-Cross-Encoder) that have been downloaded over 4 million times on Hugging Face, and [PubTator Database](https://www.ncbi.nlm.nih.gov/research/pubtator3/) that has been accessed over 1 billion times. Our work has also been adopted by [Google](https://www.nature.com/articles/s41586-023-06291-2), [Microsoft & OpenAI](https://arxiv.org/abs/2303.13375), [Meta](https://arxiv.org/abs/2211.09085), [Anthropic](https://www-cdn.anthropic.com/de8ba9b01c9ab7cbabf5c33b80b7bbc618857627/Model_Card_Claude_3.pdf), [Nvidia](https://developer.nvidia.com/blog/customizing-nvidia-nims-for-domain-specific-needs-with-nvidia-nemo/); and featured by [NIH](https://www.nih.gov/news-events/news-releases/nih-findings-shed-light-risks-benefits-integrating-ai-into-medical-decision-making) [News](https://www.nih.gov/news-events/news-releases/nih-developed-ai-algorithm-matches-potential-volunteers-clinical-trials) [Releases](https://www.nih.gov/news-events/news-releases/nih-researchers-develop-ai-agent-improves-accuracy-gene-set-analysis-leveraging-expert-curated-databases) & [Catalyst](https://irp.nih.gov/catalyst/33/3/homegrown-ai), [POLITICO](https://www.politico.com/newsletters/prescription-pulse/2024/11/19/using-ai-to-match-patients-to-clinical-trials-00190301), [Nature](https://www.nature.com/articles/d41586-024-00753-x), [Nature Biotech](https://www.nature.com/articles/s41587-025-02754-1), [MedScape](https://www.medscape.com/viewarticle/ais-limitations-clinical-decision-making-2024a1000ffn?form=fpf).
+          </script>
+          <div id="bio-content"></div>
+
+          <p class="ext-links">
+            <a href="https://scholar.google.com/citations?user=tYy-bzgAAAAJ&hl=en">Google Scholar</a>
+            / <a href="https://twitter.com/DrQiaoJin">Twitter</a>
+            / <a href="https://github.com/Andy-jqa">GitHub</a>
+            / <a href="https://www.linkedin.com/in/qiao-jin-andy">LinkedIn</a>
+            / <a href="assets/resume.pdf">CV</a>
+            / <a href="mailto:qiaojin.andy@gmail.com">Email</a>
+          </p>
+        </div>
+
+      <!-- Paper Card Deck -->
+      <section class="paper-deck">
+        <h2 class="deck-heading">Papers <span class="deck-hint">hover to preview &middot; click to read</span></h2>
+
+        <!-- Row 1 -->
+        <div class="deck-stage">
+          <div class="paper-card" style="--rot:5deg; --i:0"
+               data-pdf="assets/papers/BioNLP.pdf"
+               data-title="BioNLP Benchmark">
+            <img src="assets/covers/BioNLP.png" alt="BioNLP Benchmark">
+            <div class="card-label">BioNLP</div>
+          </div>
+
+          <div class="paper-card" style="--rot:3deg; --i:1"
+               data-pdf="assets/papers/leads.pdf"
+               data-title="LEADS">
+            <img src="assets/covers/leads.png" alt="LEADS">
+            <div class="card-label">LEADS</div>
+          </div>
+
+          <div class="paper-card" style="--rot:-3deg; --i:2"
+               data-pdf="assets/papers/Adversarial.pdf"
+               data-title="Adversarial Attack">
+            <img src="assets/covers/Adversarial.png" alt="Adversarial Attack">
+            <div class="card-label">Adversarial</div>
+          </div>
+
+          <div class="paper-card" style="--rot:1deg; --i:3"
+               data-pdf="assets/papers/AIScientist.pdf"
+               data-title="Risks of AI Scientists">
+            <img src="assets/covers/AIScientist.png" alt="Risks of AI Scientists">
+            <div class="card-label">AI Scientists</div>
+          </div>
+
+          <div class="paper-card paper-card--highlight" style="--rot:-2deg; --i:4"
+               data-pdf="assets/papers/AgentMD.pdf"
+               data-title="AgentMD">
+            <img src="assets/covers/AgentMD.png" alt="AgentMD">
+            <div class="card-label">AgentMD</div>
+          </div>
+
+          <div class="paper-card paper-card--highlight" style="--rot:-5deg; --i:5"
+               data-pdf="assets/papers/TrialGPT.pdf"
+               data-title="TrialGPT">
+            <img src="assets/covers/TrialGPT.png" alt="TrialGPT">
+            <div class="card-label">TrialGPT</div>
+          </div>
+        </div>
+
+        <!-- Row 2 -->
+        <div class="deck-stage deck-stage--row2">
+          <div class="paper-card" style="--rot:5deg; --i:0"
+               data-pdf="assets/papers/TrialMind.pdf"
+               data-title="TrialMind">
+            <img src="assets/covers/TrialMind.png" alt="TrialMind">
+            <div class="card-label">TrialMind</div>
+          </div>
+
+          <div class="paper-card" style="--rot:2deg; --i:1"
+               data-pdf="assets/papers/BriefContext.pdf"
+               data-title="BriefContext">
+            <img src="assets/covers/BriefContext.png" alt="BriefContext">
+            <div class="card-label">BriefContext</div>
+          </div>
+
+          <div class="paper-card" style="--rot:-3deg; --i:2"
+               data-pdf="assets/papers/ddx.pdf"
+               data-title="DDx">
+            <img src="assets/covers/ddx.png" alt="DDx">
+            <div class="card-label">DDx</div>
+          </div>
+
+          <div class="paper-card" style="--rot:2deg; --i:3"
+               data-pdf="assets/papers/MedReview.pdf"
+               data-title="MedReview">
+            <img src="assets/covers/MedReview.png" alt="MedReview">
+            <div class="card-label">MedReview</div>
+          </div>
+
+          <div class="paper-card paper-card--highlight" style="--rot:-1deg; --i:4"
+               data-pdf="assets/papers/HiddenFlaw.pdf"
+               data-title="Hidden Flaws">
+            <img src="assets/covers/HiddenFlaw.png" alt="Hidden Flaws">
+            <div class="card-label">Hidden Flaws</div>
+          </div>
+
+          <div class="paper-card paper-card--highlight" style="--rot:-5deg; --i:5"
+               data-pdf="assets/papers/GeneAgent.pdf"
+               data-title="GeneAgent">
+            <img src="assets/covers/GeneAgent.png" alt="GeneAgent">
+            <div class="card-label">GeneAgent</div>
+          </div>
+        </div>
+
+        <!-- Row 3 -->
+        <div class="deck-stage deck-stage--row2">
+          <div class="paper-card" style="--rot:5deg; --i:0"
+               data-pdf="assets/papers/LADER.pdf"
+               data-title="LADER">
+            <img src="assets/covers/LADER.png" alt="LADER">
+            <div class="card-label">LADER</div>
+          </div>
+
+          <div class="paper-card" style="--rot:2deg; --i:1"
+               data-pdf="assets/papers/MedCalc-Bench.pdf"
+               data-title="MedCalc-Bench">
+            <img src="assets/covers/MedCalc-Bench.png" alt="MedCalc-Bench">
+            <div class="card-label">MedCalc-Bench</div>
+          </div>
+
+          <div class="paper-card" style="--rot:-3deg; --i:2"
+               data-pdf="assets/papers/MedCite.pdf"
+               data-title="MedCite">
+            <img src="assets/covers/MedCite.png" alt="MedCite">
+            <div class="card-label">MedCite</div>
+          </div>
+
+          <div class="paper-card" style="--rot:1deg; --i:3"
+               data-pdf="assets/papers/EBM-Net.pdf"
+               data-title="EBM-Net">
+            <img src="assets/covers/EBM-Net.png" alt="EBM-Net">
+            <div class="card-label">EBM-Net</div>
+          </div>
+
+          <div class="paper-card paper-card--highlight" style="--rot:-2deg; --i:4"
+               data-pdf="assets/papers/MedRAG.pdf"
+               data-title="MedRAG">
+            <img src="assets/covers/MedRAG.png" alt="MedRAG">
+            <div class="card-label">MedRAG</div>
+          </div>
+
+          <div class="paper-card paper-card--highlight" style="--rot:-5deg; --i:5"
+               data-pdf="assets/papers/PubMedQA.pdf"
+               data-title="PubMedQA">
+            <img src="assets/covers/PubMedQA.png" alt="PubMedQA">
+            <div class="card-label">PubMedQA</div>
+          </div>
+        </div>
+
+      </section>
+        </div><!-- /home-main -->
+      </div><!-- /home-layout -->
+
+    </div><!-- /tab-home -->
+
+    <!-- PDF Modal -->
+    <div id="pdf-modal" class="pdf-modal" role="dialog" aria-modal="true">
+      <div class="modal-backdrop"></div>
+      <div class="modal-box">
+        <div class="modal-header">
+          <span id="modal-title" class="modal-title"></span>
+          <button class="modal-close" aria-label="Close">&times;</button>
+        </div>
+        <iframe id="pdf-frame" src="" title="Paper PDF"></iframe>
+      </div>
+    </div>
+
+
+
+  </main>
+
+  <footer>
+    <p>Qiao Jin &middot; NIH/NLM &middot; Updated March 2026</p>
+  </footer>
+
+  <script>
+    /* ── Bio: render from inline #bio-md block ───────────────────── */
+    function parseMd(md) {
+      return md.trim().split(/\n\n+/).map(para =>
+        '<p>' + para.trim().replace(/\[([^\]]+)\]\(([^()]*(?:\([^()]*\)[^()]*)*)\)/g, '<a href="$2">$1</a>') + '</p>'
+      ).join('\n');
+    }
+    const bioSrc = document.getElementById('bio-md').textContent;
+    document.getElementById('bio-content').innerHTML = parseMd(bioSrc);
+
+    /* ── Tab switching ───────────────────────────────────────────── */
+    function switchTab(tabName) {
+      document.querySelectorAll('.tab-link').forEach(el =>
+        el.classList.toggle('active', el.dataset.tab === tabName));
+      document.querySelectorAll('.tab-panel').forEach(el =>
+        el.classList.toggle('active', el.id === 'tab-' + tabName));
+      window.scrollTo(0, 0);
+    }
+
+    document.addEventListener('click', e => {
+      const tabEl = e.target.closest('[data-tab]');
+      if (tabEl && !e.target.closest('.paper-card')) {
+        e.preventDefault();
+        switchTab(tabEl.dataset.tab);
+      }
+    });
+
+    /* ── Paper card → PDF modal ──────────────────────────────────── */
+    const modal      = document.getElementById('pdf-modal');
+    const pdfFrame   = document.getElementById('pdf-frame');
+    const modalTitle = document.getElementById('modal-title');
+
+    function openPDF(path, title) {
+      pdfFrame.src = path;
+      modalTitle.textContent = title;
+      modal.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closePDF() {
+      modal.classList.remove('open');
+      document.body.style.overflow = '';
+      // slight delay so animation finishes before clearing src
+      setTimeout(() => { pdfFrame.src = ''; }, 300);
+    }
+
+    document.querySelectorAll('.paper-card').forEach(card => {
+      card.addEventListener('click', () => {
+        if (card.dataset.pdf) openPDF(card.dataset.pdf, card.dataset.title);
+      });
+
+      /* ── Mouse-tracking 3-D tilt ─────────────────────────────────── */
+      card.addEventListener('mousemove', e => {
+        const r   = card.getBoundingClientRect();
+        const dx  = (e.clientX - r.left) / r.width  - 0.5;   // -0.5 → 0.5
+        const dy  = (e.clientY - r.top)  / r.height - 0.5;
+        const rx  = (-dy * 18).toFixed(2);
+        const ry  = ( dx * 18).toFixed(2);
+        card.style.transform =
+          `rotate(0deg) translateY(-52px) scale(1.08) perspective(700px) rotateX(${rx}deg) rotateY(${ry}deg)`;
+      });
+
+      card.addEventListener('mouseleave', () => {
+        // Remove inline override → CSS transition springs back to resting rotation
+        card.style.transform = '';
+      });
+    });
+
+    modal.querySelector('.modal-backdrop').addEventListener('click', closePDF);
+    modal.querySelector('.modal-close').addEventListener('click', closePDF);
+
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape' && modal.classList.contains('open')) closePDF();
+    });
+  </script>
+
+</body>
+</html>

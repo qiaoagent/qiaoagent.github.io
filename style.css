@@ -1,0 +1,499 @@
+/* ─── Reset & Root ─────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:        #f0ede6;
+  --text:      #222222;
+  --muted:     #666666;
+  --link:      #888888;
+  --border:    #d8d4cc;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: var(--link); text-decoration: underline; transition: color 0.15s ease; }
+a:hover { color: #7a9fd4; }
+em { font-style: italic; }
+
+/* ─── Navigation ───────────────────────────────────────────────── */
+header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+}
+
+nav {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  max-width: 1020px;
+  margin: 0 auto;
+  padding: 18px 40px;
+}
+
+.site-name {
+  font-family: Georgia, serif;
+  font-size: 1.25rem;
+  color: var(--text);
+  text-decoration: none;
+  cursor: pointer;
+}
+.site-name:hover { color: var(--text); text-decoration: none; }
+
+.nav-tabs { display: flex; gap: 28px; }
+
+.tab-link {
+  font-size: 0.88rem;
+  color: var(--muted);
+  text-decoration: none;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  padding-bottom: 1px;
+}
+.tab-link:hover { color: var(--text); text-decoration: none; }
+.tab-link.active {
+  color: var(--text);
+  border-bottom-color: var(--text);
+  text-decoration: none;
+}
+
+/* ─── Main & Tabs ──────────────────────────────────────────────── */
+main {
+  max-width: 1020px;
+  margin: 0 auto;
+  padding: 0 40px 80px;
+}
+
+.tab-panel { display: none; padding-top: 52px; }
+.tab-panel.active { display: block; }
+
+/* ─── Hero ─────────────────────────────────────────────────────── */
+/* Two-column: photo left sidebar | bio + papers right column */
+.home-layout {
+  display: flex;
+  gap: 56px;
+  align-items: flex-start;
+}
+
+.home-sidebar {
+  flex: 0 0 176px;
+}
+
+.home-sidebar img {
+  width: 176px;
+  height: 211px;
+  object-fit: cover;
+  object-position: center top;
+  border-radius: 4px;
+  display: block;
+}
+
+.home-main {
+  flex: 1;
+  min-width: 0;
+}
+
+.hero-bio p {
+  font-size: 0.95rem;
+  margin-bottom: 16px;
+}
+
+.hero-bio a { text-decoration: underline; }
+
+.ext-links {
+  font-size: 0.9rem;
+  color: var(--muted);
+  margin-top: 4px;
+}
+.ext-links a {
+  color: var(--muted);
+  text-decoration: none;
+}
+.ext-links a:hover { color: var(--link); text-decoration: underline; }
+
+/* ─── Home: Paper Card Deck ────────────────────────────────────── */
+.paper-deck {
+  margin-top: 16px;
+}
+
+.deck-heading {
+  font-family: Georgia, serif;
+  font-size: 1.2rem;
+  font-weight: normal;
+  margin-bottom: 0;
+  letter-spacing: -0.01em;
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.deck-hint {
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 0.75rem;
+  color: var(--muted);
+  font-weight: normal;
+}
+
+/* Stage: the playing-card row */
+.deck-stage {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  padding: 52px 0 48px;
+  position: relative;
+}
+
+.paper-card {
+  position: relative;
+  width: 168px;
+  flex-shrink: 0;
+  margin-left: -72px;         /* overlap */
+  cursor: pointer;
+  transform: rotate(var(--rot, 0deg));
+  transform-origin: bottom center;
+  transition:
+    transform 0.32s cubic-bezier(0.34, 1.45, 0.64, 1),
+    filter     0.32s ease,
+    z-index    0s;
+  z-index: var(--i, 0);
+}
+
+.paper-card:first-child { margin-left: 0; }
+
+/* Card image */
+.paper-card img {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+  object-position: top;
+  display: block;
+  border-radius: 5px;
+  box-shadow: 3px 6px 18px rgba(0, 0, 0, 0.22);
+  filter: grayscale(1);
+  transition: box-shadow 0.32s ease, filter 0.32s ease;
+}
+
+/* Hover: card pops up + color restored */
+.paper-card:hover {
+  transform: rotate(0deg) translateY(-52px) scale(1.08);
+  z-index: 100;
+  filter: drop-shadow(0 28px 36px rgba(0, 0, 0, 0.28));
+}
+
+.paper-card:hover img {
+  filter: grayscale(0);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+}
+
+/* Title label that fades in on hover */
+.card-label {
+  position: absolute;
+  bottom: -26px;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  font-size: 0.75rem;
+  color: var(--muted);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+
+.paper-card:hover .card-label { opacity: 1; }
+
+/* Second row: less top padding since row 1 already has spacing */
+/* Subsequent rows: small gap between rows */
+.deck-stage + .deck-stage {
+  padding-top: 8px;
+  margin-top: -16px;
+}
+
+/* Highlight: starred / featured papers */
+.paper-card--highlight img {
+  box-shadow: 3px 6px 18px rgba(0, 0, 0, 0.22), 0 0 0 2.5px #999;
+}
+
+.paper-card--highlight::after {
+  content: "★";
+  position: absolute;
+  top: -9px;
+  right: -6px;
+  font-size: 0.85rem;
+  color: #999;
+  background: var(--bg);
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.15);
+  z-index: 1;
+  transition: color 0.32s ease;
+}
+
+.paper-card--highlight:hover::after {
+  color: #c8940a;
+}
+
+.paper-card--highlight:hover img {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18), 0 0 0 2.5px #c8940a;
+}
+
+/* Placeholder for cards without a cover/PDF yet */
+.card-placeholder {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  background: var(--border);
+  border-radius: 5px;
+  box-shadow: 3px 6px 18px rgba(0, 0, 0, 0.22);
+  transition: box-shadow 0.32s ease;
+}
+
+.paper-card--no-pdf {
+  cursor: default;
+  opacity: 0.55;
+}
+
+.deck-more {
+  text-align: center;
+  margin-top: 8px;
+  font-size: 0.85rem;
+}
+.deck-more .tab-link {
+  color: var(--link);
+  border: none;
+  padding: 0;
+  text-decoration: underline;
+  font-size: 0.85rem;
+}
+
+/* ─── PDF Modal ────────────────────────────────────────────────── */
+.pdf-modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 500;
+  align-items: center;
+  justify-content: center;
+}
+
+.pdf-modal.open { display: flex; }
+
+.modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(20, 20, 20, 0.72);
+  backdrop-filter: blur(4px);
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+.modal-box {
+  position: relative;
+  z-index: 1;
+  width: min(900px, 92vw);
+  height: 90vh;
+  background: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 32px 80px rgba(0, 0, 0, 0.4);
+  animation: slideUp 0.25s cubic-bezier(0.34, 1.2, 0.64, 1);
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(32px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0)    scale(1);    }
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 16px;
+  border-bottom: 1px solid #e4e0d8;
+  background: var(--bg);
+  flex-shrink: 0;
+}
+
+.modal-title {
+  font-size: 0.88rem;
+  color: var(--muted);
+  font-style: italic;
+}
+
+.modal-close {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+  color: var(--muted);
+  padding: 0 4px;
+  transition: color 0.15s;
+}
+.modal-close:hover { color: var(--text); }
+
+#pdf-frame {
+  flex: 1;
+  width: 100%;
+  border: none;
+}
+
+/* ─── Publications Tab ─────────────────────────────────────────── */
+.tab-note {
+  font-size: 0.83rem;
+  color: var(--muted);
+  margin-bottom: 36px;
+}
+.tab-note a { color: var(--muted); }
+.tab-note a:hover { color: var(--link); }
+
+.pub-year-section { margin-bottom: 40px; }
+
+.pub-year-section h3 {
+  font-family: Georgia, serif;
+  font-size: 1.05rem;
+  font-weight: normal;
+  color: var(--muted);
+  margin-bottom: 12px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--border);
+}
+
+.pub-item {
+  padding: 14px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.pub-item-star .pub-title { font-weight: 600; }
+
+.pub-title {
+  font-size: 0.92rem;
+  margin-bottom: 4px;
+  line-height: 1.45;
+}
+.pub-title a { color: var(--text); text-decoration: none; }
+.pub-title a:hover { color: var(--link); text-decoration: underline; }
+
+.pub-authors {
+  font-size: 0.81rem;
+  color: var(--muted);
+  margin-bottom: 6px;
+  line-height: 1.5;
+}
+.pub-authors strong { color: var(--text); font-weight: 600; }
+
+.pub-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+/* Badges */
+.badge {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 2px 7px;
+  border-radius: 3px;
+  letter-spacing: 0.01em;
+}
+.badge-nature  { background: #fff0e8; color: #8a3500; }
+.badge-acl     { background: #e8f5e9; color: #1b5e20; }
+.badge-neurips { background: #f3e8ff; color: #4a0d8c; }
+.badge-bioinf  { background: #e0f2fe; color: #01579b; }
+.badge-arxiv   { background: #f0f0f0; color: #444; }
+.badge-default { background: #eef0f5; color: #2c4a7c; }
+
+.cite {
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+.cite-high { color: #7c4000; font-weight: 600; }
+
+.pub-link {
+  font-size: 0.78rem;
+  color: var(--link);
+  text-decoration: none;
+}
+.pub-link:hover { text-decoration: underline; }
+
+/* ─── News Tab ─────────────────────────────────────────────────── */
+.news-list { max-width: 640px; }
+
+.news-item {
+  display: flex;
+  gap: 20px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.9rem;
+  align-items: baseline;
+}
+.news-item:first-child { border-top: 1px solid var(--border); }
+
+.nd {
+  flex-shrink: 0;
+  width: 56px;
+  font-size: 0.8rem;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ─── Service Tab ──────────────────────────────────────────────── */
+.service-block { margin-bottom: 36px; }
+
+.service-block h3 {
+  font-family: Georgia, serif;
+  font-size: 1.05rem;
+  font-weight: normal;
+  color: var(--muted);
+  margin-bottom: 12px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--border);
+}
+
+.service-list {
+  list-style: none;
+  font-size: 0.92rem;
+}
+.service-list li {
+  padding: 9px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+/* ─── Footer ───────────────────────────────────────────────────── */
+footer {
+  text-align: center;
+  padding: 28px 40px;
+  border-top: 1px solid var(--border);
+  color: var(--muted);
+  font-size: 0.8rem;
+  max-width: 1020px;
+  margin: 0 auto;
+}
+
+/* ─── Responsive ───────────────────────────────────────────────── */
+@media (max-width: 640px) {
+  nav { padding: 14px 20px; flex-wrap: wrap; gap: 10px; }
+  .nav-tabs { gap: 16px; }
+  main { padding: 0 20px 60px; }
+  .home-layout { flex-direction: column; gap: 20px; }
+  .home-sidebar img { width: 112px; height: 134px; }
+}
