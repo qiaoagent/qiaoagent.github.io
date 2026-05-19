@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Qiao Jin</title>
   <meta name="description" content="Qiao Jin, MD — Researcher at NIH/NLM working on medical AI.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300;1,9..40,400&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -23,22 +26,46 @@
       <div class="home-layout">
         <aside class="home-sidebar">
           <img src="assets/profile.jpeg" alt="Qiao Jin">
+          <div class="timeline">
+            <div class="tl-item">
+              <div class="tl-dot"></div>
+              <div class="tl-content"><span class="tl-year">2019</span> Tsinghua BSc</div>
+            </div>
+            <div class="tl-item">
+              <div class="tl-dot"></div>
+              <div class="tl-content"><span class="tl-year">2022</span> Tsinghua MD</div>
+            </div>
+            <div class="tl-item tl-item--last">
+              <div class="tl-dot"></div>
+              <div class="tl-content"><span class="tl-year">2025</span> NIH K99/R00</div>
+            </div>
+          </div>
+          <hr class="sidebar-rule">
+          <ul class="editorial-list">
+            <li><span class="ed-role">Associate Editor</span> JMIR</li>
+            <li><span class="ed-role">Area Chair</span> NeurIPS</li>
+            <li><span class="ed-role">Area Chair</span> ACL</li>
+            <li><span class="ed-role">Editor</span> JAMIA</li>
+          </ul>
         </aside>
         <div class="home-main">
         <div class="hero-bio">
           <script type="text/plain" id="bio-md">
-I am a medical AI researcher at NIH, supported by the Pathway to Independence (K99/R00) Award (~$1M, one of ~3 awarded per year by NLM). I received my MD from Tsinghua University.
+<p class="seeking-callout">I am seeking tenure-track assistant professor positions in medical AI and related fields.</p>
+
+I am a medical AI researcher at [NIH](https://www.nih.gov), supported by the K99/R00 Pathway to Independence Award (~$1M, one of [~3](https://www.nlm.nih.gov/ep/FAQK99_R00Grants.html#:~:text=On%20average%2C%20NLM%20has%20funded,over%20the%20last%20few%20years.) awarded per year by [NLM](https://www.nlm.nih.gov)). My long-term goal is to democratize medical knowledge by providing accurate and verifiable information to clinicians, patients, and scientists.
 
 My first-author [research](https://scholar.google.com/citations?user=tYy-bzgAAAAJ&hl=en) (e.g., [PubMedQA](https://aclanthology.org/D19-1259/) and [TrialGPT](https://www.nature.com/articles/s41467-024-53081-z)) has appeared in [Nature Methods](https://www.nature.com/articles/s41592-025-02748-6), [Nature](https://www.nature.com/articles/s41467-024-53081-z) [Communications](https://www.nature.com/articles/s41467-025-64430-x), [npj Digital Medicine](https://www.nature.com/articles/s41746-024-01185-7), [EBioMedicine](https://www.thelancet.com/journals/ebiom/article/PIIS2352-3964(24)00023-9/fulltext), [NeurIPS](https://proceedings.neurips.cc/paper_files/paper/2024/hash/99e81750f3fdfcaf9613db2dbf4bd623-Abstract-Datasets_and_Benchmarks_Track.html), [ACL](https://aclanthology.org/2024.findings-acl.372/), <a href="https://aclanthology.org/D19-1259/">EM</a>N<a href="https://aclanthology.org/2020.emnlp-main.114/">LP</a>, and [SIGIR](https://dl.acm.org/doi/10.1145/3539618.3592005).
 
-We developed the [MedCPT](https://huggingface.co/ncbi/MedCPT-Query-Encoder) [foundation](https://huggingface.co/ncbi/MedCPT-Article-Encoder) [models](https://huggingface.co/ncbi/MedCPT-Cross-Encoder) that have been downloaded over 4 million times on Hugging Face, and [PubTator Database](https://www.ncbi.nlm.nih.gov/research/pubtator3/) that has been accessed over 1 billion times. Our work has also been adopted by [Google](https://www.nature.com/articles/s41586-023-06291-2), [Microsoft & OpenAI](https://arxiv.org/abs/2303.13375), [Meta](https://arxiv.org/abs/2211.09085), [Anthropic](https://www-cdn.anthropic.com/de8ba9b01c9ab7cbabf5c33b80b7bbc618857627/Model_Card_Claude_3.pdf), [Nvidia](https://developer.nvidia.com/blog/customizing-nvidia-nims-for-domain-specific-needs-with-nvidia-nemo/); and featured by [NIH](https://www.nih.gov/news-events/news-releases/nih-findings-shed-light-risks-benefits-integrating-ai-into-medical-decision-making) [News](https://www.nih.gov/news-events/news-releases/nih-developed-ai-algorithm-matches-potential-volunteers-clinical-trials) [Releases](https://www.nih.gov/news-events/news-releases/nih-researchers-develop-ai-agent-improves-accuracy-gene-set-analysis-leveraging-expert-curated-databases) & [Catalyst](https://irp.nih.gov/catalyst/33/3/homegrown-ai), [POLITICO](https://www.politico.com/newsletters/prescription-pulse/2024/11/19/using-ai-to-match-patients-to-clinical-trials-00190301), [Nature](https://www.nature.com/articles/d41586-024-00753-x), [Nature Biotech](https://www.nature.com/articles/s41587-025-02754-1), [MedScape](https://www.medscape.com/viewarticle/ais-limitations-clinical-decision-making-2024a1000ffn?form=fpf).
+We developed the [MedCPT](https://huggingface.co/ncbi/MedCPT-Query-Encoder) [foundation](https://huggingface.co/ncbi/MedCPT-Article-Encoder) [models](https://huggingface.co/ncbi/MedCPT-Cross-Encoder) that have been downloaded over 5 million times on Hugging Face, and [PubTator Database](https://www.ncbi.nlm.nih.gov/research/pubtator3/) that has been accessed over 1 billion times. Our work has also been adopted by [Google](https://www.nature.com/articles/s41586-023-06291-2), [Microsoft & OpenAI](https://arxiv.org/abs/2303.13375), [Meta](https://arxiv.org/abs/2211.09085), [Anthropic](https://www-cdn.anthropic.com/de8ba9b01c9ab7cbabf5c33b80b7bbc618857627/Model_Card_Claude_3.pdf), [Nvidia](https://developer.nvidia.com/blog/customizing-nvidia-nims-for-domain-specific-needs-with-nvidia-nemo/); and featured by [NIH](https://www.nih.gov/news-events/news-releases/nih-findings-shed-light-risks-benefits-integrating-ai-into-medical-decision-making) [News](https://www.nih.gov/news-events/news-releases/nih-developed-ai-algorithm-matches-potential-volunteers-clinical-trials) [Releases](https://www.nih.gov/news-events/news-releases/nih-researchers-develop-ai-agent-improves-accuracy-gene-set-analysis-leveraging-expert-curated-databases) & [Catalyst](https://irp.nih.gov/catalyst/33/3/homegrown-ai), [POLITICO](https://www.politico.com/newsletters/prescription-pulse/2024/11/19/using-ai-to-match-patients-to-clinical-trials-00190301), [Nature](https://www.nature.com/articles/d41586-024-00753-x), [Nature Biotech](https://www.nature.com/articles/s41587-025-02754-1), [MedScape](https://www.medscape.com/viewarticle/ais-limitations-clinical-decision-making-2024a1000ffn?form=fpf).
+
           </script>
           <div id="bio-content"></div>
 
           <p class="ext-links">
             <a href="https://scholar.google.com/citations?user=tYy-bzgAAAAJ&hl=en">Google Scholar</a>
             / <a href="https://twitter.com/DrQiaoJin">Twitter</a>
-            / <a href="https://github.com/Andy-jqa">GitHub</a>
+            / <a href="https://github.com/drqiaojin">GitHub</a>
             / <a href="https://www.linkedin.com/in/qiao-jin-andy">LinkedIn</a>
             / <a href="assets/resume.pdf">CV</a>
             / <a href="mailto:qiaojin.andy@gmail.com">Email</a>
@@ -213,9 +240,11 @@ We developed the [MedCPT](https://huggingface.co/ncbi/MedCPT-Query-Encoder) [fou
   <script>
     /* ── Bio: render from inline #bio-md block ───────────────────── */
     function parseMd(md) {
-      return md.trim().split(/\n\n+/).map(para =>
-        '<p>' + para.trim().replace(/\[([^\]]+)\]\(([^()]*(?:\([^()]*\)[^()]*)*)\)/g, '<a href="$2">$1</a>') + '</p>'
-      ).join('\n');
+      return md.trim().split(/\n\n+/).map(para => {
+        const t = para.trim();
+        if (t.startsWith('<')) return t;
+        return '<p>' + t.replace(/\[([^\]]+)\]\(([^()]*(?:\([^()]*\)[^()]*)*)\)/g, '<a href="$2">$1</a>') + '</p>';
+      }).join('\n');
     }
     const bioSrc = document.getElementById('bio-md').textContent;
     document.getElementById('bio-content').innerHTML = parseMd(bioSrc);

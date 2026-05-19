@@ -14,7 +14,7 @@ html { scroll-behavior: smooth; }
 body {
   background: var(--bg);
   color: var(--text);
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  font-family: "DM Sans", -apple-system, BlinkMacSystemFont, sans-serif;
   font-size: 16px;
   line-height: 1.7;
   -webkit-font-smoothing: antialiased;
@@ -43,8 +43,8 @@ nav {
 }
 
 .site-name {
-  font-family: Georgia, serif;
-  font-size: 1.25rem;
+  font-family: "DM Serif Display", Georgia, serif;
+  font-size: 1.35rem;
   color: var(--text);
   text-decoration: none;
   cursor: pointer;
@@ -99,6 +99,75 @@ main {
   display: block;
 }
 
+.timeline {
+  margin-top: 14px;
+  padding-left: 6px;
+}
+
+.tl-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  position: relative;
+  padding-bottom: 12px;
+}
+
+.tl-item::before {
+  content: '';
+  position: absolute;
+  left: 5px;
+  top: 8px;
+  bottom: 0;
+  width: 1px;
+  background: var(--border);
+}
+
+.tl-item--last::before { display: none; }
+
+.tl-dot {
+  flex-shrink: 0;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: #b89a60;
+  border: 2px solid var(--bg);
+  box-shadow: 0 0 0 1px #b89a60;
+  margin-top: 3px;
+  position: relative;
+  z-index: 1;
+}
+
+.tl-content {
+  font-size: 0.76rem;
+  color: #555;
+  line-height: 1.5;
+}
+
+.tl-year {
+  font-weight: 500;
+  color: var(--text);
+}
+
+.editorial-list {
+  list-style: none;
+  margin-top: 10px;
+  padding: 0;
+  font-size: 0.74rem;
+  color: #666;
+  line-height: 2;
+}
+
+.ed-role {
+  font-weight: 500;
+  color: var(--text);
+}
+
+.sidebar-rule {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 10px 0 0;
+}
+
 .home-main {
   flex: 1;
   min-width: 0;
@@ -110,6 +179,16 @@ main {
 }
 
 .hero-bio a { text-decoration: underline; }
+
+.seeking-callout {
+  font-size: 0.95rem;
+  color: var(--text);
+  background: #e9e0cc;
+  border-left: 3px solid #b89a60;
+  padding: 8px 12px;
+  border-radius: 0 4px 4px 0;
+  margin-bottom: 16px;
+}
 
 .ext-links {
   font-size: 0.9rem;
@@ -128,7 +207,7 @@ main {
 }
 
 .deck-heading {
-  font-family: Georgia, serif;
+  font-family: "DM Serif Display", Georgia, serif;
   font-size: 1.2rem;
   font-weight: normal;
   margin-bottom: 0;
@@ -139,7 +218,7 @@ main {
 }
 
 .deck-hint {
-  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: "DM Sans", sans-serif;
   font-size: 0.75rem;
   color: var(--muted);
   font-weight: normal;
