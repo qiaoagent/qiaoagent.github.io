@@ -599,4 +599,10 @@ footer {
   /* Tighten paper cards */
   .deck-stage { padding: 40px 0 36px; }
   .paper-card { width: 120px; margin-left: -52px; }
+
+  /* Fade cards at both edges */
+  .paper-deck {
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
+    mask-image: linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
+  }
 }
