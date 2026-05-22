@@ -90,6 +90,8 @@ main {
   flex: 0 0 176px;
 }
 
+.photo-frame { display: contents; }
+
 .home-sidebar img {
   width: 176px;
   height: 211px;
@@ -570,9 +572,31 @@ footer {
 
 /* ─── Responsive ───────────────────────────────────────────────── */
 @media (max-width: 640px) {
-  nav { padding: 14px 20px; flex-wrap: wrap; gap: 10px; }
-  .nav-tabs { gap: 16px; }
-  main { padding: 0 20px 60px; }
+  nav { padding: 14px 18px; }
+  main { padding: 0 18px 60px; }
+
+  /* Stack layout vertically */
   .home-layout { flex-direction: column; gap: 20px; }
-  .home-sidebar img { width: 112px; height: 134px; }
+
+  /* Sidebar: photo left half, info right half */
+  .home-sidebar { display: flex; flex-direction: row; gap: 0; align-items: stretch; }
+  .photo-frame { width: 50%; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
+  .home-sidebar img { width: 80%; height: auto; object-fit: cover; object-position: center top; border-radius: 4px; }
+  .sidebar-info { width: 50%; padding-left: 14px; box-sizing: border-box; }
+
+  /* Tighten timeline on mobile */
+  .timeline { margin-top: 4px; }
+  .tl-item { padding-bottom: 8px; }
+  .tl-content { font-size: 0.72rem; }
+  .editorial-list { font-size: 0.72rem; line-height: 1.8; }
+  .sidebar-rule { margin: 8px 0 0; }
+
+  /* Fix overflow */
+  .home-main { overflow: hidden; width: 100%; }
+  .seeking-callout { box-sizing: border-box; width: 100%; }
+  .hero-bio p { overflow-wrap: break-word; word-break: break-word; }
+
+  /* Tighten paper cards */
+  .deck-stage { padding: 40px 0 36px; }
+  .paper-card { width: 120px; margin-left: -52px; }
 }
