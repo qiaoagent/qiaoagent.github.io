@@ -11,6 +11,36 @@
 
 html { scroll-behavior: smooth; }
 
+/* ─── Dark mode variables ───────────────────────────────────────── */
+[data-theme="dark"] {
+  --bg:     #1a1816;
+  --text:   #e6e1d8;
+  --muted:  #918d87;
+  --link:   #aaa59f;
+  --border: #2e2b26;
+}
+
+/* ─── Theme toggle button ───────────────────────────────────────── */
+.theme-toggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 5px;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  border-radius: 6px;
+  transition: background 0.15s, color 0.15s;
+  line-height: 0;
+}
+.theme-toggle:hover { background: rgba(0,0,0,0.07); color: var(--text); }
+[data-theme="dark"] .theme-toggle:hover { background: rgba(255,255,255,0.08); }
+.theme-toggle svg { width: 17px; height: 17px; }
+.icon-sun  { display: none; }
+.icon-moon { display: block; }
+[data-theme="dark"] .icon-sun  { display: block; }
+[data-theme="dark"] .icon-moon { display: none; }
+
 body {
   background: var(--bg);
   color: var(--text);
@@ -606,3 +636,27 @@ footer {
     mask-image: linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
   }
 }
+
+/* ─── Dark mode overrides (hardcoded colors) ────────────────────── */
+[data-theme="dark"] .seeking-callout {
+  background: #2a2520;
+  border-left-color: #b89a60;
+}
+[data-theme="dark"] .tl-content { color: var(--muted); }
+[data-theme="dark"] .paper-card {
+  background: #252220;
+  box-shadow: 3px 6px 18px rgba(0,0,0,0.5), 0 0 0 2.5px #555;
+}
+[data-theme="dark"] .paper-card-inner { border-bottom-color: #3a3630; }
+[data-theme="dark"] .paper-card.active {
+  box-shadow: 0 8px 24px rgba(0,0,0,0.5), 0 0 0 2.5px #c8940a;
+}
+[data-theme="dark"] .badge-nature  { background: #3a1200; color: #ff9060; }
+[data-theme="dark"] .badge-acl     { background: #0a2a10; color: #60d870; }
+[data-theme="dark"] .badge-neurips { background: #1a0a30; color: #bf80ff; }
+[data-theme="dark"] .badge-bioinf  { background: #001828; color: #50b8ff; }
+[data-theme="dark"] .badge-arxiv   { background: #282828; color: #bbbbbb; }
+[data-theme="dark"] .badge-default { background: #182030; color: #7a9fd4; }
+[data-theme="dark"] .cite-high     { color: #ffaa50; }
+[data-theme="dark"] a:hover        { color: #8ab4e8; }
+[data-theme="dark"] .paper-card img { filter: invert(1) hue-rotate(180deg) !important; }
