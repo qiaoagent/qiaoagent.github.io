@@ -270,7 +270,7 @@ main {
   width: 168px;
   flex-shrink: 0;
   margin-left: -72px;         /* overlap */
-  cursor: pointer;
+  cursor: default;
   transform: rotate(var(--rot, 0deg));
   transform-origin: bottom center;
   transition:
@@ -377,6 +377,44 @@ main {
   cursor: default;
   opacity: 0.55;
 }
+
+/* ─── Hover action buttons: PDF + Slides ────────────────────────── */
+.card-actions {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 12px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.18s ease;
+  z-index: 3;
+}
+.paper-card:hover .card-actions { opacity: 1; }
+.card-btn {
+  pointer-events: auto;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(20, 18, 16, 0.3);
+  -webkit-backdrop-filter: blur(2px);
+  backdrop-filter: blur(2px);
+  color: #fff;
+  border: none;
+  font-size: 0.55rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-decoration: none;
+  cursor: pointer;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.28);
+  transition: background 0.14s ease, transform 0.14s ease;
+}
+.card-btn:hover { background: #c8940a; transform: scale(1.12); }
 
 .deck-more {
   text-align: center;

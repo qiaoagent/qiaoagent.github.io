@@ -88,7 +88,7 @@ We developed the [MedCPT](https://huggingface.co/ncbi/MedCPT-Query-Encoder) [fou
 
       <!-- Paper Card Deck -->
       <section class="paper-deck">
-        <h2 class="deck-heading">Selected Papers <span class="deck-hint">hover to preview &middot; click to read</span></h2>
+        <h2 class="deck-heading">Selected Papers <span class="deck-hint">hover to preview</span></h2>
 
         <!-- Row 1 -->
         <div class="deck-stage">
@@ -212,7 +212,8 @@ We developed the [MedCPT](https://huggingface.co/ncbi/MedCPT-Query-Encoder) [fou
 
           <div class="paper-card paper-card--highlight" style="--rot:-2deg; --i:4"
                data-pdf="assets/papers/MedRAG.pdf"
-               data-title="MedRAG">
+               data-title="MedRAG"
+               data-deck="paper/MedRAG.html">
             <img src="assets/covers/MedRAG.png" alt="MedRAG">
             <div class="card-label">MedRAG</div>
           </div>
@@ -300,9 +301,34 @@ We developed the [MedCPT](https://huggingface.co/ncbi/MedCPT-Query-Encoder) [fou
     }
 
     document.querySelectorAll('.paper-card').forEach(card => {
-      card.addEventListener('click', () => {
-        if (card.dataset.pdf) openPDF(card.dataset.pdf, card.dataset.title);
-      });
+      /* ── Hover action buttons: PDF + Slides ──────────────────────── */
+      const _pdf = card.dataset.pdf, _deck = card.dataset.deck, _title = card.dataset.title || '';
+      if (_pdf || _deck) {
+        const actions = document.createElement('div');
+        actions.className = 'card-actions';
+        if (_pdf) {
+          const b = document.createElement('button');
+          b.type = 'button';
+          b.className = 'card-btn';
+          b.textContent = 'PDF';
+          b.title = 'Read the PDF';
+          b.addEventListener('click', ev => { ev.stopPropagation(); openPDF(_pdf, _title); });
+          actions.appendChild(b);
+        }
+        if (_deck) {
+          const a = document.createElement('a');
+          a.className = 'card-btn';
+          a.href = _deck;
+          a.title = 'View slides';
+          a.setAttribute('aria-label', 'View slides');
+          a.textContent = 'HTML';
+          a.addEventListener('click', ev => { ev.stopPropagation(); });
+          actions.appendChild(a);
+        }
+        card.appendChild(actions);
+      }
+
+      /* Clicking the card body does nothing — only the PDF / HTML buttons act. */
 
       /* ── Mouse-tracking 3-D tilt ─────────────────────────────────── */
       card.addEventListener('mousemove', e => {
