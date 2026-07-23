@@ -225,7 +225,7 @@ main {
 .ext-links {
   font-size: 0.9rem;
   color: var(--muted);
-  margin: 18px 0 24px;
+  margin-top: 4px;
 }
 .ext-links a {
   color: var(--muted);
