@@ -34,7 +34,7 @@
     .dots button{width:9px;height:9px;border-radius:50%;border:none;background:var(--border);cursor:pointer;padding:0;transition:background .15s,transform .15s;}
     .dots button:hover{background:var(--faint);}
     .dots button.on{background:var(--accent);transform:scale(1.35);}
-    @media (max-width:760px){html{scroll-snap-type:none;}.dots{display:none;}.hero,.slide{min-height:0;}}
+    @media (max-width:760px){html{scroll-snap-type:y proximity;}.dots{display:none;}.hero,.slide{min-height:calc(100svh - 56px);justify-content:safe center;}.hero-disc{position:static;margin-top:18px;}figure.fig img{max-height:calc(100svh - 300px);}.slide{padding:20px 0;}.highlights li{font-size:0.94rem;margin-bottom:8px;}.slide h2{margin-bottom:14px;}figure.fig{margin:12px auto 6px;}.stat{padding:1px 18px;}}
     .kick{font-size:0.72rem;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--accent);margin:0 0 9px;}
     .kick .n{font-variant-numeric:tabular-nums;color:var(--faint);font-weight:700;margin-right:9px;}
     .slide h2{font-family:"DM Serif Display",Georgia,serif;font-weight:400;font-size:1.72rem;line-height:1.18;margin:0 0 20px;letter-spacing:-0.01em;}
