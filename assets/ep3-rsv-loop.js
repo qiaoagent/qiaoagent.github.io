@@ -56,8 +56,8 @@
   var HTML =
     '<div class="ep3-grid">' +
       '<div class="ep3-side ep3-left">' +
-        '<a class="ep3-persp" href="/assets/papers/RSV.pdf" target="_blank" rel="noopener">' +
-          '<img src="/assets/covers/RSV.png" alt="Retrieve, Summarize, and Verify">' +
+        '<a class="ep3-persp" href="/assets/papers/Retrieve-Summarize-Verify.pdf" target="_blank" rel="noopener">' +
+          '<img src="/assets/covers/Retrieve-Summarize-Verify.png" alt="Retrieve, Summarize, and Verify">' +
           '<div><div class="pl">The perspective</div><div class="pn"><span style="color:var(--gen)">Retrieve</span>, <span style="color:var(--util)">Summarize</span> &amp; <span style="color:var(--eval)">Verify</span></div><div class="pv">JASN, 2023</div></div>' +
         '</a>' +
         '<div class="ep3-stage" data-stage="retrieve"><div class="st">Retrieve</div><p>Search the evidence base for the pieces that actually answer the clinical question.</p></div>' +
