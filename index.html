@@ -469,7 +469,7 @@
           card.classList.add('tilting');
           card.style.transform =
             'perspective(760px) rotateY(' + (dx * MAX * 2).toFixed(2) + 'deg) rotateX(' +
-            (-dy * MAX * 2).toFixed(2) + 'deg) translateY(-6px) scale(1.02)';
+            (-dy * MAX * 2).toFixed(2) + 'deg) translateY(-6px)';
         });
         card.addEventListener('mouseleave', function () {
           card.classList.remove('tilting');

@@ -292,19 +292,25 @@ main {
   border-radius: 5px;
   box-shadow: 3px 6px 18px rgba(0, 0, 0, 0.22);
   filter: grayscale(1);
-  transition: box-shadow 0.32s ease, filter 0.32s ease;
+  transition: box-shadow 0.32s ease, filter 0.32s ease, transform 0.32s cubic-bezier(0.34, 1.45, 0.64, 1);
 }
 
-/* Hover: card pops up + color restored */
+/* Hover: card pops up + color restored.
+   The scale lives on the <img>, not the card: scaling the card magnified a
+   rasterised layer containing the label text, which softened it on 1x
+   displays (fine on retina, where the layer is rasterised at 2x). The
+   drop-shadow filter is gone for the same reason — it forced that layer. */
 .paper-card:hover {
-  transform: rotate(0deg) translateY(-52px) scale(1.08);
+  transform: rotate(0deg) translateY(-52px);
   z-index: 100;
-  filter: drop-shadow(0 28px 36px rgba(0, 0, 0, 0.28));
 }
+
+.paper-card img { transform-origin: bottom center; }
 
 .paper-card:hover img {
   filter: grayscale(0);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+  transform: scale(1.08);
+  box-shadow: 0 26px 34px rgba(0, 0, 0, 0.26);
 }
 
 /* Title label that fades in on hover */

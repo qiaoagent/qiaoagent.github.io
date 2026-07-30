@@ -49,8 +49,12 @@ def audit(path):
             issues.append(('hero-links', f'hero links are {labels}'))
     if re.search(r'\b(cited|citations?)\s+\d{2,}|\d{2,}\s+citations\b', h, re.I):
         issues.append(('citation-count', 'a citation count appears in the text'))
-    if 'class="back"' in h:
-        issues.append(('back-link', 'research.html back-link present while research.html is unpublished'))
+    # research.html is published, so the back-link is now required rather than
+    # forbidden — flag its absence instead
+    if 'class="back"' not in h:
+        issues.append(('back-link', 'missing the "\u2190 Research" back-link'))
+    elif 'href="../research.html"' not in h:
+        issues.append(('back-link', 'back-link does not point at ../research.html'))
     if re.search(r'(src|href)="\.\./[^"]*\?v=', h):
         issues.append(('cache-buster', 'asset URL carries a ?v= cache-buster'))
 
