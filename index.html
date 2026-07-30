@@ -112,8 +112,15 @@
 
       <!-- Paper Card Deck -->
       <section class="paper-deck">
-        <h2 class="deck-heading">Selected Papers <span class="deck-hint">hover to preview</span></h2>
+        <h2 class="deck-heading">
+          <span class="deck-switch" role="tablist" aria-label="Browse by">
+            <button type="button" class="ds-btn ds-on" data-view="papers" role="tab" aria-selected="true">Selected Papers</button>
+            <span class="ds-sep" aria-hidden="true">/</span>
+            <button type="button" class="ds-btn" data-view="areas" role="tab" aria-selected="false">Research Areas</button>
+          </span>
+        </h2>
 
+        <div class="deck-view ds-show" id="view-papers">
         <!-- Row 1 -->
         <div class="deck-stage">
           <div class="paper-card" style="--rot:5deg; --i:0"
@@ -266,6 +273,33 @@
             <div class="card-label">PubMedQA</div>
           </div>
         </div>
+        </div><!-- /#view-papers -->
+
+        <div class="deck-view" id="view-areas">
+          <div class="area-grid">
+            <a class="area-card" data-dir="gen" target="_blank" rel="noopener" href="research.html#generation">
+              <div class="area-fig" id="ix-gen"></div>
+              <div class="area-name">AI for Evidence Generation</div>
+              <p class="area-q">How can AI help generate the evidence that we need?</p>
+              <p class="area-areas">Clinical trial matching &middot; Evidence synthesis &middot; Case report curation</p>
+              <div class="area-go">See the work &rarr;</div>
+            </a>
+            <a class="area-card" data-dir="util" target="_blank" rel="noopener" href="research.html#utilization">
+              <div class="area-fig" id="ix-util"></div>
+              <div class="area-name">AI for Evidence Utilization</div>
+              <p class="area-q">How can AI help people fully utilize the existing evidence?</p>
+              <p class="area-areas">Retrieve &middot; Summarize &middot; Verify</p>
+              <div class="area-go">See the work &rarr;</div>
+            </a>
+            <a class="area-card" data-dir="eval" target="_blank" rel="noopener" href="research.html#evaluation">
+              <div class="area-fig" id="ix-eval"></div>
+              <div class="area-name">Medical AI Evaluation</div>
+              <p class="area-q">How do we rigorously evaluate medical AI systems?</p>
+              <p class="area-areas">Verifiable outcome &middot; Trustworthy process &middot; Safety</p>
+              <div class="area-go">See the work &rarr;</div>
+            </a>
+          </div>
+        </div>
 
       </section>
         </div><!-- /home-main -->
@@ -393,5 +427,57 @@
     });
   </script>
 
+  <script src="assets/direction-figures.js?v=1"></script>
+  <script>
+  /* ── Selected Papers ⇄ Research Areas ─────────────────────────── */
+  (function () {
+    var sw = document.querySelector('.deck-switch');
+    if (!sw) return;
+    var views = { papers: document.getElementById('view-papers'),
+                  areas:  document.getElementById('view-areas') };
+    var mounted = false;
+    sw.querySelectorAll('.ds-btn').forEach(function (b) {
+      b.addEventListener('click', function () {
+        var v = b.dataset.view;
+        sw.querySelectorAll('.ds-btn').forEach(function (x) {
+          var on = x === b;
+          x.classList.toggle('ds-on', on);
+          x.setAttribute('aria-selected', on ? 'true' : 'false');
+        });
+        Object.keys(views).forEach(function (k) {
+          if (views[k]) views[k].classList.toggle('ds-show', k === v);
+        });
+        /* figures cost nothing until the view is first opened */
+        if (v === 'areas' && !mounted && window.DirectionFigures) {
+          mounted = window.DirectionFigures.mount('ix');
+        }
+        if (v === 'areas') armTilt();
+      });
+    });
+
+    /* Cards stay square. On hover each leans toward the cursor, so moving
+       across a card tips it to different places — same idea as the pyramid. */
+    var MAX = 9, armed = false;
+    function armTilt() {
+      if (armed || window.matchMedia('(hover: none)').matches) return;
+      armed = true;
+      document.querySelectorAll('.area-card').forEach(function (card) {
+        card.addEventListener('mousemove', function (e) {
+          var r = card.getBoundingClientRect();
+          var dx = (e.clientX - r.left) / r.width - 0.5;
+          var dy = (e.clientY - r.top) / r.height - 0.5;
+          card.classList.add('tilting');
+          card.style.transform =
+            'perspective(760px) rotateY(' + (dx * MAX * 2).toFixed(2) + 'deg) rotateX(' +
+            (-dy * MAX * 2).toFixed(2) + 'deg) translateY(-6px) scale(1.02)';
+        });
+        card.addEventListener('mouseleave', function () {
+          card.classList.remove('tilting');
+          card.style.transform = '';
+        });
+      });
+    }
+  })();
+  </script>
 </body>
 </html>
