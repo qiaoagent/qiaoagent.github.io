@@ -202,6 +202,12 @@ main {
   margin: 10px 0 0;
 }
 
+/* The rule above the social icons is levelled with the gold underline under
+   "Selected Papers" in the next column (see .deck-switch .ds-btn.ds-on).
+   Coincidental alignment, not structural — it depends on the bio running its
+   current length, so re-check it if the bio or the editorial list changes. */
+.sidebar-rule:last-of-type { margin-top: 7.05px; }
+
 .home-main {
   flex: 1;
   min-width: 0;
@@ -727,7 +733,9 @@ footer {
   color: var(--text); opacity: 1;
   text-decoration: underline;
   text-decoration-thickness: 1.5px;
-  text-underline-offset: 6px;
+  /* 9px, not 6px: this underline is levelled with the sidebar rule above the
+     social icons (.sidebar-rule:last-of-type), which was raised to meet it. */
+  text-underline-offset: 9px;
   text-decoration-color: #b89a60;
 }
 .deck-switch .ds-btn:not(.ds-on):hover { opacity: 0.85; }
