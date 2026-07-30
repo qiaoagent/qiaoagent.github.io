@@ -759,10 +759,12 @@ footer {
   padding: 16px 16px 18px;
   transform-style: preserve-3d;
   will-change: transform;
+  filter: grayscale(1);
   transition:
     transform 0.28s cubic-bezier(0.22, 0.9, 0.28, 1),
     box-shadow 0.28s ease,
-    border-color 0.22s ease;
+    border-color 0.22s ease,
+    filter 0.28s ease;
 }
 /* while the cursor is over a card the transform is driven per-frame by JS, so
    the easing must not fight it */
@@ -775,8 +777,13 @@ footer {
 [data-theme="dark"] .area-card[data-dir="util"] { background: #1d252e; border-color: rgba(139,180,221,0.16); }
 [data-theme="dark"] .area-card[data-dir="eval"] { background: #26202e; border-color: rgba(183,149,212,0.16); }
 
-/* the card leans toward wherever the cursor is, like the pyramid */
-.area-card:hover { box-shadow: 0 22px 34px rgba(0, 0, 0, 0.16); }
+/* the card leans toward wherever the cursor is, like the pyramid.
+   filter goes to none — not grayscale(0) — because any filter pins the card
+   to a bitmap, and the 3-D tilt would then resample it rather than redraw. */
+.area-card:hover {
+  box-shadow: 0 22px 34px rgba(0, 0, 0, 0.16);
+  filter: none;
+}
 .area-card[data-dir="gen"]:hover  { border-color: #2f6d5b; }
 .area-card[data-dir="util"]:hover { border-color: #2c5a8c; }
 .area-card[data-dir="eval"]:hover { border-color: #6b3f8c; }
@@ -828,7 +835,11 @@ footer {
   text-decoration: none;
   transition: color 0.18s;
 }
-.nav-link:hover { color: var(--text); }
+.nav-link:hover { color: #b89a60; }              /* gold, like the body links */
+[data-theme="dark"] .nav-link:hover { color: #c2a76b; }
+/* a menu stays gold while it is open */
+.nav-drop.open .nav-drop-btn { color: #b89a60; }
+[data-theme="dark"] .nav-drop.open .nav-drop-btn { color: #c2a76b; }
 @media (max-width: 700px) {
   /* sidebar collapses, so there is no column to align to */
   nav { grid-template-columns: 1fr auto auto; column-gap: 18px; }
@@ -899,11 +910,12 @@ footer {
   display: inline-flex;
   color: #b89a60;                    /* contour: the site's gold */
   --icon-fill: none;                 /* outline only until hovered */
-  transition: color 0.16s;
+  filter: grayscale(1);              /* grey until hovered, like the cards */
+  transition: color 0.16s, filter 0.16s;
 }
 .sidebar-links a svg { transition: fill 0.16s; }
-.sidebar-links a:hover { color: #8a6a2f; --icon-fill: #e4d5b4; }
+.sidebar-links a:hover { color: #8a6a2f; --icon-fill: #e4d5b4; filter: none; }
 [data-theme="dark"] .sidebar-links a { color: #b89a60; --icon-fill: none; }
-[data-theme="dark"] .sidebar-links a:hover { color: #d8bc82; --icon-fill: #5c4c2c; }
+[data-theme="dark"] .sidebar-links a:hover { color: #d8bc82; --icon-fill: #5c4c2c; filter: none; }
 .sidebar-links svg { width: 26px; height: 26px; display: block; }
 .sidebar-links a:hover 
