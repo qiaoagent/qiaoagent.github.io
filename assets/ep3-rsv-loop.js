@@ -11,7 +11,7 @@
   .ep3-cap { font-size: 14px; font-style: italic; fill: var(--muted); }
   .ep3-pill-t { font-size: 16px; font-weight: 600; fill: var(--util); }
   .ep3-left { display: flex; flex-direction: column; gap: 20px; }
-  .ep3-persp { display: flex; gap: 11px; align-items: center; text-decoration: none; padding: 10px 11px; border: 1px solid var(--border); border-radius: 9px; background: var(--panel); }
+  .ep3-persp { display: flex; gap: 11px; align-items: center; padding: 10px 11px; border: 1px solid var(--border); border-radius: 9px; background: var(--panel); }
   .ep3-persp img { width: 52px; height: auto; border: 1px solid var(--border); border-radius: 3px; box-shadow: 0 2px 6px rgba(0,0,0,0.12); flex-shrink: 0; }
   .ep3-persp .pl { font-size: 0.58rem; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: var(--util); margin-bottom: 3px; }
   .ep3-persp .pn { font-family: "DM Serif Display", Georgia, serif; font-size: 0.92rem; color: var(--ink); line-height: 1.12; }
@@ -21,7 +21,9 @@
   .ep3-right { display: flex; flex-direction: column; gap: 13px; }
   .ep3-pgroup { display: grid; grid-template-columns: 1fr 1fr; column-gap: 14px; row-gap: 11px; align-items: center; }
   .ep3-pgroup .glabel { grid-column: 1 / -1; font-size: 0.62rem; font-weight: 700; letter-spacing: 0.09em; text-transform: uppercase; color: var(--util); margin-bottom: -5px; }
-  .ep3-paper { display: flex; gap: 9px; align-items: center; text-decoration: none; }
+  .ep3-paper { display: flex; gap: 9px; align-items: center; }
+  .ep3-paper .pmeta, .ep3-persp .pl, .ep3-persp .pn, .ep3-persp .pv { cursor: default; }
+  .d-cover-link { display: block; flex-shrink: 0; line-height: 0; cursor: pointer; }
   .ep3-paper img { width: 51px; height: auto; border: 1px solid var(--border); border-radius: 3px; box-shadow: 0 2px 6px rgba(0,0,0,0.12); flex-shrink: 0; }
   .ep3-paper .d-role { font-size: 0.6rem; font-weight: 600; color: var(--util); line-height: 1.12; margin-bottom: 1px; }
   .ep3-paper .pn { font-family: "DM Serif Display", Georgia, serif; font-size: 0.85rem; color: var(--ink); line-height: 1.06; }
@@ -51,15 +53,26 @@
   }`;
 
   function paper(href, cover, alt, role, name, venue) {
-    return '<a class="ep3-paper" href="' + href + '" target="_blank" rel="noopener"><img src="' + cover + '" alt="' + alt + '"><div class="pmeta"><div class="d-role">' + role + '</div><div class="pn">' + name + '</div><div class="pv">' + venue + '</div></div></a>';
+    return '<div class="ep3-paper">' +
+      '<a class="d-cover-link" href="' + href + '" target="_blank" rel="noopener">' +
+      '<img src="' + cover + '" alt="' + alt + '"></a>' +
+      '<div class="pmeta"><div class="d-role">' + role + '</div><div class="pn">' + name +
+      '</div><div class="pv">' + venue + '</div></div></div>';
   }
+  /* this module also runs inside the RSV deck itself, where linking the
+     perspective card to that same deck would be circular — fall back to the PDF */
+  var PERSP = /Retrieve-Summarize-Verify\.html$/.test(location.pathname)
+    ? '/assets/papers/Retrieve-Summarize-Verify.pdf'
+    : '/paper/Retrieve-Summarize-Verify.html';
+
   var HTML =
     '<div class="ep3-grid">' +
       '<div class="ep3-side ep3-left">' +
-        '<a class="ep3-persp" href="/assets/papers/Retrieve-Summarize-Verify.pdf" target="_blank" rel="noopener">' +
-          '<img src="/assets/covers/Retrieve-Summarize-Verify.png" alt="Retrieve, Summarize, and Verify">' +
+        '<div class="ep3-persp">' +
+          '<a class="d-cover-link" href="' + PERSP + '" target="_blank" rel="noopener">' +
+          '<img src="/assets/covers/Retrieve-Summarize-Verify.png" alt="Retrieve, Summarize, and Verify"></a>' +
           '<div><div class="pl">The perspective</div><div class="pn"><span style="color:var(--gen)">Retrieve</span>, <span style="color:var(--util)">Summarize</span> &amp; <span style="color:var(--eval)">Verify</span></div><div class="pv">JASN, 2023</div></div>' +
-        '</a>' +
+        '</div>' +
         '<div class="ep3-stage" data-stage="retrieve"><div class="st">Retrieve</div><p>Search the evidence base for the pieces that actually answer the clinical question.</p></div>' +
         '<div class="ep3-stage" data-stage="summarize"><div class="st">Summarize</div><p>Condense the retrieved evidence into a single, grounded answer.</p></div>' +
         '<div class="ep3-stage" data-stage="verify"><div class="st">Verify</div><p>Check every claim in the answer against the source it cites.</p></div>' +
@@ -69,19 +82,19 @@
       '</div>' +
       '<div class="ep3-side ep3-right">' +
         '<div class="ep3-pgroup" data-stage="retrieve"><div class="glabel">Retrieve</div>' +
-          paper('/assets/papers/LADER.pdf', '/assets/covers/LADER.png', 'LADER', 'Log-augmented dense retrieval', 'LADER', 'SIGIR, 2023') +
-          paper('/assets/papers/PubMed-and-Beyond.pdf', '/assets/covers/PubMed-and-Beyond.png', 'PubMed and Beyond', 'Survey of AI search tools', 'PubMed and Beyond', 'eBioMedicine, 2024') +
-          paper('/assets/papers/MedCPT.pdf', '/assets/covers/MedCPT.png', 'MedCPT', 'Zero-shot PubMed retriever', 'MedCPT', 'Bioinformatics, 2023') +
+          paper('/paper/LADER.html', '/assets/covers/LADER.png', 'LADER', 'Log-augmented dense retrieval', 'LADER', 'SIGIR, 2023') +
+          paper('/paper/PubMed-and-Beyond.html', '/assets/covers/PubMed-and-Beyond.png', 'PubMed and Beyond', 'Survey of AI search tools', 'PubMed and Beyond', 'eBioMedicine, 2024') +
+          paper('/paper/MedCPT.html', '/assets/covers/MedCPT.png', 'MedCPT', 'Zero-shot PubMed retriever', 'MedCPT', 'Bioinformatics, 2023') +
         '</div>' +
         '<div class="ep3-pgroup" data-stage="summarize"><div class="glabel">Summarize</div>' +
-          paper('/assets/papers/MedRAG.pdf', '/assets/covers/MedRAG.png', 'MedRAG', 'Benchmarking medical RAG', 'MedRAG', 'ACL Findings, 2024') +
-          paper('/assets/papers/i-MedRAG.pdf', '/assets/covers/i-MedRAG.png', 'i-MedRAG', 'Iterative follow-up RAG', 'i-MedRAG', 'PSB, 2025') +
-          paper('/assets/papers/MedReview.pdf', '/assets/covers/MedReview.png', 'MedReview', 'Summarizing systematic reviews', 'MedReview', 'npj Digit Med, 2025') +
-          paper('/assets/papers/MedCite.pdf', '/assets/covers/MedCite.png', 'MedCite', 'Verifiable answer citations', 'MedCite', 'ACL Findings, 2025') +
+          paper('/paper/MedRAG.html', '/assets/covers/MedRAG.png', 'MedRAG', 'Benchmarking medical RAG', 'MedRAG', 'ACL Findings, 2024') +
+          paper('/paper/i-MedRAG.html', '/assets/covers/i-MedRAG.png', 'i-MedRAG', 'Iterative follow-up RAG', 'i-MedRAG', 'PSB, 2025') +
+          paper('/paper/MedReview.html', '/assets/covers/MedReview.png', 'MedReview', 'Summarizing systematic reviews', 'MedReview', 'npj Digit Med, 2025') +
+          paper('/paper/MedCite.html', '/assets/covers/MedCite.png', 'MedCite', 'Verifiable answer citations', 'MedCite', 'ACL Findings, 2025') +
         '</div>' +
         '<div class="ep3-pgroup" data-stage="verify"><div class="glabel">Verify</div>' +
-          paper('/assets/papers/Med-V1.pdf', '/assets/covers/Med-V1.png', 'Med-V1', 'Scalable evidence attribution', 'Med-V1', 'arXiv, 2026') +
-          paper('/assets/papers/GeneAgent.pdf', '/assets/covers/GeneAgent.png', 'GeneAgent', 'Self-verifying gene-set agent', 'GeneAgent', 'Nature Methods, 2025') +
+          paper('/paper/Med-V1.html', '/assets/covers/Med-V1.png', 'Med-V1', 'Scalable evidence attribution', 'Med-V1', 'arXiv, 2026') +
+          paper('/paper/GeneAgent.html', '/assets/covers/GeneAgent.png', 'GeneAgent', 'Self-verifying gene-set agent', 'GeneAgent', 'Nature Methods, 2025') +
         '</div>' +
       '</div>' +
     '</div>';
