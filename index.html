@@ -402,8 +402,12 @@
         const dy  = (e.clientY - r.top)  / r.height - 0.5;
         const rx  = (-dy * 18).toFixed(2);
         const ry  = ( dx * 18).toFixed(2);
+        /* No scale(): a 3-D transform pins the card to a bitmap rasterised at
+           its resting size, and magnifying that bitmap softens the cover's own
+           text on 1x displays (2x has pixels to spare, which is why it only
+           showed on the external monitor). The lift and tilt carry the hover. */
         card.style.transform =
-          `rotate(0deg) translateY(-52px) scale(1.08) perspective(700px) rotateX(${rx}deg) rotateY(${ry}deg)`;
+          `rotate(0deg) translateY(-52px) perspective(700px) rotateX(${rx}deg) rotateY(${ry}deg)`;
       });
 
       card.addEventListener('mouseleave', () => {
