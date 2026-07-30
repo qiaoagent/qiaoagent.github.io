@@ -7,6 +7,8 @@
   --muted:     #666666;
   --link:      #888888;
   --border:    #d8d4cc;
+  --sidebar:   176px;   /* photo column */
+  --gutter:    56px;    /* space between photo column and content */
 }
 
 html { scroll-behavior: smooth; }
@@ -51,7 +53,7 @@ body {
 }
 
 a { color: var(--link); text-decoration: underline; transition: color 0.15s ease; }
-a:hover { color: #7a9fd4; }
+a:hover { color: #b89a60; }            /* grey links, gold on hover */
 em { font-style: italic; }
 
 /* ─── Navigation ───────────────────────────────────────────────── */
@@ -64,9 +66,9 @@ header {
 }
 
 nav {
-  display: flex;
+  display: grid;
+  grid-template-columns: calc(var(--sidebar) + var(--gutter)) 1fr auto;
   align-items: baseline;
-  justify-content: space-between;
   max-width: 1020px;
   margin: 0 auto;
   padding: 18px 40px;
@@ -112,12 +114,12 @@ main {
 /* Two-column: photo left sidebar | bio + papers right column */
 .home-layout {
   display: flex;
-  gap: 56px;
+  gap: var(--gutter);
   align-items: flex-start;
 }
 
 .home-sidebar {
-  flex: 0 0 176px;
+  flex: 0 0 var(--sidebar);
 }
 
 .photo-frame { display: contents; }
@@ -702,7 +704,7 @@ footer {
 [data-theme="dark"] .badge-arxiv   { background: #282828; color: #bbbbbb; }
 [data-theme="dark"] .badge-default { background: #182030; color: #7a9fd4; }
 [data-theme="dark"] .cite-high     { color: #ffaa50; }
-[data-theme="dark"] a:hover        { color: #8ab4e8; }
+[data-theme="dark"] a:hover        { color: #c2a76b; }
 [data-theme="dark"] .paper-card img { filter: invert(1) hue-rotate(180deg) !important; }
 
 /* ── Selected Papers / Research Areas switch ─────────────────────── */
@@ -817,3 +819,91 @@ footer {
   .area-fig { height: 92px; }
   .area-card, .area-card:hover { transform: none; }   /* no pointer to follow */
 }
+
+/* ── Nav: Research link beside the theme toggle ──────────────────── */
+.nav-link {
+  font-family: "DM Serif Display", Georgia, serif;
+  font-size: 1.02rem;
+  color: var(--muted);
+  text-decoration: none;
+  transition: color 0.18s;
+}
+.nav-link:hover { color: var(--text); }
+@media (max-width: 700px) {
+  /* sidebar collapses, so there is no column to align to */
+  nav { grid-template-columns: 1fr auto auto; column-gap: 18px; }
+  .nav-link { font-size: 0.94rem; }
+}
+
+/* ── Nav: Applications dropdown ──────────────────────────────────── */
+.nav-items { display: flex; align-items: baseline; gap: 56px; }
+.nav-drop { position: relative; }
+.nav-drop-btn {
+  border: none; background: none; padding: 0; cursor: pointer;
+  display: inline-flex; align-items: baseline; gap: 6px;
+}
+.nav-caret {
+  width: 0; height: 0; align-self: center;
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-top: 5px solid currentColor;
+  opacity: 0.55;
+  transition: transform 0.2s ease;
+}
+.nav-drop.open .nav-caret { transform: rotate(180deg); }
+.nav-menu {
+  position: absolute;
+  top: calc(100% + 12px);
+  left: -14px;
+  min-width: 168px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 6px;
+  box-shadow: 0 12px 28px rgba(30, 40, 60, 0.13);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-4px);
+  transition: opacity 0.16s ease, transform 0.16s ease, visibility 0.16s;
+}
+.nav-drop.open .nav-menu { opacity: 1; visibility: visible; transform: translateY(0); }
+.nav-menu a {
+  display: block;
+  font-family: "DM Sans", sans-serif;
+  font-size: 0.86rem;
+  color: var(--text);
+  text-decoration: none;
+  padding: 7px 12px;
+  border-radius: 6px;
+  white-space: nowrap;
+}
+.nav-menu a:hover { background: #e9e0cc; }
+[data-theme="dark"] .nav-menu a:hover { background: #2a2520; }
+
+@media (max-width: 700px) {
+  .nav-items { gap: 24px; }
+  .nav-menu { left: auto; right: -8px; }
+}
+
+/* ── Sidebar: external links as icons, one row ───────────────────── */
+.sidebar-links {
+  list-style: none;
+  margin: 18px 0 0;      /* was flush against the rule above */
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, max-content);
+  justify-content: start;   /* left-aligned, ragged right — like the lists above */
+  gap: 15px 24px;
+}
+.sidebar-links a {
+  display: inline-flex;
+  color: #b89a60;                    /* contour: the site's gold */
+  --icon-fill: none;                 /* outline only until hovered */
+  transition: color 0.16s;
+}
+.sidebar-links a svg { transition: fill 0.16s; }
+.sidebar-links a:hover { color: #8a6a2f; --icon-fill: #e4d5b4; }
+[data-theme="dark"] .sidebar-links a { color: #b89a60; --icon-fill: none; }
+[data-theme="dark"] .sidebar-links a:hover { color: #d8bc82; --icon-fill: #5c4c2c; }
+.sidebar-links svg { width: 26px; height: 26px; display: block; }
+.sidebar-links a:hover 
