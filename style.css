@@ -428,7 +428,11 @@ main {
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.28);
   transition: background 0.14s ease, transform 0.14s ease;
 }
-.card-btn:hover { background: #c8940a; }
+/* Scoped to .card-actions on purpose: the HTML button is an <a>, so the global
+   `a:hover` and its dark-mode twin `[data-theme="dark"] a:hover` (0,2,1) would
+   otherwise outrank `.card-btn` and repaint the label gold on the gold hover
+   background, making it vanish. The PDF button is a <button> and never hit this. */
+.card-actions .card-btn:hover { background: #c8940a; color: #fff; }
 
 .deck-more {
   text-align: center;
