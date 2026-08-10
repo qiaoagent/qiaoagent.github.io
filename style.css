@@ -658,17 +658,43 @@ footer {
 
 /* ─── Responsive ───────────────────────────────────────────────── */
 @media (max-width: 640px) {
-  nav { padding: 14px 18px; }
+  /* nav's own mobile rules live beside the nav component further down, after
+     the @media (max-width:700px) block that sets .nav-items gap — otherwise
+     that later rule wins on source order. */
   main { padding: 0 18px 60px; }
 
   /* Stack layout vertically */
   .home-layout { flex-direction: column; gap: 20px; }
 
-  /* Sidebar: photo left half, info right half */
-  .home-sidebar { display: flex; flex-direction: row; gap: 0; align-items: stretch; }
-  .photo-frame { width: 50%; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
-  .home-sidebar img { width: 80%; height: auto; object-fit: cover; object-position: center top; border-radius: 4px; }
-  .sidebar-info { width: 50%; padding-left: 14px; box-sizing: border-box; }
+  /* Sidebar: photo and the text blocks share two columns; the social icons
+     then break out to full width as a single row of six beneath them.
+     The icons are grandchildren in the markup, so display:contents lifts
+     .sidebar-info's children into this same grid and lets them be placed.
+     Rows 1-3 are the two-column part; row 5 is the icons. (Row 4 held a
+     full-width divider, now hidden — kept as a row so the numbering below
+     still reads in DOM order.) */
+  .home-sidebar {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 14px;
+    align-items: start;
+  }
+  .sidebar-info { display: contents; }
+
+  .photo-frame { grid-column: 1; grid-row: 1 / 4; align-self: stretch; display: block; }
+  .home-sidebar img { width: 100%; height: 100%; object-fit: cover;
+                      object-position: center top; border-radius: 4px; }
+
+  .timeline { grid-column: 2; grid-row: 1; }
+  .sidebar-info .sidebar-rule:first-of-type { grid-column: 2; grid-row: 2; }
+  .editorial-list { grid-column: 2; grid-row: 3; }
+
+  /* No divider above the icons on phones — the whitespace separates them. */
+  .sidebar-info .sidebar-rule:last-of-type { display: none; }
+  /* .sidebar-links only gets its grid-area here; the six-across override has
+     to live after the component's own rule further down, or that later rule
+     wins on source order. */
+  .sidebar-links { grid-column: 1 / -1; grid-row: 5; }
 
   /* Tighten timeline on mobile */
   .timeline { margin-top: 4px; }
@@ -682,8 +708,19 @@ footer {
   .seeking-callout { box-sizing: border-box; width: 100%; }
   .hero-bio p { overflow-wrap: break-word; word-break: break-word; }
 
-  /* Tighten paper cards */
-  .deck-stage { padding: 40px 0 36px; }
+  /* Tighten paper cards. The fan is ~417px wide — a second, independent source
+     of horizontal overflow besides the nav — so scroll it inside its own row
+     instead of letting it widen the page. A centred flex row cannot be scrolled
+     back to its first item, which is why this switches to flex-start. */
+  .deck-stage {
+    padding: 40px 0 36px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    justify-content: flex-start;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+  .deck-stage::-webkit-scrollbar { display: none; }
   .paper-card { width: 120px; margin-left: -52px; }
 
   /* Fade cards at both edges */
@@ -908,6 +945,44 @@ footer {
   .nav-menu { left: auto; right: -8px; }
 }
 
+/* Phone: the nav stacks into two centred rows. The five links need ~290px of
+   the 339px available at 375px, so they cannot share a row with the name —
+   two rows, rather than shrinking the name. nowrap on .site-name is what keeps
+   "Qiao Jin, MD" on a single line. Must stay after the 700px block above,
+   which sets a wider .nav-items gap at equal specificity. */
+@media (max-width: 640px) {
+  nav {
+    grid-template-columns: 1fr;
+    grid-template-areas: "name" "items";
+    justify-items: center;
+    row-gap: 9px;
+    padding: 12px 18px 10px;
+    position: relative;
+  }
+  .site-name { grid-area: name; white-space: nowrap; font-size: 1.32rem; }
+  .theme-toggle { position: absolute; right: 18px; top: 12px; }
+  .nav-items { grid-area: items; gap: 11px; flex-wrap: nowrap; }
+  .nav-link, .nav-drop-btn { font-size: 0.775rem; white-space: nowrap; }
+  .nav-caret { margin-left: 3px; }
+
+  /* Dropdowns anchor to the nav, not to their own item. The 700px block above
+     sets right:-8px, which hangs the panel off the item's right edge — fine
+     for the rightmost item, but it puts the leftmost one's panel off the left
+     side of the screen. Making .nav-drop static promotes nav (position:
+     relative, above) to the containing block, so the panel spans the nav
+     instead and is always fully on screen. */
+  .nav-drop { position: static; }
+  .nav-menu {
+    left: 18px;
+    right: 18px;
+    top: calc(100% - 2px);
+    min-width: 0;
+  }
+  /* Match the trigger. .nav-menu a is 0.86rem, which is smaller than the
+     0.88rem nav buttons on desktop but larger than the 0.775rem ones here. */
+  .nav-menu a { font-size: 0.775rem; }
+}
+
 /* ── Sidebar: external links as icons, one row ───────────────────── */
 .sidebar-links {
   list-style: none;
@@ -930,4 +1005,18 @@ footer {
 [data-theme="dark"] .sidebar-links a { color: #b89a60; --icon-fill: none; }
 [data-theme="dark"] .sidebar-links a:hover { color: #d8bc82; --icon-fill: #5c4c2c; filter: none; }
 .sidebar-links svg { width: 26px; height: 26px; display: block; }
-.sidebar-links a:hover 
+
+/* Phone: the icons leave the right-hand column and run full width as a single
+   row of six under the photo (placed into .home-sidebar's grid above). Must
+   stay after the .sidebar-links rule above, which sets 3 columns at equal
+   specificity and would otherwise win on source order. */
+@media (max-width: 640px) {
+  .sidebar-links {
+    grid-template-columns: repeat(6, 1fr);
+    justify-content: stretch;
+    justify-items: center;
+    gap: 0;
+    margin: 18px 0 0;   /* carries the separation now that the rule is gone */
+  }
+}
+
