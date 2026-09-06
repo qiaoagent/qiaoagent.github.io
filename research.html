@@ -436,13 +436,13 @@
     html, body { height: 100%; }
     body { margin: 0; }
     .deck {
-      height: 100vh; overflow-y: auto; overflow-x: hidden;
+      height: calc(100vh - 56px); overflow-y: auto; overflow-x: hidden;
       scroll-snap-type: y mandatory;
       scrollbar-width: none;
     }
     .deck::-webkit-scrollbar { width: 0; height: 0; }
     .deck > * {
-      height: 100vh; box-sizing: border-box;
+      height: calc(100vh - 56px); box-sizing: border-box;
       scroll-snap-align: start; scroll-snap-stop: always;
       overflow-y: auto; overflow-x: hidden;
     }
@@ -454,7 +454,7 @@
     .deck > .slidewrap { padding-top: 3vh; padding-bottom: 3vh; }
     /* page-dot navigation */
     .deck-dots {
-      position: fixed; right: 20px; top: 50%; transform: translateY(-50%);
+      position: fixed; right: 20px; top: calc(50% + 28px); transform: translateY(-50%);
       display: flex; flex-direction: column; gap: 11px; z-index: 60;
     }
     .deck-dots button {
@@ -532,10 +532,18 @@
     .ib-paper .pv{font-size:.64rem;color:var(--muted);font-style:italic;margin-top:2px;}
     .ib-paper:hover .pn{color:#1f547c;}
     @media (max-width:820px){.ib-stage{grid-template-columns:1fr;}.ib-berg{height:400px;}.ib-wlab{display:none;}}
+    /* site nav — the same bar as cj.html and the paper decks; the deck below is
+       shrunk by its 56px so the 100vh snap-scroller still fits the viewport */
+    .nav{position:sticky;top:0;z-index:70;background:rgba(255,255,255,0.9);backdrop-filter:blur(8px);box-shadow:0 1px 0 var(--border);}  /* shadow, not border: keeps the bar exactly 56px so the deck math holds */
+    .nav .wrap{max-width:940px;margin:0 auto;padding:0 28px;display:flex;align-items:center;justify-content:space-between;height:56px;}
+    .nav .brand{font-family:"DM Serif Display",Georgia,serif;font-size:1.05rem;color:var(--ink);text-decoration:none;}
+    .nav .back{font-size:0.86rem;color:var(--muted);text-decoration:none;}
+    .nav .back:hover{color:var(--gold);}
   </style>
 </head>
 <body>
 
+  <nav class="nav"><div class="wrap"><a class="brand" href="index.html">Qiao Jin</a><a class="back" href="index.html">&larr; Home</a></div></nav>
   <main class="deck" id="deck">
 
   <!-- ═══════════════ TALK OVERVIEW SLIDE ═══════════════ -->
