@@ -16,28 +16,52 @@ PAGE = os.path.join(REPO, '_future-candidates.html')
 
 GEN, UTIL, EVAL, GOLD, FAINT, MUTED = '#2f6d5b', '#2c5a8c', '#6b3f8c', '#b89a60', '#918b81', '#6a655d'
 CX, CY, R = 300, 268, 150          # ring centre and radius
-GAP = 27                            # degrees between a node and the nearest arrowhead
+GAP = 24                            # degrees between a node and the nearest arrowhead
 START = 54                          # spokes begin this far from the centre (clear of the chip pins)
 H, PIN_L, PIN_W, PINS = 32, 10, 4, (-20, 0, 20)
 LABR = R + 24                       # label anchor radius
-BR, INSET, SPREAD, NUDGE = 14, 19, 14, 2   # code beads: radius, inset from the ring, pair spacing, pair nudge
+INSET = 19                          # code beads sit this far inside the ring
+BR = max(11, round(R * 0.09))       # bead radius scales with the ring (14 at R=150, 11 at R=125)
+_rb = R - INSET
+SPREAD = math.degrees(2 * math.asin((2 * BR + 4) / (2 * _rb)))            # pair spacing: a 4px gap between beads
+_theta_min = math.degrees(math.asin((BR + 8) / _rb))                       # inner bead >= 8px from the spoke
+NUDGE = max(0.0, _theta_min + SPREAD / 2 - (90 - 2 * 30) / 2 - (30 - GAP)) # shift a pair away from the joint if needed
+BEAD_FS = round(BR * 0.75, 1)
 
 rad = math.radians
 P = lambda a, rr=R: (CX + rr * math.cos(rad(a)), CY + rr * math.sin(rad(a)))
 
 NAME = {'people': 'PEOPLE', 'trials': 'TRIALS', 'evidence': 'EVIDENCE'}
-CAP = {('lp', 'people'): 'Matching clinical trials to patients',
-       ('lp', 'trials'): 'Matching patients to clinical trials',
-       ('rp', 'people'): 'Meeting real-world information needs',
-       ('rp', 'evidence'): 'Evaluating if and how AI actually helps people',
-       ('bp', 'evidence'): 'AI-enabled living evidence synthesis',
-       ('bp', 'trials'): 'Evidence-informed clinical trial design'}
-CODE = {('lp', 'people'): ['A.1'], ('lp', 'trials'): ['A.1'], ('rp', 'people'): ['B.1', 'B.2'],
-        ('rp', 'evidence'): ['C'], ('bp', 'evidence'): ['A.2'], ('bp', 'trials'): []}
-# (id, node at the start angle, node at the end angle, start, end, joint, colour)
-PAIRS = [('lp', 'trials', 'people', 150 + GAP, 270 - GAP, 210, GOLD),
-         ('rp', 'people', 'evidence', -90 + GAP, 30 - GAP, -30, UTIL),
-         ('bp', 'evidence', 'trials', 30 + GAP, 150 - GAP, 90, GEN)]
+# pairs are named by content: tp = Trials-People, ep = Evidence-People, te = Trials-Evidence
+CAP = {('tp', 'people'): 'Matching clinical trials to patients',
+       ('tp', 'trials'): 'Matching patients to clinical trials',
+       ('ep', 'people'): 'Meeting real-world information needs',
+       ('ep', 'evidence'): 'Evaluating if and how AI actually helps people',
+       ('te', 'evidence'): 'AI-enabled living evidence synthesis',
+       ('te', 'trials'): 'Evidence gaps inform future trials'}
+CODE = {('tp', 'people'): ['A.1'], ('tp', 'trials'): ['A.1'], ('ep', 'people'): ['B.1', 'B.2'],
+        ('ep', 'evidence'): ['C'], ('te', 'evidence'): ['A.2'], ('te', 'trials'): []}
+# Layouts: People is always at the top (-90). 'orig' puts Trials lower left (150) with the
+# pill rising to the right; 'swap' moves Trials to the lower right so its tilt runs with the
+# arc; 'flip' keeps the places and mirrors the pill instead.
+LAYOUTS = {'orig': {'trials': 150, 'evidence': 30, 'pill': -35},
+           'swap': {'trials': 30, 'evidence': 150, 'pill': -35},
+           'flip': {'trials': 150, 'evidence': 30, 'pill': 45}}   # leans with the ring (tangent there is 60)
+COLOUR = {'tp': GOLD, 'ep': UTIL, 'te': GEN}
+
+
+def pairs_for(layout):
+    """(id, node at the start angle, node at the end angle, start, end, joint, colour) — clockwise from People."""
+    L = LAYOUTS[layout]
+    right = 'trials' if L['trials'] == 30 else 'evidence'
+    left = 'evidence' if right == 'trials' else 'trials'
+
+    def pid(a, b):
+        return {frozenset(['trials', 'people']): 'tp', frozenset(['evidence', 'people']): 'ep',
+                frozenset(['trials', 'evidence']): 'te'}[frozenset([a, b])]
+    return [(pid('people', right), 'people', right, -90 + GAP, 30 - GAP, -30, COLOUR[pid('people', right)]),
+            (pid(right, left), right, left, 30 + GAP, 150 - GAP, 90, COLOUR[pid(right, left)]),
+            (pid(left, 'people'), left, 'people', 150 + GAP, 270 - GAP, 210, COLOUR[pid(left, 'people')])]
 TITLE = 'Connecting people, clinical trials and evidence through trustworthy AI'
 
 
@@ -60,8 +84,11 @@ def person_g(x, y, c=UTIL):
             f'<path d="M-24 34 Q-24 4 0 4 Q24 4 24 34 Z" fill="{c}" opacity=".62"/></g>')
 
 
-def pill_g(x, y, c=GOLD):
-    return (f'<g transform="translate({x:.1f} {y:.1f}) rotate(-35)">'
+PILL_SCALE = 0.8
+
+
+def pill_g(x, y, c=GOLD, rot=-35):
+    return (f'<g transform="translate({x:.1f} {y:.1f}) rotate({rot}) scale({PILL_SCALE})">'
             f'<path d="M-30 -13 H0 V13 H-30 A13 13 0 0 1 -30 -13 Z" fill="{c}" opacity=".94"/>'
             f'<path d="M0 -13 H30 A13 13 0 0 1 30 13 H0 Z" fill="{c}" opacity=".55"/></g>')
 
@@ -115,14 +142,14 @@ def dlabel(style, pair, frm, to, mid, c):
     a = mid % 360
     anchor = 'start' if (a < 90 or a > 270) else 'end'
     muted = ' muted' if not CODE[(pair, to)] else ''
-    note = (f'<text class="note" x="{x:.0f}" y="0" text-anchor="{anchor}" font-size="11" font-style="italic" '
-            f'fill="{FAINT}">(not covered by this proposal)</text>') if muted else ''
+    # an uncoded half carries only a light caption: no direction line, no code bead
+    dirline = '' if muted else (
+        f'<g class="dir" data-style="{style}" data-anchor="{anchor}" data-from="{NAME[frm]}" data-to="{NAME[to]}" '
+        f'data-x="{x:.0f}" fill="{c}" font-size="11" font-weight="700" letter-spacing=".08em"></g>')
     return (f'<g class="unit dlab dlab-{pair}-{to}{muted}" data-pair="{pair}" data-to="{to}" data-from="{frm}" '
-            f'data-mode="{mode}" data-x="{x:.0f}" data-y="{y:.0f}" style="--c:{c};cursor:pointer">'
-            f'<g class="dir" data-style="{style}" data-anchor="{anchor}" data-from="{NAME[frm]}" data-to="{NAME[to]}" '
-            f'data-x="{x:.0f}" fill="{c}" font-size="11" font-weight="700" letter-spacing=".08em"></g>'
+            f'data-mode="{mode}" data-x="{x:.0f}" data-y="{y:.0f}" style="--c:{c};cursor:pointer">{dirline}'
             f'<text class="cap" x="{x:.0f}" y="{y:.0f}" text-anchor="{anchor}" font-size="13" fill="{MUTED}" '
-            f'data-text="{CAP[(pair, to)]}"></text>{note}</g>')
+            f'data-text="{CAP[(pair, to)]}"></text></g>')
 
 
 def bead(pair, to, mid, c, away):
@@ -134,15 +161,16 @@ def bead(pair, to, mid, c, away):
         a = centre + (i - (n - 1) / 2) * SPREAD
         bx, by = P(a, R - INSET)
         out += (f'<g class="unit dlab-{pair}-{to}"><circle cx="{bx:.1f}" cy="{by:.1f}" r="{BR}" fill="{c}"/>'
-                f'<text x="{bx:.1f}" y="{by + 3.8:.1f}" text-anchor="middle" font-size="10.5" font-weight="700" fill="#fff">{cd}</text></g>')
+                f'<text x="{bx:.1f}" y="{by + 3.8:.1f}" text-anchor="middle" font-size="{BEAD_FS}" font-weight="700" fill="#fff">{cd}</text></g>')
     return out
 
 
-def cycle(key):
+def cycle(key, layout='orig'):
     style = STYLE[key]
+    L = LAYOUTS[layout]
     arcs = heads = hits = spokes = dlabs = beads = ''
     eps = math.degrees(7 / R)
-    for pid, n1, n2, a1, a2, mid, c in PAIRS:
+    for pid, n1, n2, a1, a2, mid, c in pairs_for(layout):
         arcs += (f'<path class="unit arc arc-{pid}" style="--c:{c}" d="{arcpath(a1 + eps, a2 - eps)}" '
                  f'fill="none" stroke="{c}" stroke-width="2"/>')
         heads += head(a1, -1, f'ah ah-{pid}-{n1}', c) + head(a2, +1, f'ah ah-{pid}-{n2}', c)
@@ -158,38 +186,36 @@ def cycle(key):
                  f'<rect x="{CX - H - PIN_L}" y="{CY + o - PIN_W / 2:.1f}" width="{PIN_L}" height="{PIN_W}" rx="2" fill="{EVAL}" opacity=".5"/>'
                  f'<rect x="{CX + H}" y="{CY + o - PIN_W / 2:.1f}" width="{PIN_L}" height="{PIN_W}" rx="2" fill="{EVAL}" opacity=".5"/>')
     px, py = P(-90)
-    tx, ty = P(150)
-    ex, ey = P(30)
+    tx, ty = P(L['trials'])
+    ex, ey = P(L['evidence'])
+    t_right = L['trials'] == 30
+    flipped = L['pill'] > 0                          # a pill leaning with the ring reaches down toward its label
+    t_lab_dx, t_lab_dy = (10, 0) if flipped else (0, 0)   # same baseline as Evidence; clear of the low end-cap sideways
 
     def node_name(x, y, t, anchor='middle'):
         return (f'<text x="{x:.0f}" y="{y:.0f}" text-anchor="{anchor}" font-family="DM Serif Display, Georgia, serif" '
                 f'font-size="21" fill="#222">{t}</text>')
 
-    return f'''<svg class="cycle" id="cycle-{key}" viewBox="-40 40 680 510" xmlns="http://www.w3.org/2000/svg" font-family="DM Sans, sans-serif">
+    vx, vy, vw, vh = CX - R - 190, CY - R - 78, 2 * R + 380, 2 * R + 210
+    title_y = CY + R + 120
+    return f'''<svg class="cycle" id="cycle-{key}-{layout}" viewBox="{vx} {vy} {vw} {vh}" xmlns="http://www.w3.org/2000/svg" font-family="DM Sans, sans-serif">
 {arcs}{heads}{spokes}{beads}
 <g class="unit ai"><g class="chip">{pins}<rect x="{CX - H}" y="{CY - H}" width="{2 * H}" height="{2 * H}" rx="9" fill="{EVAL}" opacity=".16"/><rect x="{CX - H + 9}" y="{CY - H + 9}" width="{2 * H - 18}" height="{2 * H - 18}" rx="5" fill="{EVAL}" opacity=".10"/></g>
 <text x="{CX}" y="{CY + 10}" text-anchor="middle" font-family="DM Serif Display, Georgia, serif" font-size="30" fill="{EVAL}">AI</text></g>
 <g class="unit node node-people">{person_g(px, py)}{node_name(px, py - 46, 'People')}</g>
-<g class="unit node node-trials">{pill_g(tx - 2, ty)}{node_name(tx - 20, ty + 58, 'Trials', 'end')}</g>
-<g class="unit node node-evidence">{pyramid_g(ex, ey + 4)}{node_name(ex + 20, ey + 58, 'Evidence', 'start')}</g>
+<g class="unit node node-trials">{pill_g(tx + (2 if t_right else -2), ty, rot=L['pill'])}{node_name(tx + (20 if t_right else -20) + (0 if t_right else -t_lab_dx), ty + 58 + t_lab_dy, 'Trials', 'start' if t_right else 'end')}</g>
+<g class="unit node node-evidence">{pyramid_g(ex, ey + 4)}{node_name(ex + (-20 if t_right else 20), ey + 58, 'Evidence', 'end' if t_right else 'start')}</g>
 {hits}
 {dlabs}
-<text class="figtitle" x="300" y="538" text-anchor="middle" font-family="DM Serif Display, Georgia, serif" font-size="17" fill="#222">{TITLE}</text>
+<text class="figtitle" x="{CX}" y="{title_y}" text-anchor="middle" font-family="DM Serif Display, Georgia, serif" font-size="17" fill="#222">{TITLE}</text>
 </svg>'''
 
 
 STYLE = {'q1': 'chain', 'q2': 'above', 'q3': 'dot', 'q4': 'chip', 'q5': 'badge'}   # proposal key -> compose() style
 PROPOSALS = [
-    ("q1", "AI as co-input",
-     "AI as a partner, not a gate: TRIALS + AI → PEOPLE, with AI in the hub's purple. Wider titles, so the captions gain room too."),
-    ("q2", "AI over the arrow",
-     "Chemistry notation — the catalyst sits above the arrow. A small purple AI rides on a drawn arrow between the two words."),
-    ("q3", "AI on the arrow",
-     "The arrow passes through a purple dot: the flow goes via AI. The quietest option — no extra text at all."),
-    ("q4", "Chip over the arrow",
-     "Same as 2, but the hub's chip in miniature instead of the letters — the icon does the talking."),
-    ("q5", "AI chip as a leading badge",
-     "The hub's chip, shrunk to a badge with AI inside, leads the line: [AI] TRIALS → PEOPLE. The arrow stays plain; the chip says who does the connecting."),
+    ("orig", "Current layout", "Trials lower left with the pill rising to the right — its tilt runs against the arc there."),
+    ("swap", "Swap the places", "Trials moves to the lower right; the pill's tilt now runs with its arc. Pairs, codes and captions travel with the nodes."),
+    ("flip", "Flip the pill", "Places unchanged; the pill is mirrored so it falls to the right, matching the left-hand arc."),
 ]
 
 SCRIPT = r'''<script>
@@ -250,17 +276,17 @@ SCRIPT = r'''<script>
     function layout(){
       svg.querySelectorAll('.dlab').forEach(function(g){
         var dir=g.querySelector('.dir'), cap=g.querySelector('.cap'), note=g.querySelector('.note'), x=+g.dataset.x, y=+g.dataset.y;
-        var isG=dir.tagName.toLowerCase()==='g';
-        var maxW=isG?compose(dir):dir.getComputedTextLength();
+        var isG=!!dir&&dir.tagName.toLowerCase()==='g';
+        var maxW=dir?(isG?compose(dir):dir.getComputedTextLength()):0;
         var words=cap.dataset.text.split(' '), lines=[]; cap.textContent='';
         var probe=el('tspan',{}); cap.appendChild(probe); function w(t){probe.textContent=t;return probe.getComputedTextLength()}
         if(words.length<2){lines=[words.join(' ')];}else{var best=null;for(var i=1;i<words.length;i++){var a=words.slice(0,i).join(' '),b=words.slice(i).join(' ');var m=Math.max(w(a),w(b));if(best===null||m<best.m)best={m:m,a:a,b:b};}lines=[best.a,best.b];}
         cap.removeChild(probe);
-        var rows=1+lines.length+(note?1:0), hgt=LH*rows;
+        var rows=(dir?1:0)+lines.length+(note?1:0), hgt=LH*rows;
         var top= g.dataset.mode==='below'? y+4 : g.dataset.mode==='above'? y-hgt-2 : y-hgt/2;
-        var yy=top+9;
-        if(isG){dir.setAttribute('transform','translate(0 '+yy.toFixed(1)+')');}else{dir.setAttribute('y',yy.toFixed(1));}
-        lines.forEach(function(l,i){cap.appendChild(el('tspan',{x:x,y:(yy+LH*(i+1)).toFixed(1)},l));});
+        var yy=top+9, off=dir?1:0;
+        if(dir){ if(isG){dir.setAttribute('transform','translate(0 '+yy.toFixed(1)+')');}else{dir.setAttribute('y',yy.toFixed(1));} }
+        lines.forEach(function(l,i){cap.appendChild(el('tspan',{x:x,y:(yy+LH*(i+off)).toFixed(1)},l));});
         if(note)note.setAttribute('y',(yy+LH*(lines.length+1)).toFixed(1));
         g.dataset.titlew=Math.round(maxW);
       });
@@ -288,7 +314,7 @@ PAGE_CSS = """    html, body { margin: 0; background: #fff; color: #222; font-fa
     svg.cycle .hit { fill: none; stroke: transparent; stroke-width: 28; pointer-events: stroke; cursor: pointer; }"""
 
 
-def write_page(key='q1'):
+def write_page(key='q1', layout='orig'):
     """future.html: the figure alone on a white page. Unlinked and noindex until he says otherwise."""
     parts = ['<!DOCTYPE html>', '<html lang="en">', '<head>',
              '  <meta charset="UTF-8">',
@@ -299,18 +325,18 @@ def write_page(key='q1'):
              '  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>',
              '  ' + FONTS,
              '  <style>', PAGE_CSS, '  </style>',
-             '</head>', '<body>', '  <main class="stage">', cycle(key), '  </main>',
+             '</head>', '<body>', '  <main class="stage">', cycle(key, layout), '  </main>',
              SCRIPT, ANALYTICS, '</body>', '</html>', '']
     out = os.path.join(REPO, 'future.html')
     open(out, 'w').write('\n'.join(parts))
-    print(f'wrote {os.path.relpath(out, REPO)} ({key})')
+    print(f'wrote {os.path.relpath(out, REPO)} ({key}, {layout})')
 
 
 def main():
     h = open(PAGE).read()
     sections = ''.join(
-        f'<section class="sec" id="prop-{k}"><div class="wrap"><div class="kick">Proposal {i + 1}</div><h2>{t}</h2>'
-        f'<p class="why">{d}</p><div class="stage">{cycle(k)}</div></div></section>\n'
+        f'<section class="sec" id="prop-{k}"><div class="wrap"><div class="kick">Layout {i + 1}</div><h2>{t}</h2>'
+        f'<p class="why">{d}</p><div class="stage">{cycle("q1", k)}</div></div></section>\n'
         for i, (k, t, d) in enumerate(PROPOSALS))
     h = re.sub(r'<section class="sec" id="prop-[a-z0-9]+">.*?</section>\s*', '', h, flags=re.S)
     h, n = re.subn(r'<script>\n\(function\(\)\{\n  var LH=15.*?</script>', lambda m: SCRIPT, h, count=1, flags=re.S)
@@ -319,8 +345,8 @@ def main():
     first = h.index('<section class="sec"')
     h = h[:first] + sections + h[first:]
     open(PAGE, 'w').write(h)
-    print(f'wrote {len(PROPOSALS)} proposals into {os.path.relpath(PAGE, REPO)}')
-    write_page('q1')
+    print(f'wrote {len(PROPOSALS)} layouts into {os.path.relpath(PAGE, REPO)}')
+    write_page('q1', 'flip')
 
 
 if __name__ == '__main__':
