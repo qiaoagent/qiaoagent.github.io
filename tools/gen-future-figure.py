@@ -15,35 +15,46 @@ REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PAGE = os.path.join(REPO, '_future-candidates.html')
 
 GEN, UTIL, EVAL, GOLD, FAINT, MUTED = '#2f6d5b', '#2c5a8c', '#6b3f8c', '#b89a60', '#918b81', '#6a655d'
+TINT = {GEN: '#dcf5e6', UTIL: '#dbeaff', GOLD: '#fff0c8'}   # light but clearly green / blue / yellow tints behind the nodes
 CX, CY, R = 300, 268, 150          # ring centre and radius
 GAP = 24                            # degrees between a node and the nearest arrowhead
 START = 54                          # spokes begin this far from the centre (clear of the chip pins)
 H, PIN_L, PIN_W, PINS = 32, 10, 4, (-20, 0, 20)
-LABR = R + 24                       # label anchor radius
 INSET = 19                          # code beads sit this far inside the ring
-BR = max(11, round(R * 0.09))       # bead radius scales with the ring (14 at R=150, 11 at R=125)
-_rb = R - INSET
-SPREAD = math.degrees(2 * math.asin((2 * BR + 4) / (2 * _rb)))            # pair spacing: a 4px gap between beads
-_theta_min = math.degrees(math.asin((BR + 8) / _rb))                       # inner bead >= 8px from the spoke
-NUDGE = max(0.0, _theta_min + SPREAD / 2 - (90 - 2 * 30) / 2 - (30 - GAP)) # shift a pair away from the joint if needed
-BEAD_FS = round(BR * 0.75, 1)
+
+
+def set_ring(r):
+    """Set the ring radius and everything derived from it (labels, beads, spacing)."""
+    global R, LABR, BR, SPREAD, NUDGE, BEAD_FS, P
+    R = r
+    LABR = R + 24
+    BR = max(11, round(R * 0.09))       # bead radius scales with the ring (14 at R=150, 12 at R=130)
+    rb = R - INSET
+    SPREAD = math.degrees(2 * math.asin((2 * BR + 4) / (2 * rb)))            # pair spacing: a 4px gap between beads
+    theta_min = math.degrees(math.asin((BR + 8) / rb))                       # inner bead >= 8px from the spoke
+    NUDGE = max(0.0, theta_min + SPREAD / 2 - (90 - 2 * 30) / 2 - (30 - GAP)) # shift a pair away from the joint if needed
+    BEAD_FS = round(BR * 0.75, 1)
+    P = lambda a, rr=None: (CX + (R if rr is None else rr) * math.cos(rad(a)), CY + (R if rr is None else rr) * math.sin(rad(a)))
+
+
+set_ring(R)
 
 rad = math.radians
-P = lambda a, rr=R: (CX + rr * math.cos(rad(a)), CY + rr * math.sin(rad(a)))
 
 NAME = {'people': 'PEOPLE', 'trials': 'TRIALS', 'evidence': 'EVIDENCE'}
 # pairs are named by content: tp = Trials-People, ep = Evidence-People, te = Trials-Evidence
 CAP = {('tp', 'people'): 'Matching clinical trials to patients',
        ('tp', 'trials'): 'Matching patients to clinical trials',
-       ('ep', 'people'): 'Meeting real-world information needs',
-       ('ep', 'evidence'): 'Evaluating if and how AI actually helps people',
-       ('te', 'evidence'): 'AI-enabled living evidence synthesis',
+       ('ep', 'people'): 'Meeting real-world user|information needs',
+       ('ep', 'evidence'): 'Evaluating if and how AI helps people in practice',
+       ('te', 'evidence'): 'Agent-enabled living evidence systems',
        ('te', 'trials'): 'Evidence gaps inform future trials'}
 CODE = {('tp', 'people'): ['A.1'], ('tp', 'trials'): ['A.1'], ('ep', 'people'): ['B.1', 'B.2'],
         ('ep', 'evidence'): ['C'], ('te', 'evidence'): ['A.2'], ('te', 'trials'): []}
 # Layouts: People is always at the top (-90). 'orig' puts Trials lower left (150) with the
 # pill rising to the right; 'swap' moves Trials to the lower right so its tilt runs with the
 # arc; 'flip' keeps the places and mirrors the pill instead.
+EV_DX, EV_DY = 13, -6   # nudge the pyramid up and right so both arrowheads sit at similar distances
 LAYOUTS = {'orig': {'trials': 150, 'evidence': 30, 'pill': -35},
            'swap': {'trials': 30, 'evidence': 150, 'pill': -35},
            'flip': {'trials': 150, 'evidence': 30, 'pill': 45}}   # leans with the ring (tangent there is 60)
@@ -63,6 +74,20 @@ def pairs_for(layout):
             (pid(right, left), right, left, 30 + GAP, 150 - GAP, 90, COLOUR[pid(right, left)]),
             (pid(left, 'people'), left, 'people', 150 + GAP, 270 - GAP, 210, COLOUR[pid(left, 'people')])]
 TITLE = 'Connecting people, clinical trials and evidence through trustworthy AI'
+# future.html only: one two-way label for the Trials-People arc; the People->Trials label is dropped.
+# 'dir' is rendered verbatim (AI in purple); 'lines' fixes the caption break; 'also' makes the label
+# light up when either half of the arc is hovered.
+OVERRIDES = {('tp', 'people'): {'dir': 'TRIALS \u2190 AI \u2192 PEOPLE',
+                                'lines': ('Workflow-integrated AI for', 'clinical trial recruitment'),
+                                'also': ('tp', 'trials')},
+             ('tp', 'trials'): None}
+
+
+def solid(hex_colour, alpha):
+    """The colour a translucent fill would show on white — as an opaque hex, so icons stay solid over shading."""
+    r, g, b = (int(hex_colour[i:i + 2], 16) for i in (1, 3, 5))
+    mix = lambda v: round(v * alpha + 255 * (1 - alpha))
+    return '#%02x%02x%02x' % (mix(r), mix(g), mix(b))
 
 
 def pyramid_g(x, y, scale=0.78):
@@ -75,13 +100,13 @@ def pyramid_g(x, y, scale=0.78):
         yy = top + i * (hh / n)
         h = hh / n - g
         s += (f'<polygon points="{60 - wa / 2:.1f},{yy:.1f} {60 + wa / 2:.1f},{yy:.1f} '
-              f'{60 + wb / 2:.1f},{yy + h:.1f} {60 - wb / 2:.1f},{yy + h:.1f}" fill="{GEN}" opacity="{0.94 - i * 0.13:.2f}"/>')
+              f'{60 + wb / 2:.1f},{yy + h:.1f} {60 - wb / 2:.1f},{yy + h:.1f}" fill="{solid(GEN, 0.94 - i * 0.13)}"/>')
     return f'<g transform="translate({x - 60 * scale:.1f} {y - 46 * scale:.1f}) scale({scale})">{s}</g>'
 
 
 def person_g(x, y, c=UTIL):
-    return (f'<g transform="translate({x:.1f} {y:.1f})"><circle cx="0" cy="-14" r="13" fill="{c}" opacity=".94"/>'
-            f'<path d="M-24 34 Q-24 4 0 4 Q24 4 24 34 Z" fill="{c}" opacity=".62"/></g>')
+    return (f'<g transform="translate({x:.1f} {y:.1f})"><circle cx="0" cy="-14" r="13" fill="{solid(c, 0.94)}"/>'
+            f'<path d="M-24 34 Q-24 4 0 4 Q24 4 24 34 Z" fill="{solid(c, 0.62)}"/></g>')
 
 
 PILL_SCALE = 0.8
@@ -89,8 +114,8 @@ PILL_SCALE = 0.8
 
 def pill_g(x, y, c=GOLD, rot=-35):
     return (f'<g transform="translate({x:.1f} {y:.1f}) rotate({rot}) scale({PILL_SCALE})">'
-            f'<path d="M-30 -13 H0 V13 H-30 A13 13 0 0 1 -30 -13 Z" fill="{c}" opacity=".94"/>'
-            f'<path d="M0 -13 H30 A13 13 0 0 1 30 13 H0 Z" fill="{c}" opacity=".55"/></g>')
+            f'<path d="M-30 -13 H0 V13 H-30 A13 13 0 0 1 -30 -13 Z" fill="{solid(c, 0.94)}"/>'
+            f'<path d="M0 -13 H30 A13 13 0 0 1 30 13 H0 Z" fill="{solid(c, 0.55)}"/></g>')
 
 
 def fillet(theta, c, h=22, delta=10):
@@ -135,7 +160,21 @@ def head(a, sign, cls, c):
             f'L{b[0] - 3.5 * nx:.1f} {b[1] - 3.5 * ny:.1f} Z" fill="{c}"/>')
 
 
-def dlabel(style, pair, frm, to, mid, c, codes=True):
+def dlabel(style, pair, frm, to, mid, c, codes=True, big=False, stack=False, overrides=False):
+    dir_fs, cap_fs = (13, 15) if big else (11, 13)
+    stack_attr = ' data-stack="1"' if stack else ''
+    ov = OVERRIDES.get((pair, to), False) if overrides else False
+    if ov is None:
+        return ''                                   # this half carries no label
+    extra_cls = (' dlab-%s-%s' % ov['also']) if ov and ov.get('also') else ''
+    custom_attr = (' data-custom="%s"' % ov['dir']) if ov and ov.get('dir') else ''
+    base = CAP[(pair, to)]
+    if ov and ov.get('lines'):
+        lines_attr, cap_text = ' data-lines="%s"' % '|'.join(ov['lines']), ' '.join(ov['lines'])
+    elif '|' in base:
+        lines_attr, cap_text = ' data-lines="%s"' % base, base.replace('|', ' ')
+    else:
+        lines_attr, cap_text = '', base
     x, y = P(mid, LABR)
     sn = math.sin(rad(mid))
     mode = 'below' if sn > 0.5 else ('above' if sn < -0.5 else 'side')
@@ -145,15 +184,19 @@ def dlabel(style, pair, frm, to, mid, c, codes=True):
     # an uncoded half carries only a light caption: no direction line, no code bead
     dirline = '' if muted else (
         f'<g class="dir" data-style="{style}" data-anchor="{anchor}" data-from="{NAME[frm]}" data-to="{NAME[to]}" '
-        f'data-x="{x:.0f}" fill="{c}" font-size="11" font-weight="700" letter-spacing=".08em"></g>')
-    return (f'<g class="unit dlab dlab-{pair}-{to}{muted}" data-pair="{pair}" data-to="{to}" data-from="{frm}" '
+        f'data-x="{x:.0f}"{stack_attr} fill="{c}" font-size="{dir_fs}" font-weight="700" letter-spacing=".08em"></g>')
+    dirline = dirline.replace('<g class="dir" ', '<g class="dir"' + custom_attr + ' ', 1) if dirline else dirline
+    return (f'<g class="unit dlab dlab-{pair}-{to}{extra_cls}{muted}" data-pair="{pair}" data-to="{to}" data-from="{frm}" '
             f'data-mode="{mode}" data-x="{x:.0f}" data-y="{y:.0f}" style="--c:{c};cursor:pointer">{dirline}'
-            f'<text class="cap" x="{x:.0f}" y="{y:.0f}" text-anchor="{anchor}" font-size="13" fill="{MUTED}" '
-            f'data-text="{CAP[(pair, to)]}"></text></g>')
+            f'<text class="cap" x="{x:.0f}" y="{y:.0f}" text-anchor="{anchor}" font-size="{cap_fs}" fill="{MUTED}" '
+            f'data-text="{cap_text}"{lines_attr}></text></g>')
 
 
-def bead(pair, to, mid, c, away):
-    codes = CODE[(pair, to)]
+CODE_OVERRIDES = {('ep', 'people'): ['B']}     # future.html: one bead for both B projects
+
+
+def bead(pair, to, mid, c, away, overrides=False):
+    codes = CODE_OVERRIDES.get((pair, to), CODE[(pair, to)]) if overrides else CODE[(pair, to)]
     n = len(codes)
     centre = mid + (away * NUDGE if n > 1 else 0)
     out = ''
@@ -165,7 +208,33 @@ def bead(pair, to, mid, c, away):
     return out
 
 
-def cycle(key, layout='orig', codes=True, title=True):
+def shading(layout):
+    """Three faint wedges behind the nodes, each blending its two neighbouring arc colours,
+    fading toward the centre so the chip stays clean."""
+    L = LAYOUTS[layout]
+    right = 'trials' if L['trials'] == 30 else 'evidence'
+    pairs = {(a, b): c for a, x, y, _1, _2, _3, c in pairs_for(layout) for (a, b) in ((x, y), (y, x))}
+    # wedge for the node at angle `at` spans the 120 degrees between its two joints
+    left = 'evidence' if right == 'trials' else 'trials'
+    wedges = [('people', -90, pairs[('people', left)], pairs[('people', right)]),
+              (right, 30, pairs[(right, 'people')], pairs[(right, left)]),
+              (left, 150, pairs[(left, right)], pairs[(left, 'people')])]
+    defs, body = '', ''
+    for name, at, c1, c2 in wedges:
+        a1, a2 = at - 60, at + 60
+        x1, y1 = P(a1)
+        x2, y2 = P(a2)
+        defs += (f'<linearGradient id="wg-{name}" gradientUnits="userSpaceOnUse" x1="{x1:.1f}" y1="{y1:.1f}" x2="{x2:.1f}" y2="{y2:.1f}">'
+                 f'<stop offset="0" stop-color="{TINT[c1]}"/><stop offset="1" stop-color="{TINT[c2]}"/></linearGradient>')
+        body += (f'<path class="wedge" d="M{CX} {CY} L{x1:.1f} {y1:.1f} A{R} {R} 0 0 1 {x2:.1f} {y2:.1f} Z" '
+                 f'fill="url(#wg-{name})" mask="url(#wfade)"/>')
+    defs += (f'<radialGradient id="wfg" gradientUnits="userSpaceOnUse" cx="{CX}" cy="{CY}" r="{R}">'
+             f'<stop offset="0.3" stop-color="#000"/><stop offset="1" stop-color="#fff"/></radialGradient>'
+             f'<mask id="wfade"><circle cx="{CX}" cy="{CY}" r="{R}" fill="url(#wfg)"/></mask>')
+    return f'<defs>{defs}</defs>{body}'
+
+
+def cycle(key, layout='orig', codes=True, title=True, big=False, stack=False, overrides=False, shade=False):
     style = STYLE[key]
     L = LAYOUTS[layout]
     arcs = heads = hits = spokes = dlabs = beads = ''
@@ -177,9 +246,9 @@ def cycle(key, layout='orig', codes=True, title=True):
         spokes += spoke_unit(pid, mid, c)
         hits += (f'<path class="hit" data-pair="{pid}" data-to="{n1}" data-from="{n2}" d="{arcpath(a1, mid)}"/>'
                  f'<path class="hit" data-pair="{pid}" data-to="{n2}" data-from="{n1}" d="{arcpath(mid, a2)}"/>')
-        dlabs += dlabel(style, pid, n2, n1, (a1 + mid) / 2, c, codes) + dlabel(style, pid, n1, n2, (mid + a2) / 2, c, codes)
+        dlabs += dlabel(style, pid, n2, n1, (a1 + mid) / 2, c, codes, big, stack, overrides) + dlabel(style, pid, n1, n2, (mid + a2) / 2, c, codes, big, stack, overrides)
         if codes:
-            beads += bead(pid, n1, (a1 + mid) / 2, c, -1) + bead(pid, n2, (mid + a2) / 2, c, +1)
+            beads += bead(pid, n1, (a1 + mid) / 2, c, -1, overrides) + bead(pid, n2, (mid + a2) / 2, c, +1, overrides)
     pins = ''
     for o in PINS:
         pins += (f'<rect x="{CX + o - PIN_W / 2:.1f}" y="{CY - H - PIN_L}" width="{PIN_W}" height="{PIN_L}" rx="2" fill="{EVAL}" opacity=".5"/>'
@@ -197,19 +266,21 @@ def cycle(key, layout='orig', codes=True, title=True):
         return (f'<text x="{x:.0f}" y="{y:.0f}" text-anchor="{anchor}" font-family="DM Serif Display, Georgia, serif" '
                 f'font-size="21" fill="currentColor">{t}</text>')
 
-    vx, vy, vw, vh = CX - R - 190, CY - R - 78, 2 * R + 380, 2 * R + 210
+    mx, my = (230, 96) if big else (190, 78)
+    lh, rows = (18, 4) if (big and stack) else ((18, 3) if big else (15, 3))
+    bottom = 24 + 4 + rows * lh + 12 + (60 if title else 0)      # room for the labels below the ring (+ the in-figure title)
+    vx, vy, vw, vh = CX - R - mx, CY - R - my, 2 * R + 2 * mx, 2 * R + my + bottom
     title_y = CY + R + 120
     title_svg = (f'<text class="figtitle" x="{CX}" y="{title_y}" text-anchor="middle" font-family="DM Serif Display, Georgia, serif" '
                  f'font-size="17" fill="#222">{TITLE}</text>') if title else ''
-    if not title:
-        vh -= 60
-    return f'''<svg class="cycle" id="cycle-{key}-{layout}" viewBox="{vx} {vy} {vw} {vh}" xmlns="http://www.w3.org/2000/svg" font-family="DM Sans, sans-serif">
-{arcs}{heads}{spokes}{beads}
+    shade_svg = shading(layout) if shade else ''
+    return f'''<svg class="cycle" id="cycle-{key}-{layout}" data-lh="{18 if big else 15}" viewBox="{vx} {vy} {vw} {vh}" xmlns="http://www.w3.org/2000/svg" font-family="DM Sans, sans-serif">
+{shade_svg}{arcs}{heads}{spokes}{beads}
 <g class="unit ai"><g class="chip">{pins}<rect x="{CX - H}" y="{CY - H}" width="{2 * H}" height="{2 * H}" rx="9" fill="{EVAL}" opacity=".16"/><rect x="{CX - H + 9}" y="{CY - H + 9}" width="{2 * H - 18}" height="{2 * H - 18}" rx="5" fill="{EVAL}" opacity=".10"/></g>
 <text x="{CX}" y="{CY + 10}" text-anchor="middle" font-family="DM Serif Display, Georgia, serif" font-size="30" fill="{EVAL}">AI</text></g>
 <g class="unit node node-people">{person_g(px, py)}{node_name(px, py - 46, 'People')}</g>
 <g class="unit node node-trials">{pill_g(tx + (2 if t_right else -2), ty, rot=L['pill'])}{node_name(tx + (20 if t_right else -20) + (0 if t_right else -t_lab_dx), ty + 58 + t_lab_dy, 'Trials', 'start' if t_right else 'end')}</g>
-<g class="unit node node-evidence">{pyramid_g(ex, ey + 4)}{node_name(ex + (-20 if t_right else 20), ey + 58, 'Evidence', 'end' if t_right else 'start')}</g>
+<g class="unit node node-evidence">{pyramid_g(ex + EV_DX, ey + 4 + EV_DY)}{node_name(ex + (-20 if t_right else 20) + EV_DX, ey + 58, 'Evidence', 'end' if t_right else 'start')}</g>
 {hits}
 {dlabs}
 {title_svg}
@@ -225,14 +296,27 @@ PROPOSALS = [
 
 SCRIPT = r'''<script>
 (function(){
-  var LH=15, EVAL='#6b3f8c', NS='http://www.w3.org/2000/svg';
+  var EVAL='#6b3f8c', NS='http://www.w3.org/2000/svg';
   function el(n,attrs,txt){var e=document.createElementNS(NS,n);for(var k in attrs)e.setAttribute(k,attrs[k]);if(txt!=null)e.textContent=txt;return e;}
   /* Compose a direction line in place; returns its width. Children sit on a y=0 baseline;
      the group is translated to the row afterwards. */
   function compose(g){
     var st=g.dataset.style, from=g.dataset.from, to=g.dataset.to, anchor=g.dataset.anchor, x=+g.dataset.x, c=g.getAttribute('fill');
     while(g.firstChild)g.removeChild(g.firstChild);
+    if(g.dataset.custom){
+      var tc=el('text',{x:x,y:0,'text-anchor':anchor});
+      g.dataset.custom.split(/(AI)/).forEach(function(part){if(!part)return;tc.appendChild(el('tspan',part==='AI'?{fill:EVAL}:{},part));});
+      g.appendChild(tc);return tc.getComputedTextLength();
+    }
     if(st==='chain'){
+      if(g.dataset.stack){
+        var LHs=+(g.ownerSVGElement.dataset.lh||15);
+        var t1=el('text',{x:x,y:0,'text-anchor':anchor}), t2=el('text',{x:x,y:LHs,'text-anchor':anchor});
+        t1.appendChild(el('tspan',{},from+' + '));t1.appendChild(el('tspan',{fill:EVAL},'AI'));
+        t2.textContent='→ '+to;
+        g.appendChild(t1);g.appendChild(t2);g.dataset.rows=2;
+        return Math.max(t1.getComputedTextLength(),t2.getComputedTextLength());
+      }
       var t=el('text',{x:x,y:0,'text-anchor':anchor});
       t.appendChild(el('tspan',{},from+' + '));t.appendChild(el('tspan',{fill:EVAL},'AI'));t.appendChild(el('tspan',{},' → '+to));
       g.appendChild(t);return t.getComputedTextLength();
@@ -279,17 +363,20 @@ SCRIPT = r'''<script>
     function light(p,to,from){clear();['.arc-'+p,'.ah-'+p+'-'+to,'.sp-'+p,'.ai','.node-'+to,'.node-'+from,'.dlab-'+p+'-'+to].forEach(function(sel){svg.querySelectorAll(sel).forEach(function(e){e.classList.add('on')});});svg.classList.add('off');}
     svg.querySelectorAll('.hit, .dlab').forEach(function(h){h.addEventListener('mouseenter',function(){light(h.dataset.pair,h.dataset.to,h.dataset.from)});h.addEventListener('mouseleave',clear);});
     function layout(){
+      var LH=+(svg.dataset.lh||15);
       svg.querySelectorAll('.dlab').forEach(function(g){
         var dir=g.querySelector('.dir'), cap=g.querySelector('.cap'), note=g.querySelector('.note'), x=+g.dataset.x, y=+g.dataset.y;
         var isG=!!dir&&dir.tagName.toLowerCase()==='g';
         var maxW=dir?(isG?compose(dir):dir.getComputedTextLength()):0;
         var words=cap.dataset.text.split(' '), lines=[]; cap.textContent='';
         var probe=el('tspan',{}); cap.appendChild(probe); function w(t){probe.textContent=t;return probe.getComputedTextLength()}
-        if(words.length<2){lines=[words.join(' ')];}else{var best=null;for(var i=1;i<words.length;i++){var a=words.slice(0,i).join(' '),b=words.slice(i).join(' ');var m=Math.max(w(a),w(b));if(best===null||m<best.m)best={m:m,a:a,b:b};}lines=[best.a,best.b];}
+        if(cap.dataset.lines){lines=cap.dataset.lines.split('|');}
+        else if(words.length<2){lines=[words.join(' ')];}else{var best=null;for(var i=1;i<words.length;i++){var a=words.slice(0,i).join(' '),b=words.slice(i).join(' ');var m=Math.max(w(a),w(b));if(best===null||m<best.m)best={m:m,a:a,b:b};}lines=[best.a,best.b];}
         cap.removeChild(probe);
-        var rows=(dir?1:0)+lines.length+(note?1:0), hgt=LH*rows;
+        var titleRows=dir?(+(dir.dataset.rows)||1):0;
+        var rows=titleRows+lines.length+(note?1:0), hgt=LH*rows;
         var top= g.dataset.mode==='below'? y+4 : g.dataset.mode==='above'? y-hgt-2 : y-hgt/2;
-        var yy=top+9, off=dir?1:0;
+        var yy=top+9, off=titleRows;
         if(dir){ if(isG){dir.setAttribute('transform','translate(0 '+yy.toFixed(1)+')');}else{dir.setAttribute('y',yy.toFixed(1));} }
         lines.forEach(function(l,i){cap.appendChild(el('tspan',{x:x,y:(yy+LH*(i+off)).toFixed(1)},l));});
         if(note)note.setAttribute('y',(yy+LH*(lines.length+1)).toFixed(1));
@@ -322,8 +409,9 @@ PAGE_CSS = """    html, body { margin: 0; background: #fff; color: #222; font-fa
     .vision-line { font-family: "DM Serif Display", Georgia, serif; font-size: 1.05rem; line-height: 1.45; text-align: center; margin: 14px auto 0; max-width: 560px; }"""
 
 
-def write_page(key='q1', layout='orig'):
+def write_page(key='q1', layout='orig', ring=150):
     """future.html: the figure alone on a white page. Unlinked and noindex until he says otherwise."""
+    set_ring(ring)
     parts = ['<!DOCTYPE html>', '<html lang="en">', '<head>',
              '  <meta charset="UTF-8">',
              '  <meta name="viewport" content="width=device-width, initial-scale=1.0">',
@@ -333,12 +421,13 @@ def write_page(key='q1', layout='orig'):
              '  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>',
              '  ' + FONTS,
              '  <style>', PAGE_CSS, '  </style>',
-             '</head>', '<body>', '  <main class="stage">', cycle(key, layout, title=False),
+             '</head>', '<body>', '  <main class="stage">', cycle(key, layout, title=False, big=True, stack=False, overrides=True, shade=True),
              '    <p class="vision-line">' + VISION + '</p>', '  </main>',
              SCRIPT, ANALYTICS, '</body>', '</html>', '']
     out = os.path.join(REPO, 'future.html')
     open(out, 'w').write('\n'.join(parts))
-    print(f'wrote {os.path.relpath(out, REPO)} ({key}, {layout})')
+    set_ring(150)
+    print(f'wrote {os.path.relpath(out, REPO)} ({key}, {layout}, r={ring})')
 
 
 INDEX = os.path.join(REPO, 'index.html')
@@ -428,7 +517,7 @@ VISION = ('Building an open infrastructure that connects evolving medical eviden
 def inject_vision_tab():
     """Research Vision tab on the homepage: the figure without project codes, the vision line beneath."""
     h = open(INDEX).read()
-    svg = cycle('q1', 'flip', codes=False, title=False)
+    svg = cycle('q1', 'flip', codes=False, title=False, shade=True)
     panel = ('<!-- vision-panel -->\n        <div class="deck-view" id="view-vision">\n          <div class="vision-wrap">\n'
              + svg + '\n            <p class="vision-line">' + VISION + '</p>\n          </div>\n        </div>\n        <!-- /vision-panel -->')
     if '<!-- vision-panel -->' in h:
@@ -471,14 +560,14 @@ def main():
         f'<p class="why">{d}</p><div class="stage">{cycle("q1", k)}</div></div></section>\n'
         for i, (k, t, d) in enumerate(PROPOSALS))
     h = re.sub(r'<section class="sec" id="prop-[a-z0-9]+">.*?</section>\s*', '', h, flags=re.S)
-    h, n = re.subn(r'<script>\n\(function\(\)\{\n  var LH=15.*?</script>', lambda m: SCRIPT, h, count=1, flags=re.S)
+    h, n = re.subn(r'<script>\n\(function\(\)\{\n  var (?:LH=15|EVAL=).*?</script>', lambda m: SCRIPT, h, count=1, flags=re.S)
     if n != 1:
         raise SystemExit('shared figure script not found — page layout changed')
     first = h.index('<section class="sec"')
     h = h[:first] + sections + h[first:]
     open(PAGE, 'w').write(h)
     print(f'wrote {len(PROPOSALS)} layouts into {os.path.relpath(PAGE, REPO)}')
-    write_page('q1', 'flip')
+    write_page('q1', 'flip', ring=130)
     # inject_home() is kept for reference but not run: he decided against the homepage emblem (2026-09-13)
     inject_vision_tab()
 

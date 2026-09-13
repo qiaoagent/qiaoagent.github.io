@@ -540,6 +540,7 @@ svg.cycle .arc.on { stroke-width: 2.6; }
 svg.cycle .dlab.on .cap { fill: var(--text); }
 svg.cycle .hit { fill: none; stroke: transparent; stroke-width: 28; pointer-events: stroke; cursor: pointer; }
 [data-theme="dark"] .vision-wrap svg.cycle text[fill="#6b3f8c"] { fill: #b9a3d6; }
+[data-theme="dark"] .vision-wrap svg.cycle .wedge { opacity: .16; }   /* light tints become a faint glow on the dark ground */
 @media (max-width: 640px) {
   .vision-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
   .vision-wrap svg.cycle { min-width: 560px; }
