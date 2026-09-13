@@ -135,13 +135,13 @@ def head(a, sign, cls, c):
             f'L{b[0] - 3.5 * nx:.1f} {b[1] - 3.5 * ny:.1f} Z" fill="{c}"/>')
 
 
-def dlabel(style, pair, frm, to, mid, c):
+def dlabel(style, pair, frm, to, mid, c, codes=True):
     x, y = P(mid, LABR)
     sn = math.sin(rad(mid))
     mode = 'below' if sn > 0.5 else ('above' if sn < -0.5 else 'side')
     a = mid % 360
     anchor = 'start' if (a < 90 or a > 270) else 'end'
-    muted = ' muted' if not CODE[(pair, to)] else ''
+    muted = ' muted' if (codes and not CODE[(pair, to)]) else ''
     # an uncoded half carries only a light caption: no direction line, no code bead
     dirline = '' if muted else (
         f'<g class="dir" data-style="{style}" data-anchor="{anchor}" data-from="{NAME[frm]}" data-to="{NAME[to]}" '
@@ -165,7 +165,7 @@ def bead(pair, to, mid, c, away):
     return out
 
 
-def cycle(key, layout='orig'):
+def cycle(key, layout='orig', codes=True, title=True):
     style = STYLE[key]
     L = LAYOUTS[layout]
     arcs = heads = hits = spokes = dlabs = beads = ''
@@ -177,8 +177,9 @@ def cycle(key, layout='orig'):
         spokes += spoke_unit(pid, mid, c)
         hits += (f'<path class="hit" data-pair="{pid}" data-to="{n1}" data-from="{n2}" d="{arcpath(a1, mid)}"/>'
                  f'<path class="hit" data-pair="{pid}" data-to="{n2}" data-from="{n1}" d="{arcpath(mid, a2)}"/>')
-        dlabs += dlabel(style, pid, n2, n1, (a1 + mid) / 2, c) + dlabel(style, pid, n1, n2, (mid + a2) / 2, c)
-        beads += bead(pid, n1, (a1 + mid) / 2, c, -1) + bead(pid, n2, (mid + a2) / 2, c, +1)
+        dlabs += dlabel(style, pid, n2, n1, (a1 + mid) / 2, c, codes) + dlabel(style, pid, n1, n2, (mid + a2) / 2, c, codes)
+        if codes:
+            beads += bead(pid, n1, (a1 + mid) / 2, c, -1) + bead(pid, n2, (mid + a2) / 2, c, +1)
     pins = ''
     for o in PINS:
         pins += (f'<rect x="{CX + o - PIN_W / 2:.1f}" y="{CY - H - PIN_L}" width="{PIN_W}" height="{PIN_L}" rx="2" fill="{EVAL}" opacity=".5"/>'
@@ -194,10 +195,14 @@ def cycle(key, layout='orig'):
 
     def node_name(x, y, t, anchor='middle'):
         return (f'<text x="{x:.0f}" y="{y:.0f}" text-anchor="{anchor}" font-family="DM Serif Display, Georgia, serif" '
-                f'font-size="21" fill="#222">{t}</text>')
+                f'font-size="21" fill="currentColor">{t}</text>')
 
     vx, vy, vw, vh = CX - R - 190, CY - R - 78, 2 * R + 380, 2 * R + 210
     title_y = CY + R + 120
+    title_svg = (f'<text class="figtitle" x="{CX}" y="{title_y}" text-anchor="middle" font-family="DM Serif Display, Georgia, serif" '
+                 f'font-size="17" fill="#222">{TITLE}</text>') if title else ''
+    if not title:
+        vh -= 60
     return f'''<svg class="cycle" id="cycle-{key}-{layout}" viewBox="{vx} {vy} {vw} {vh}" xmlns="http://www.w3.org/2000/svg" font-family="DM Sans, sans-serif">
 {arcs}{heads}{spokes}{beads}
 <g class="unit ai"><g class="chip">{pins}<rect x="{CX - H}" y="{CY - H}" width="{2 * H}" height="{2 * H}" rx="9" fill="{EVAL}" opacity=".16"/><rect x="{CX - H + 9}" y="{CY - H + 9}" width="{2 * H - 18}" height="{2 * H - 18}" rx="5" fill="{EVAL}" opacity=".10"/></g>
@@ -207,7 +212,7 @@ def cycle(key, layout='orig'):
 <g class="unit node node-evidence">{pyramid_g(ex, ey + 4)}{node_name(ex + (-20 if t_right else 20), ey + 58, 'Evidence', 'end' if t_right else 'start')}</g>
 {hits}
 {dlabs}
-<text class="figtitle" x="{CX}" y="{title_y}" text-anchor="middle" font-family="DM Serif Display, Georgia, serif" font-size="17" fill="#222">{TITLE}</text>
+{title_svg}
 </svg>'''
 
 
@@ -291,8 +296,10 @@ SCRIPT = r'''<script>
         g.dataset.titlew=Math.round(maxW);
       });
     }
+    svg.addEventListener('relayout',layout);
     if(document.fonts&&document.fonts.ready){document.fonts.ready.then(layout);} layout();
   }); }
+  window.FutureFigureLayout=function(){document.querySelectorAll('svg.cycle').forEach(function(svg){svg.dispatchEvent(new Event('relayout'));});};
   if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',init);}else{init();}
 })();
 </script>'''
@@ -311,7 +318,8 @@ PAGE_CSS = """    html, body { margin: 0; background: #fff; color: #222; font-fa
     svg.cycle .dlab.on .cap { fill: #222; }
     svg.cycle .dlab.muted { opacity: .5; }
     svg.cycle .dlab.muted.on { opacity: 1; }
-    svg.cycle .hit { fill: none; stroke: transparent; stroke-width: 28; pointer-events: stroke; cursor: pointer; }"""
+    svg.cycle .hit { fill: none; stroke: transparent; stroke-width: 28; pointer-events: stroke; cursor: pointer; }
+    .vision-line { font-family: "DM Serif Display", Georgia, serif; font-size: 1.05rem; line-height: 1.45; text-align: center; margin: 14px auto 0; max-width: 560px; }"""
 
 
 def write_page(key='q1', layout='orig'):
@@ -325,11 +333,135 @@ def write_page(key='q1', layout='orig'):
              '  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>',
              '  ' + FONTS,
              '  <style>', PAGE_CSS, '  </style>',
-             '</head>', '<body>', '  <main class="stage">', cycle(key, layout), '  </main>',
+             '</head>', '<body>', '  <main class="stage">', cycle(key, layout, title=False),
+             '    <p class="vision-line">' + VISION + '</p>', '  </main>',
              SCRIPT, ANALYTICS, '</body>', '</html>', '']
     out = os.path.join(REPO, 'future.html')
     open(out, 'w').write('\n'.join(parts))
     print(f'wrote {os.path.relpath(out, REPO)} ({key}, {layout})')
+
+
+INDEX = os.path.join(REPO, 'index.html')
+
+
+def mini():
+    """Abstract emblem for the homepage sidebar: ring, chip, icons and names only."""
+    cx, cy, r, gap, start = 100, 104, 62, 24, 24
+    h, pin_l, pin_w, pins = 13, 4, 1.8, (-8, 0, 8)
+    Pm = lambda a, rr=r: (cx + rr * math.cos(rad(a)), cy + rr * math.sin(rad(a)))
+    L = LAYOUTS['flip']
+
+    def fil(theta, c, hh=9, delta=10):
+        t = rad(theta)
+        ux, uy = math.cos(t), math.sin(t)
+        m = Pm(theta)
+        a = (m[0] - hh * ux, m[1] - hh * uy)
+
+        def side(sign):
+            b = rad(theta + sign * delta)
+            bp = (cx + r * math.cos(b), cy + r * math.sin(b))
+            tx, ty = -math.sin(b), math.cos(b)
+            det = ux * (-ty) - uy * (-tx)
+            sc = ((bp[0] - a[0]) * (-ty) - (bp[1] - a[1]) * (-tx)) / det
+            return bp, (a[0] + sc * ux, a[1] + sc * uy)
+        b1, c1 = side(-1)
+        b2, c2 = side(+1)
+        return (f'<path d="M{a[0]:.1f} {a[1]:.1f} Q{c1[0]:.1f} {c1[1]:.1f} {b1[0]:.1f} {b1[1]:.1f} A{r} {r} 0 0 1 '
+                f'{b2[0]:.1f} {b2[1]:.1f} Q{c2[0]:.1f} {c2[1]:.1f} {a[0]:.1f} {a[1]:.1f} Z" fill="{c}"/>')
+
+    def hd(a, sign, c):
+        tx, ty = -math.sin(rad(a)) * sign, math.cos(rad(a)) * sign
+        nx, ny = -ty, tx
+        t = Pm(a)
+        b = (t[0] - 4 * tx, t[1] - 4 * ty)
+        return (f'<path d="M{t[0]:.1f} {t[1]:.1f} L{b[0] + 2 * nx:.1f} {b[1] + 2 * ny:.1f} '
+                f'L{b[0] - 2 * nx:.1f} {b[1] - 2 * ny:.1f} Z" fill="{c}"/>')
+    eps = math.degrees(4 / r)
+    out = ''
+    for pid, n1, n2, a1, a2, mid, c in pairs_for('flip'):
+        x1, y1 = Pm(a1 + eps)
+        x2, y2 = Pm(a2 - eps)
+        out += f'<path d="M{x1:.1f} {y1:.1f} A{r} {r} 0 0 1 {x2:.1f} {y2:.1f}" fill="none" stroke="{c}" stroke-width="1.3"/>'
+        out += hd(a1, -1, c) + hd(a2, +1, c)
+        s0, m0 = Pm(mid, start), Pm(mid)
+        out += f'<path d="M{s0[0]:.1f} {s0[1]:.1f} L{m0[0]:.1f} {m0[1]:.1f}" fill="none" stroke="{c}" stroke-width="1.3"/>' + fil(mid, c)
+    for o in pins:
+        out += (f'<rect x="{cx + o - pin_w / 2:.1f}" y="{cy - h - pin_l}" width="{pin_w}" height="{pin_l}" rx="0.8" fill="{EVAL}" opacity=".5"/>'
+                f'<rect x="{cx + o - pin_w / 2:.1f}" y="{cy + h}" width="{pin_w}" height="{pin_l}" rx="0.8" fill="{EVAL}" opacity=".5"/>'
+                f'<rect x="{cx - h - pin_l}" y="{cy + o - pin_w / 2:.1f}" width="{pin_l}" height="{pin_w}" rx="0.8" fill="{EVAL}" opacity=".5"/>'
+                f'<rect x="{cx + h}" y="{cy + o - pin_w / 2:.1f}" width="{pin_l}" height="{pin_w}" rx="0.8" fill="{EVAL}" opacity=".5"/>')
+    out += (f'<rect x="{cx - h}" y="{cy - h}" width="{2 * h}" height="{2 * h}" rx="4" fill="{EVAL}" opacity=".16"/>'
+            f'<rect x="{cx - h + 4}" y="{cy - h + 4}" width="{2 * h - 8}" height="{2 * h - 8}" rx="2.5" fill="{EVAL}" opacity=".10"/>'
+            f'<text class="ai-text" x="{cx}" y="{cy + 4.5}" text-anchor="middle" font-family="DM Serif Display, Georgia, serif" font-size="13" fill="{EVAL}">AI</text>')
+    px, py = Pm(-90)
+    tx, ty = Pm(L['trials'])
+    ex, ey = Pm(L['evidence'])
+    k = 0.42
+    nm = lambda x, y, t, anchor='middle': (f'<text x="{x:.1f}" y="{y:.1f}" text-anchor="{anchor}" font-family="DM Serif Display, Georgia, serif" '
+                                          f'font-size="10" fill="currentColor">{t}</text>')
+    out += f'<g transform="translate({px:.1f} {py + 2:.1f}) scale({k})">{person_g(0, 0)}</g>' + nm(px, py - 17, 'People')
+    out += f'<g transform="translate({tx:.1f} {ty:.1f}) scale({k})">{pill_g(0, 0, rot=L["pill"])}</g>' + nm(tx - 4, ty + 22, 'Trials')
+    out += f'<g transform="translate({ex:.1f} {ey + 1:.1f}) scale({k})">{pyramid_g(0, 0)}</g>' + nm(ex + 4, ey + 22, 'Evidence')
+    return (f'<svg class="future-mini" viewBox="14 18 172 172" xmlns="http://www.w3.org/2000/svg" role="img" '
+            f'aria-label="People, clinical trials and evidence connected through AI">{out}</svg>')
+
+
+def inject_home():
+    """Place the emblem in index.html between its markers (added once, then replaced on every run)."""
+    h = open(INDEX).read()
+    block = '<!-- future-mini -->\n          <div class="side-fig">' + mini() + '</div>\n          <!-- /future-mini -->'
+    if '<!-- future-mini -->' in h:
+        h = re.sub(r'<!-- future-mini -->.*?<!-- /future-mini -->', lambda m: block, h, count=1, flags=re.S)
+    else:
+        anchor = '          <hr class="sidebar-rule">\n          <ul class="editorial-list">'
+        if h.count(anchor) != 1:
+            raise SystemExit('sidebar anchor not found in index.html')
+        h = h.replace(anchor, '          ' + block + '\n' + anchor, 1)
+    open(INDEX, 'w').write(h)
+    print('placed the emblem in index.html')
+
+
+VISION = ('Building an open infrastructure that connects evolving medical evidence, '
+          'real-world information needs, and trustworthy AI agents.')
+
+
+def inject_vision_tab():
+    """Research Vision tab on the homepage: the figure without project codes, the vision line beneath."""
+    h = open(INDEX).read()
+    svg = cycle('q1', 'flip', codes=False, title=False)
+    panel = ('<!-- vision-panel -->\n        <div class="deck-view" id="view-vision">\n          <div class="vision-wrap">\n'
+             + svg + '\n            <p class="vision-line">' + VISION + '</p>\n          </div>\n        </div>\n        <!-- /vision-panel -->')
+    if '<!-- vision-panel -->' in h:
+        h = re.sub(r'<!-- vision-panel -->.*?<!-- /vision-panel -->', lambda m: panel, h, count=1, flags=re.S)
+    else:
+        i = h.index('id="view-areas"')
+        j = h.index('</section>', i)
+        h = h[:j] + panel + '\n      ' + h[j:]
+    btn = ('<span class="ds-sep" aria-hidden="true">/</span>\n            '
+           '<button type="button" class="ds-btn" data-view="vision" role="tab" aria-selected="false">Vision</button>')
+    if 'data-view="vision"' not in h:
+        anchor = '<button type="button" class="ds-btn" data-view="areas" role="tab" aria-selected="false">Research Areas</button>'
+        assert h.count(anchor) == 1
+        h = h.replace(anchor, anchor + '\n            ' + btn, 1)
+    old_views = "    var views = { papers: document.getElementById('view-papers'),\n                  areas:  document.getElementById('view-areas') };"
+    new_views = ("    var views = { papers: document.getElementById('view-papers'),\n                  areas:  document.getElementById('view-areas'),\n"
+                 "                  vision: document.getElementById('view-vision') };")
+    if 'vision: document.getElementById' not in h:
+        assert h.count(old_views) == 1
+        h = h.replace(old_views, new_views, 1)
+    hook = "        if (v === 'vision' && window.FutureFigureLayout) window.FutureFigureLayout();   /* text can't be measured while hidden */\n"
+    if 'FutureFigureLayout' not in h:
+        anchor2 = "        if (v === 'areas') armTilt();\n"
+        assert h.count(anchor2) == 1
+        h = h.replace(anchor2, anchor2 + hook, 1)
+    if '<!-- vision-script -->' in h:
+        h = re.sub(r'<!-- vision-script -->.*?<!-- /vision-script -->', lambda m: '<!-- vision-script -->\n' + SCRIPT + '\n<!-- /vision-script -->', h, count=1, flags=re.S)
+    else:
+        anchor3 = '<script src="assets/direction-figures.js?v=1"></script>'
+        assert h.count(anchor3) == 1
+        h = h.replace(anchor3, anchor3 + '\n<!-- vision-script -->\n' + SCRIPT + '\n<!-- /vision-script -->', 1)
+    open(INDEX, 'w').write(h)
+    print('placed the Research Vision tab in index.html')
 
 
 def main():
@@ -347,6 +479,8 @@ def main():
     open(PAGE, 'w').write(h)
     print(f'wrote {len(PROPOSALS)} layouts into {os.path.relpath(PAGE, REPO)}')
     write_page('q1', 'flip')
+    # inject_home() is kept for reference but not run: he decided against the homepage emblem (2026-09-13)
+    inject_vision_tab()
 
 
 if __name__ == '__main__':

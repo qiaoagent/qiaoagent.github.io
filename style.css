@@ -522,6 +522,29 @@ main {
   border: none;
 }
 
+/* ─── Research Vision tab ───────────────────────────────────────────
+   The future-research figure (tools/gen-future-figure.py) without project
+   codes. Node names use currentColor; captions and the vision line follow
+   the theme. On phones the figure keeps a readable minimum width and the
+   wrap scrolls sideways. */
+.vision-wrap { max-width: 760px; margin: 0 auto; padding: 22px 0 6px; color: var(--text); }
+.vision-wrap svg.cycle { width: 100%; height: auto; display: block; }
+.vision-wrap svg.cycle .cap { fill: var(--muted); }
+.vision-line {
+  font-family: "DM Serif Display", Georgia, serif; font-size: 1.05rem; line-height: 1.45;
+  text-align: center; color: var(--text); margin: 18px auto 0; max-width: 560px;
+}
+svg.cycle .unit { transition: opacity .22s, stroke .22s, fill .22s; }
+svg.cycle.off > .unit:not(.on) { opacity: .22; }
+svg.cycle .arc.on { stroke-width: 2.6; }
+svg.cycle .dlab.on .cap { fill: var(--text); }
+svg.cycle .hit { fill: none; stroke: transparent; stroke-width: 28; pointer-events: stroke; cursor: pointer; }
+[data-theme="dark"] .vision-wrap svg.cycle text[fill="#6b3f8c"] { fill: #b9a3d6; }
+@media (max-width: 640px) {
+  .vision-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .vision-wrap svg.cycle { min-width: 560px; }
+}
+
 /* ─── Publications Tab ─────────────────────────────────────────── */
 .tab-note {
   font-size: 0.83rem;
