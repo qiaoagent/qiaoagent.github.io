@@ -431,7 +431,7 @@
     .ep2-deck .d-role { font-size: 0.66rem; font-weight: 600; color: var(--gen); letter-spacing: 0.02em; margin-bottom: 2px; }
     .ep2-deck .d-ttl { font-family: "DM Serif Display", Georgia, serif; font-size: 1rem; color: var(--ink); line-height: 1.1; }
     .ep2-deck .d-venue { font-size: 0.72rem; color: var(--muted); font-style: italic; margin-top: 3px; }
-    @media (max-width: 860px) { .ep2-layout { grid-template-columns: 1fr; } .ep2-decks { max-width: 320px; margin: 0 auto; } }
+    @media (max-width: 860px) { .ep2-layout { grid-template-columns: 1fr; } .ep2-decks { max-width: 320px; margin: 0 auto; } .ep2-arrows { display: none; } }   /* stacked: the side-by-side connectors no longer make sense */
     /* ── Deck / paging: each top-level block is a full-viewport "slide" ── */
     html, body { height: 100%; }
     body { margin: 0; }
@@ -968,14 +968,24 @@
       setTimeout(drawArrows, 400);
 
       var scene = document.getElementById('ep2-scene');
-      // hover a pyramid tier (3D) → light the relevant paper
-      scene.addEventListener('mouseover', function (e) { var f = e.target.closest('.ep-sface'); if (f) highlight(tierGroup[+f.dataset.tier], true); });
-      // hover a flat tier (2D) → same
-      flat2.addEventListener('mouseover', function (e) { var t = e.target.closest('.ep-ftier'); if (t) highlight(tierGroup[+t.dataset.tier], true); });
-      // hover a deck card → light it and its pyramid tier(s) (two-way)
-      decks.addEventListener('mouseover', function (e) { var d = e.target.closest('.ep2-deck'); if (d) highlight(+d.dataset.group, true); });
-      // reset only when leaving the whole section
-      document.querySelector('.ep2-layout').addEventListener('mouseleave', reset);
+      var touchMode = window.matchMedia && window.matchMedia('(hover: none)').matches;
+      if (!touchMode) {
+        // hover a pyramid tier (3D) → light the relevant paper
+        scene.addEventListener('mouseover', function (e) { var f = e.target.closest('.ep-sface'); if (f) highlight(tierGroup[+f.dataset.tier], true); });
+        // hover a flat tier (2D) → same
+        flat2.addEventListener('mouseover', function (e) { var t = e.target.closest('.ep-ftier'); if (t) highlight(tierGroup[+t.dataset.tier], true); });
+        // hover a deck card → light it and its pyramid tier(s) (two-way)
+        decks.addEventListener('mouseover', function (e) { var d = e.target.closest('.ep2-deck'); if (d) highlight(+d.dataset.group, true); });
+        // reset only when leaving the whole section
+        document.querySelector('.ep2-layout').addEventListener('mouseleave', reset);
+      } else {
+        // touch: hover never ends, so a tap toggles — the same card/tier again, or a tap outside the section, releases it
+        function toggle(gi) { if (hlState.on && hlState.gi === gi) reset(); else highlight(gi, true); }
+        scene.addEventListener('click', function (e) { var f = e.target.closest('.ep-sface'); if (f) toggle(tierGroup[+f.dataset.tier]); });
+        flat2.addEventListener('click', function (e) { var t = e.target.closest('.ep-ftier'); if (t) toggle(tierGroup[+t.dataset.tier]); });
+        decks.addEventListener('click', function (e) { if (e.target.closest('a')) return; var d = e.target.closest('.ep2-deck'); if (d) toggle(+d.dataset.group); });
+        document.addEventListener('click', function (e) { if (hlState.on && !e.target.closest('.ep2-layout')) reset(); });
+      }
 
       // ── 3D / 2D toggle ──
       document.getElementById('ep2-toggle').addEventListener('click', function (e) {
