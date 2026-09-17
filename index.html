@@ -459,14 +459,17 @@
         /* No scale(): a 3-D transform pins the card to a bitmap rasterised at
            its resting size, and magnifying that bitmap softens the cover's own
            text on 1x displays (2x has pixels to spare, which is why it only
-           showed on the external monitor). The lift and tilt carry the hover. */
-        card.style.transform =
-          `rotate(0deg) translateY(-52px) perspective(700px) rotateX(${rx}deg) rotateY(${ry}deg)`;
+           showed on the external monitor). The lift and tilt carry the hover.
+           The tilt is applied by the cover's own CSS transform via these two
+           variables; the card's lift stays a pure CSS :hover transition. */
+        card.style.setProperty('--rx', rx + 'deg');
+        card.style.setProperty('--ry', ry + 'deg');
       });
 
       card.addEventListener('mouseleave', () => {
-        // Remove inline override → CSS transition springs back to resting rotation
-        card.style.transform = '';
+        // Clear the tilt → the cover eases flat, the card springs back to rest
+        card.style.removeProperty('--rx');
+        card.style.removeProperty('--ry');
       });
     });
 

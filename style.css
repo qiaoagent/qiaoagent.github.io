@@ -279,13 +279,25 @@ main {
   flex-shrink: 0;
   margin-left: -72px;         /* overlap */
   cursor: default;
-  transform: rotate(var(--rot, 0deg));
+  /* Same function list in every state (rotate, translateY) so the transition
+     blends per function. A list of a different shape — the old inline
+     perspective/rotateX/rotateY from the tilt — forces matrix decomposition,
+     which Safari renders as a high-frequency shake until the card settles. */
+  transform: rotate(var(--rot, 0deg)) translateY(0);
   transform-origin: bottom center;
   transition:
     transform 0.32s cubic-bezier(0.34, 1.45, 0.64, 1),
-    filter     0.32s ease,
     z-index    0s;
   z-index: var(--i, 0);
+}
+
+/* While lifted, keep the original footprint hoverable so the card rising
+   out from under the pointer cannot bounce it between hover and rest. */
+.paper-card:hover::before {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; top: 0;
+  bottom: -52px;
 }
 
 .paper-card:first-child { margin-left: 0; }
@@ -300,7 +312,11 @@ main {
   border-radius: 5px;
   box-shadow: 3px 6px 18px rgba(0, 0, 0, 0.22);
   filter: grayscale(1);
-  transition: box-shadow 0.32s ease, filter 0.32s ease;
+  /* Mouse-tracking tilt lives here, on its own short transition, so it never
+     retargets the card's spring; the JS only sets --rx / --ry. */
+  transform: perspective(700px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+  transform-origin: bottom center;
+  transition: box-shadow 0.32s ease, filter 0.32s ease, transform 0.12s ease-out;
 }
 
 /* Hover: card pops up + colour restored.
@@ -314,7 +330,6 @@ main {
   z-index: 100;
 }
 
-.paper-card img { transform-origin: bottom center; }
 
 .paper-card:hover img {
   filter: none;                 /* not grayscale(0) — that is still a filter */
