@@ -414,7 +414,7 @@
     .ep3b-pgroup[data-stage="gen-ct"] .ep3b-paper:hover .pn { color: var(--util); }
     .ep3b-pgroup[data-stage="gen-cr"] .ep3b-paper:hover .pn { color: var(--eval); }
     .ep3b-pgroup[data-stage="generation"] .ep3b-paper:hover .pn { color: var(--gen); }
-    @media (max-width: 900px) { .ep3b-grid { grid-template-columns: 1fr; } .ep3b-left, .ep3b-right { max-width: 440px; margin: 0 auto; } }
+    @media (max-width: 900px) { .ep3b-grid { grid-template-columns: 1fr; } .ep3b-left, .ep3b-right { max-width: 440px; margin: 0 auto; } .ep3b-genarrows { display: none; } }   /* stacked: the paper→evidence-base connectors no longer make sense */
     .ep2-decks, .ep2-center, .ep2-info { position: relative; z-index: 2; }
     .ep2-arrows { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; overflow: visible; }
     .ep2-arrow { fill: none; stroke: #ccc7bd; stroke-width: 1.4; opacity: 0.4; transition: stroke 0.2s ease, opacity 0.2s ease, stroke-width 0.2s ease; }
