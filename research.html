@@ -464,6 +464,22 @@
     }
     .deck-dots button:hover { opacity: 0.8; }
     .deck-dots button.active { background: var(--util); border-color: var(--util); opacity: 1; transform: scale(1.3); }
+    /* ── Small screens: the interactive figures are built for wide layouts, so phones get a notice instead ── */
+    .mobile-notice { display: none; }
+    @media (max-width: 900px) {
+      html:not(.view-anyway) .deck, html:not(.view-anyway) .deck-dots { display: none; }
+      html:not(.view-anyway) .mobile-notice {
+        display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
+        min-height: calc(100vh - 56px); box-sizing: border-box; padding: 40px 32px 64px;
+      }
+      .mobile-notice h1 { font-family: "DM Serif Display", Georgia, serif; font-weight: 400; font-size: 1.7rem; line-height: 1.15; color: var(--ink); margin: 0 0 14px; }
+      .mobile-notice p { font-size: 1rem; line-height: 1.5; color: var(--muted); max-width: 320px; margin: 0 0 28px; }
+      .mobile-notice .mn-home {
+        display: inline-block; padding: 10px 22px; border-radius: 999px; border: 1px solid var(--ink); color: var(--ink);
+        text-decoration: none; font-size: 0.92rem; font-weight: 600; letter-spacing: 0.01em;
+      }
+      .mobile-notice .mn-anyway { margin-top: 22px; font-size: 0.8rem; color: var(--faint); text-decoration: underline; text-underline-offset: 3px; background: none; border: 0; padding: 0; cursor: pointer; font-family: inherit; }
+    }
     @media (max-width: 700px) {
       /* the deck stops being the scroller here, so the page itself must be
          allowed to grow — without this nothing scrolls past the first screen */
@@ -544,6 +560,12 @@
 <body>
 
   <nav class="nav"><div class="wrap"><a class="brand" href="index.html">Qiao Jin</a><a class="back" href="index.html">&larr; Home</a></div></nav>
+  <section class="mobile-notice" id="mobile-notice">
+    <h1>Mobile version under construction</h1>
+    <p>This page uses interactive figures designed for larger screens. Please revisit on a laptop or desktop.</p>
+    <a class="mn-home" href="index.html">&larr; Back to homepage</a>
+    <button class="mn-anyway" type="button" onclick="document.documentElement.classList.add('view-anyway');window.dispatchEvent(new Event('resize'))">View anyway</button>
+  </section>
   <main class="deck" id="deck">
 
   <!-- ═══════════════ TALK OVERVIEW SLIDE ═══════════════ -->
