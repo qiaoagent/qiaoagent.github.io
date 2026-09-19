@@ -1,0 +1,7 @@
+I am a medically trained AI researcher at NIH, supported by the K99/R00 Pathway to Independence Award ($997,000, one of about three awarded per year by NLM). I develop AI agents to generate and utilize medical evidence, with the long-term goal of building an open infrastructure that connects evolving medical evidence, real-world information needs, and trustworthy AI agents.
+
+My research spans biomedical language modeling, information retrieval, retrieval-augmented generation, and medical AI evaluation. Studies that I led (e.g., PubMedQA and TrialGPT) or co-led have appeared in Nature Methods, Nature Communications, Nature Protocols, npj Digital Medicine, NeurIPS, ACL, EMNLP, and SIGIR. In total, our work has over 9,000 citations on Google Scholar.
+
+We developed the MedCPT foundation models that have been downloaded over 10 million times & powering NLM products that serve millions, and PubTator Database that has been accessed over 1 billion times. Our work has also been adopted by Google, Microsoft & OpenAI, Meta, Anthropic, Nvidia; and featured by NIH News Releases & Catalyst, POLITICO, Nature, Nature Biotech, MedScape.
+
+Our research was highlighted by NIH in its budget justification sent to the United States Congress.
