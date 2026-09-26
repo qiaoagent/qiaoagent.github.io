@@ -157,6 +157,8 @@
             <button type="button" class="ds-btn" data-view="areas" role="tab" aria-selected="false">Research Areas</button>
             <span class="ds-sep" aria-hidden="true">/</span>
             <button type="button" class="ds-btn" data-view="vision" role="tab" aria-selected="false">Vision</button>
+            <span class="ds-sep" aria-hidden="true">/</span>
+            <button type="button" class="ds-btn" data-view="news" role="tab" aria-selected="false">News</button>
           </span>
         </h2>
 
@@ -359,6 +361,31 @@
           </div>
         </div>
         <!-- /vision-panel -->
+        <div class="deck-view" id="view-news">
+          <div class="news-wrap">
+            <div class="news-box" tabindex="0" aria-label="News, newest first">
+            <ul class="news-list">
+              <li><time>Sep 2026</time><span>Serving as Track Chair for IEEE ICHI.</span></li>
+              <li><time>Jul 2026</time><span>Our tutorial on using large language models for medical research is published in <a href="https://www.nature.com/articles/s41596-026-01408-z">Nature Protocols</a>.</span></li>
+              <li><time>2026</time><span>DeepEvidence is accepted at Nature Machine Intelligence.</span></li>
+              <li><time>2026</time><span>NIH names <a href="cj.html">TrialGPT</a> in its FY 2027 budget justification to Congress.</span></li>
+              <li><time>2026</time><span><a href="paper/Med-V1.html">Med-V1</a> is released on arXiv.</span></li>
+              <li><time>2025</time><span>Awarded the NIH K99/R00 Pathway to Independence Award.</span></li>
+              <li><time>2025</time><span><a href="paper/GeneAgent.html">GeneAgent</a> is published in Nature Methods.</span></li>
+              <li><time>2025</time><span><a href="paper/TrialMind.html">TrialMind</a> is published in npj Digital Medicine.</span></li>
+              <li><time>2025</time><span><a href="paper/MedReview.html">MedReview</a> is published in npj Digital Medicine.</span></li>
+              <li><time>2025</time><span><a href="paper/MedCite.html">MedCite</a> is accepted at ACL Findings.</span></li>
+              <li><time>2025</time><span><a href="paper/i-MedRAG.html">i-MedRAG</a> is presented at PSB.</span></li>
+              <li><time>2024</time><span><a href="paper/TrialGPT.html">TrialGPT</a> is published in Nature Communications.</span></li>
+              <li><time>2024</time><span><a href="paper/MedRAG.html">MedRAG</a> is accepted at ACL Findings.</span></li>
+              <li><time>2024</time><span><a href="paper/PubMed-and-Beyond.html">PubMed and Beyond</a> is published in eBioMedicine.</span></li>
+              <li><time>2023</time><span><a href="paper/MedCPT.html">MedCPT</a> is published in Bioinformatics.</span></li>
+              <li><time>2023</time><span><a href="paper/LADER.html">LADER</a> is accepted at SIGIR.</span></li>
+              <li><time>2023</time><span><a href="paper/PMC-Patients.html">PMC-Patients</a> is published in Scientific Data.</span></li>
+            </ul>
+            </div>
+          </div>
+        </div>
       </section>
         </div><!-- /home-main -->
       </div><!-- /home-layout -->
@@ -598,7 +625,8 @@
     if (!sw) return;
     var views = { papers: document.getElementById('view-papers'),
                   areas:  document.getElementById('view-areas'),
-                  vision: document.getElementById('view-vision') };
+                  vision: document.getElementById('view-vision'),
+                  news:   document.getElementById('view-news') };
     var mounted = false;
     sw.querySelectorAll('.ds-btn').forEach(function (b) {
       b.addEventListener('click', function () {

@@ -561,6 +561,36 @@ svg.cycle .hit { fill: none; stroke: transparent; stroke-width: 28; pointer-even
   .vision-wrap svg.cycle { min-width: 560px; }
 }
 
+/* ─── News tab: fixed-height box that scrolls inside ──────────── */
+.news-wrap { max-width: 640px; margin: 0 auto; padding-top: 22px; position: relative; }
+.news-box {
+  height: 320px;                 /* the box, not the list, sets the tab's height */
+  overflow-y: auto;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 4px 20px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+}
+.news-box:focus-visible { outline: 1.5px solid #b89a60; outline-offset: 2px; }
+/* fade at the bottom edge so the box reads as scrollable */
+.news-wrap::after {
+  content: ""; position: absolute; left: 1px; right: 1px; bottom: 1px; height: 34px;
+  border-radius: 0 0 10px 10px; pointer-events: none;
+  background: linear-gradient(to bottom, rgba(240,237,230,0), var(--bg));
+}
+.news-list { list-style: none; }
+.news-list li {
+  display: grid; grid-template-columns: 72px 1fr; gap: 14px; align-items: baseline;
+  padding: 10px 0; border-bottom: 1px solid var(--border);
+  font-size: 0.92rem; line-height: 1.45;
+}
+.news-list li:last-child { border-bottom: none; padding-bottom: 36px; }   /* clears the fade */
+.news-list time { font-size: 0.78rem; color: var(--muted); font-variant-numeric: tabular-nums; white-space: nowrap; }
+@media (max-width: 700px) {
+  .news-list li { grid-template-columns: 62px 1fr; gap: 10px; }
+}
+
 /* ─── Publications Tab ─────────────────────────────────────────── */
 .tab-note {
   font-size: 0.83rem;
