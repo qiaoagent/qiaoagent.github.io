@@ -587,6 +587,9 @@ svg.cycle .hit { fill: none; stroke: transparent; stroke-width: 28; pointer-even
 }
 .news-list li:last-child { border-bottom: none; padding-bottom: 36px; }   /* clears the fade */
 .news-list time { font-size: 0.78rem; color: var(--muted); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.news-list .nls { margin-left: 2px; font-size: 0.78rem; color: var(--muted); }   /* numbered links when a venue name has fewer words than papers */
+.news-list .nl { padding: 0 2px; text-decoration: none; border-bottom: 1px solid var(--border); }
+.news-list .nl:hover { color: var(--text); border-bottom-color: #b89a60; }
 @media (max-width: 700px) {
   .news-list li { grid-template-columns: 62px 1fr; gap: 10px; }
 }
