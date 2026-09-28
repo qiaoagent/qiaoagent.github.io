@@ -55,7 +55,7 @@ def search_svg():
     o.append('</svg>')
     return '\n'.join(o)
 
-PHOTO = '<img class="photo" src="_wei-zexi-parents-caixin.jpg" alt="Wei Zexi\u2019s parents, holding his portrait, wait outside the funeral home in Xianyang on 13 April 2016">'
+PHOTO = '<img class="photo" src="wei-zexi-parents-caixin.jpg" alt="Wei Zexi\u2019s parents, holding his portrait, wait outside the funeral home in Xianyang on 13 April 2016">'
 
 def slide():
     cap = '<p class="stext eq">' + ' '.join('<span class="ln">' + html.escape(l) + '</span>' for l in PHOTO_LINES) + '</p>'
