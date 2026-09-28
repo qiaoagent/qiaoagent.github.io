@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Why I left medicine for AI? — Qiao Jin</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#fff;--ink:#222;--muted:#6a655d;--faint:#918b81;--border:#e6e5e1;--gold:#b89a60;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:"DM Sans",-apple-system,BlinkMacSystemFont,sans-serif;line-height:1.68;-webkit-font-smoothing:antialiased;}
+  a{color:inherit;}
+  .nav{position:sticky;top:0;z-index:10;background:rgba(255,255,255,0.9);backdrop-filter:blur(8px);border-bottom:1px solid var(--border);}
+  .nav .wrap{max-width:820px;margin:0 auto;padding:0 30px;display:flex;align-items:center;justify-content:space-between;height:56px;}
+  .nav .brand{font-family:"DM Serif Display",Georgia,serif;font-size:1.05rem;text-decoration:none;}
+  .nav .back{font-size:0.86rem;color:var(--muted);text-decoration:none;} .nav .back:hover{color:var(--gold);}
+  .wrap-main{max-width:820px;margin:0 auto;padding:0 30px 70px;}
+  h1{font-family:"DM Serif Display",Georgia,serif;font-weight:400;font-size:2.3rem;line-height:1.16;margin:52px 0 26px;letter-spacing:-0.01em;}
+  /* the slide: a 16:9 frame that screenshots straight into a deck */
+  .opener{margin:0 0 40px;}
+  .slide{aspect-ratio:16/9;background:#fff;border:1px solid var(--border);border-radius:6px;padding:34px 44px 30px;display:flex;flex-direction:column;justify-content:space-between;}
+  /* the statement line is set like the vision line on future.html */
+  .slide .sline{font-family:"DM Serif Display",Georgia,serif;font-size:1.25rem;line-height:1.4;text-align:center;margin:0 0 16px;}
+  .slide .fig{flex:1;min-height:0;display:flex;align-items:center;justify-content:center;overflow:hidden;padding-bottom:16px;}
+  .slide .fig svg{width:100%;height:100%;}
+  .slide .fig{position:relative;} .slide .fig img.photo{max-height:100%;max-width:100%;object-fit:contain;filter:grayscale(1);}
+  .slide .credit{position:absolute;right:0;bottom:0;font-size:0.68rem;color:var(--faint);letter-spacing:.02em;}
+  .slide .stext{margin:6px auto 0;max-width:600px;text-align:center;font-size:0.98rem;line-height:1.5;color:var(--ink);text-wrap:balance;}   /* lines of near-equal length */
+  /* photo slide: three pre-split lines justified to one width, so they are exactly equal */
+  .slide .stext.eq{width:632px;max-width:100%;text-align:justify;text-align-last:justify;text-wrap:wrap;}
+  .slide .stext.eq .ln{display:block;}
+  .efig{margin:6px 0 26px;} .efig svg{width:100%;height:auto;display:block;}
+  .efig figcaption{font-size:0.82rem;color:var(--faint);text-align:center;margin-top:4px;}
+  .essay{max-width:640px;margin-top:16px;}
+  .essay p{font-size:1.04rem;margin:0 0 18px;}
+  footer{padding:34px 0 0;color:var(--faint);font-size:0.85rem;}
+  @media (max-width:660px){h1{font-size:1.85rem;margin-top:36px;} .opener{margin-top:0;} .slide{padding:18px 20px 16px;aspect-ratio:auto;} .slide .sline{font-size:1.1rem;} .slide .fig{height:236px;} .slide .stext{font-size:0.95rem;} .slide .stext.eq{width:auto;text-align:center;text-align-last:auto;} .slide .stext.eq .ln{display:inline;}}
+</style></head>
+<body>
+  <nav class="nav"><div class="wrap"><a class="brand" href="../index.html">Qiao Jin</a><a class="back" href="../index.html">&larr; Home</a></div></nav>
+  <main class="wrap-main">
+    <h1>Why I left medicine for AI?</h1>
+<section class="opener">
+  <div class="slide"><p class="sline">Reliable medical information is as important as treatment</p><div class="fig"><img class="photo" src="_wei-zexi-parents-caixin.jpg" alt="Wei Zexi’s parents, holding his portrait, wait outside the funeral home in Xianyang on 13 April 2016"><div class="credit">Photo: Wan Jia / Caixin, 2016</div></div><p class="stext eq"><span class="ln">Wei Zexi’s parents hold his portrait. He died at 21 in 2016, after a Baidu (China’s Google)</span> <span class="ln">ad led him to an untested “immunotherapy” that cost about $30,000 and did nothing.</span></p></div>
+</section>
+    <div class="essay">
+    <p>Wei Zexi was a computer science student in Xi&#x27;an. In 2014, in his second year, he was diagnosed with advanced synovial sarcoma, a rare cancer. When chemotherapy and radiotherapy failed, his family searched Baidu for other options. The top result was a paid advertisement for a hospital in Beijing that offered a &quot;biological immunotherapy&quot;, claiming an 80 to 90% success rate and a collaboration with Stanford. Neither claim was true: the therapy was experimental, its trials in the United States had stopped, and Stanford had no such partnership. The family spent about $30,000 (more than 200,000 yuan) on it, and it did nothing. Wei died in April 2016 at 21. I was a second-year medical student then, two years younger than him, and his story convinced me that accurate medical information can matter as much as the right treatment, and that people deserve a much better medical search engine. That is what I set out to build.</p>
+    <figure class="efig"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 230" font-family="DM Sans, sans-serif">
+<line x1="90" y1="110" x2="870" y2="110" stroke="#d8d4cc" stroke-width="1.5"/>
+<circle cx="90.0" cy="110" r="7" fill="#2c5a8c"/>
+<text x="90.0" y="84" text-anchor="middle" font-size="12" font-weight="600" letter-spacing=".12em" fill="#2c5a8c">2014</text>
+<text x="90.0" y="150" text-anchor="middle" font-size="15" fill="#222">Diagnosed with advanced</text>
+<text x="90.0" y="172" text-anchor="middle" font-size="15" fill="#6a655d">synovial sarcoma, age 19</text>
+<circle cx="285.0" cy="110" r="7" fill="#2c5a8c"/>
+<text x="285.0" y="84" text-anchor="middle" font-size="12" font-weight="600" letter-spacing=".12em" fill="#2c5a8c">2014–15</text>
+<text x="285.0" y="150" text-anchor="middle" font-size="15" fill="#222">Chemotherapy and</text>
+<text x="285.0" y="172" text-anchor="middle" font-size="15" fill="#6a655d">radiotherapy fail</text>
+<circle cx="480.0" cy="110" r="7" fill="#b89a60"/>
+<text x="480.0" y="84" text-anchor="middle" font-size="12" font-weight="600" letter-spacing=".12em" fill="#b89a60">BAIDU</text>
+<text x="480.0" y="150" text-anchor="middle" font-size="15" fill="#222">A Baidu ad ranks</text>
+<text x="480.0" y="172" text-anchor="middle" font-size="15" fill="#6a655d">a Beijing hospital first</text>
+<circle cx="675.0" cy="110" r="7" fill="#2c5a8c"/>
+<text x="675.0" y="84" text-anchor="middle" font-size="12" font-weight="600" letter-spacing=".12em" fill="#2c5a8c">UNTESTED</text>
+<text x="675.0" y="150" text-anchor="middle" font-size="15" fill="#222">“Immunotherapy”, 4 rounds,</text>
+<text x="675.0" y="172" text-anchor="middle" font-size="15" fill="#6a655d">about $30,000, no effect</text>
+<circle cx="870.0" cy="110" r="9" fill="#222"/>
+<text x="870.0" y="84" text-anchor="middle" font-size="12" font-weight="600" letter-spacing=".12em" fill="#222">APRIL 2016</text>
+<text x="870.0" y="150" text-anchor="middle" font-size="15" fill="#222">Dies at 21</text>
+</svg><figcaption>From diagnosis to death: the step that found the hospital was an advertisement.</figcaption></figure>
+    <p>At the time I was set on becoming a surgeon, and if nothing had intervened I would be standing at an operating table today. Instead, what sits in front of me is a few dark screens running green code. Many idealistic people left Baidu for medicine after the case, and other companies entered medical search. Unfortunately, most people in China who fall ill today still start with Baidu.</p>
+    <figure class="efig"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 330" font-family="DM Sans, sans-serif">
+<rect x="150" y="26" width="660" height="44" rx="22" fill="#fff" stroke="#d8d4cc" stroke-width="1.5"/>
+<text x="176" y="54" font-size="16" fill="#222">synovial sarcoma treatment</text>
+<circle cx="784" cy="48" r="7" fill="none" stroke="#6a655d" stroke-width="2"/><line x1="789" y1="53" x2="795" y2="59" stroke="#6a655d" stroke-width="2" stroke-linecap="round"/>
+<rect x="150" y="96" width="660" height="92" rx="10" fill="#fff6e3" stroke="#b89a60" stroke-width="1.5"/>
+<rect x="168" y="112" width="34" height="18" rx="4" fill="#b89a60"/><text x="185" y="125" text-anchor="middle" font-size="11" font-weight="700" fill="#fff">AD</text>
+<text x="212" y="126" font-size="17" fill="#222">Tumour Biology Centre, a Beijing hospital</text>
+<text x="168" y="152" font-size="14" fill="#6a655d">“Biological immunotherapy” · 80–90% effective · developed with Stanford</text>
+<text x="168" y="174" font-size="14" fill="#b89a60" font-weight="600">Untested. Trials abroad had stopped. No Stanford partnership existed.</text>
+<text x="168" y="230" font-size="17" fill="#918b81">Synovial sarcoma: overview, diagnosis and treatment options</text>
+<rect x="168" y="242" width="420" height="6" rx="3" fill="#ecebe7"/>
+<text x="168" y="280" font-size="17" fill="#918b81">Clinical trials for soft-tissue sarcoma · patient information</text>
+<rect x="168" y="292" width="360" height="6" rx="3" fill="#ecebe7"/>
+</svg><figcaption>What the family saw: a paid listing ranked first, its claims untrue.</figcaption></figure>
+    <p>I was one of the people in that wave who wanted to build medical search. Two years as a visiting scholar in the United States coincided with the golden age of NLP, taught me the technical side, and settled my decision to leave medicine for AI. The three years back in China were split: clinical rotations at Peking Union Medical College Hospital to finish the MD, and the lab and Alibaba DAMO Academy to keep my hands on the methods. When it was time to find a job, I interviewed at one place, NIH, where I work now. One duty of our lab is maintaining the search algorithm of PubMed, the most used medical search engine in the world, with millions of searches every day.</p>
+    <p>Three months after I joined NIH, ChatGPT arrived. Search dropped from the last step of getting information to an intermediate step: after searching, AI can now help people understand what they found. The way people get medical information is being fundamentally changed, and I hope our work can accelerate that change and make the world a little better.</p>
+    <p>Looking back, I do not see giving up the white coat as an escape. It was a choice to face a broader field. From Wei Zexi to today, every advance in AI and every improvement to a medical information platform has confirmed that the direction is worth it. I no longer wear the white coat, but in my mind I am still the intern doing his best to answer a patient&#x27;s question.</p>
+    </div>
+    <footer>Qiao Jin · NIH/NLM</footer>
+  </main>
+
+</body></html>
