@@ -565,6 +565,7 @@ svg.cycle .hit { fill: none; stroke: transparent; stroke-width: 28; pointer-even
 .news-wrap { max-width: 640px; margin: 0 auto; padding-top: 22px; position: relative; }
 .news-box {
   height: 320px;                 /* the box, not the list, sets the tab's height */
+  overflow-x: auto;
   overflow-y: auto;
   border: 1px solid var(--border);
   border-radius: 10px;
@@ -579,11 +580,12 @@ svg.cycle .hit { fill: none; stroke: transparent; stroke-width: 28; pointer-even
   border-radius: 0 0 10px 10px; pointer-events: none;
   background: linear-gradient(to bottom, rgba(240,237,230,0), var(--bg));
 }
-.news-list { list-style: none; }
+.news-list { list-style: none; width: max-content; min-width: 100%; }
 .news-list li {
   display: grid; grid-template-columns: 72px 1fr; gap: 14px; align-items: baseline;
   padding: 10px 0; border-bottom: 1px solid var(--border);
   font-size: 0.92rem; line-height: 1.45;
+  white-space: nowrap;
 }
 .news-list li:last-child { border-bottom: none; padding-bottom: 36px; }   /* clears the fade */
 .news-list time { font-size: 0.78rem; color: var(--muted); font-variant-numeric: tabular-nums; white-space: nowrap; }
