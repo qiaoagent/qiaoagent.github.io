@@ -1090,36 +1090,17 @@ footer {
 }
 .sidebar-badge a { display: block; position: relative; }
 .sidebar-badge a:focus-visible { outline: 2px solid var(--text); outline-offset: 5px; }
-.sidebar-badge img {
+.sidebar-badge img,
+.sidebar-badge svg {
   width: 100px;
   height: 100px;
   object-fit: contain;
   border-radius: 50%;
 }
-/* Reverse only the inner disc; retain the original burgundy ring and its text. */
-[data-theme="dark"] .sidebar-badge a::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: url("assets/achip-badge.png") center / 100% 100% no-repeat;
-  clip-path: circle(37.9% at 50% 50%);
-  filter: invert(1) hue-rotate(180deg);
-  pointer-events: none;
-}
-/* Soften the fine light contours without adding a heavy outline. */
-[data-theme="dark"] .sidebar-badge a::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  border-radius: 50%;
-  background: radial-gradient(circle closest-side,
-    transparent calc(75.8% - 0.35px),
-    #000 calc(75.8% - 0.1px) calc(75.8% + 0.1px),
-    transparent calc(75.8% + 0.35px) calc(100% - 0.5px),
-    #000 calc(100% - 0.25px));
-  pointer-events: none;
-}
+/* Compose dark artwork in one coordinate system, without overlapping CSS edges. */
+.sidebar-badge .badge-dark { display: none; }
+[data-theme="dark"] .sidebar-badge .badge-light { display: none; }
+[data-theme="dark"] .sidebar-badge .badge-dark { display: block; }
 
 /* Phone: the icons leave the right-hand column and run full width as a single
    row of six under the photo (placed into .home-sidebar's grid above). Must

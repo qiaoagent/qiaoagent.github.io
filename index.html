@@ -134,7 +134,24 @@
           </ul>
           <div class="sidebar-badge" aria-label="Professional certification">
             <a href="https://www.credly.com/badges/884b86a7-2823-4290-93ad-5898ea7d2197" target="_blank" rel="noopener" aria-label="Verify AMIA Certified Health Informatics Professional credential on Credly">
-              <img src="assets/achip-badge.png" alt="AMIA Certified Health Informatics Professional (ACHIP)" width="100" height="100">
+              <img class="badge-light" src="assets/achip-badge.png" alt="AMIA Certified Health Informatics Professional (ACHIP)" width="100" height="100">
+              <svg class="badge-dark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" width="100" height="100" aria-hidden="true" focusable="false">
+                <defs>
+                  <image id="achip-artwork" href="assets/achip-badge.png" width="1000" height="1000"/>
+                  <clipPath id="achip-outer"><circle cx="500" cy="500" r="496"/></clipPath>
+                  <clipPath id="achip-logo"><circle cx="500" cy="500" r="374"/></clipPath>
+                  <filter id="achip-invert" color-interpolation-filters="sRGB">
+                    <feColorMatrix type="matrix" values="-1 0 0 0 1  0 -1 0 0 1  0 0 -1 0 1  0 0 0 1 0"/>
+                    <feColorMatrix type="hueRotate" values="180"/>
+                  </filter>
+                </defs>
+                <!-- Clip inside the source's pale outer edge; keep the logo clip on solid black. -->
+                <g clip-path="url(#achip-outer)">
+                  <use href="#achip-artwork"/>
+                  <circle cx="500" cy="500" r="380" fill="#000"/>
+                  <use href="#achip-artwork" filter="url(#achip-invert)" clip-path="url(#achip-logo)"/>
+                </g>
+              </svg>
             </a>
           </div>
           </div><!-- /.sidebar-info -->
