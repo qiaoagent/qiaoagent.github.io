@@ -1080,6 +1080,47 @@ footer {
 [data-theme="dark"] .sidebar-links a:hover { color: #d8bc82; --icon-fill: #5c4c2c; filter: none; }
 .sidebar-links svg { width: 26px; height: 26px; display: block; }
 
+/* Certification badge below the social links, with a matching divider. */
+.sidebar-badge {
+  border-top: 1px solid var(--border);
+  margin-top: 18px;
+  padding-top: 18px;
+  display: flex;
+  justify-content: flex-start;
+}
+.sidebar-badge a { display: block; position: relative; }
+.sidebar-badge a:focus-visible { outline: 2px solid var(--text); outline-offset: 5px; }
+.sidebar-badge img {
+  width: 126px; /* Three 26px social icons plus two 24px gaps. */
+  height: 126px;
+  object-fit: contain;
+  border-radius: 50%;
+}
+/* Reverse only the inner disc; retain the original burgundy ring and its text. */
+[data-theme="dark"] .sidebar-badge a::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: url("assets/achip-badge.png") center / 100% 100% no-repeat;
+  clip-path: circle(38% at 50% 50%);
+  filter: invert(1) hue-rotate(180deg);
+  pointer-events: none;
+}
+/* Cover the image's fine light contours at the inner and outer ring edges. */
+[data-theme="dark"] .sidebar-badge a::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  border-radius: 50%;
+  background: radial-gradient(circle closest-side,
+    transparent calc(76% - 0.5px),
+    #000 calc(76% - 0.5px) calc(76% + 0.5px),
+    transparent calc(76% + 0.5px) calc(100% - 1px),
+    #000 calc(100% - 1px));
+  pointer-events: none;
+}
+
 /* Phone: the icons leave the right-hand column and run full width as a single
    row of six under the photo (placed into .home-sidebar's grid above). Must
    stay after the .sidebar-links rule above, which sets 3 columns at equal
@@ -1092,5 +1133,6 @@ footer {
     gap: 0;
     margin: 18px 0 0;   /* carries the separation now that the rule is gone */
   }
+  .sidebar-badge { grid-column: 1 / -1; grid-row: 6; justify-content: center; }
 }
 
