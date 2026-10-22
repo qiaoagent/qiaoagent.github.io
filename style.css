@@ -1091,8 +1091,8 @@ footer {
 .sidebar-badge a { display: block; position: relative; }
 .sidebar-badge a:focus-visible { outline: 2px solid var(--text); outline-offset: 5px; }
 .sidebar-badge img {
-  width: 126px; /* Three 26px social icons plus two 24px gaps. */
-  height: 126px;
+  width: 100px;
+  height: 100px;
   object-fit: contain;
   border-radius: 50%;
 }
