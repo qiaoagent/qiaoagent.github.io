@@ -1102,11 +1102,11 @@ footer {
   position: absolute;
   inset: 0;
   background: url("assets/achip-badge.png") center / 100% 100% no-repeat;
-  clip-path: circle(38% at 50% 50%);
+  clip-path: circle(37.9% at 50% 50%);
   filter: invert(1) hue-rotate(180deg);
   pointer-events: none;
 }
-/* Cover the image's fine light contours at the inner and outer ring edges. */
+/* Soften the fine light contours without adding a heavy outline. */
 [data-theme="dark"] .sidebar-badge a::before {
   content: "";
   position: absolute;
@@ -1114,10 +1114,10 @@ footer {
   z-index: 1;
   border-radius: 50%;
   background: radial-gradient(circle closest-side,
-    transparent calc(76% - 0.5px),
-    #000 calc(76% - 0.5px) calc(76% + 0.5px),
-    transparent calc(76% + 0.5px) calc(100% - 1px),
-    #000 calc(100% - 1px));
+    transparent calc(75.8% - 0.35px),
+    #000 calc(75.8% - 0.1px) calc(75.8% + 0.1px),
+    transparent calc(75.8% + 0.35px) calc(100% - 0.5px),
+    #000 calc(100% - 0.25px));
   pointer-events: none;
 }
 
