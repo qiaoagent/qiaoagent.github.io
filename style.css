@@ -1092,8 +1092,8 @@ footer {
 .sidebar-badge a:focus-visible { outline: 2px solid var(--text); outline-offset: 5px; }
 .sidebar-badge img,
 .sidebar-badge svg {
-  width: 100px;
-  height: 100px;
+  width: 126px;
+  height: 126px;
   object-fit: contain;
   border-radius: 50%;
 }

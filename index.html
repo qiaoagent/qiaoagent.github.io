@@ -134,22 +134,37 @@
           </ul>
           <div class="sidebar-badge" aria-label="Professional certification">
             <a href="https://www.credly.com/badges/884b86a7-2823-4290-93ad-5898ea7d2197" target="_blank" rel="noopener" aria-label="Verify AMIA Certified Health Informatics Professional credential on Credly">
-              <img class="badge-light" src="assets/achip-badge.png" alt="AMIA Certified Health Informatics Professional (ACHIP)" width="100" height="100">
-              <svg class="badge-dark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" width="100" height="100" aria-hidden="true" focusable="false">
+              <img class="badge-light" src="assets/achip-badge.png" alt="AMIA Certified Health Informatics Professional (ACHIP)" width="126" height="126">
+              <svg class="badge-dark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" width="126" height="126" aria-hidden="true" focusable="false">
                 <defs>
                   <image id="achip-artwork" href="assets/achip-badge.png" width="1000" height="1000"/>
                   <clipPath id="achip-outer"><circle cx="500" cy="500" r="496"/></clipPath>
                   <clipPath id="achip-logo"><circle cx="500" cy="500" r="374"/></clipPath>
-                  <filter id="achip-invert" color-interpolation-filters="sRGB">
-                    <feColorMatrix type="matrix" values="-1 0 0 0 1  0 -1 0 0 1  0 0 -1 0 1  0 0 0 1 0"/>
-                    <feColorMatrix type="hueRotate" values="180"/>
+                  <!-- Recolor only the shapes. Sample burgundy from the untouched PNG so its color stays exact. -->
+                  <filter id="achip-white-mask" color-interpolation-filters="sRGB">
+                    <feColorMatrix type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  -4 2.7 0 0 1.28"/>
                   </filter>
+                  <filter id="achip-burgundy-mask" color-interpolation-filters="sRGB">
+                    <feColorMatrix type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  3.2 -3.2 0 0 -0.02"/>
+                  </filter>
+                  <mask id="achip-white-ink" mask-type="alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="1000" height="1000">
+                    <use href="#achip-artwork" filter="url(#achip-white-mask)"/>
+                  </mask>
+                  <mask id="achip-burgundy-ink" mask-type="alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="1000" height="1000">
+                    <use href="#achip-artwork" filter="url(#achip-burgundy-mask)"/>
+                  </mask>
+                  <pattern id="achip-burgundy" patternUnits="userSpaceOnUse" width="1000" height="1000" viewBox="500 20 1 1">
+                    <use href="#achip-artwork"/>
+                  </pattern>
                 </defs>
-                <!-- Clip inside the source's pale outer edge; keep the logo clip on solid black. -->
+                <!-- Keep both the center and the logo background matched to the page theme. -->
                 <g clip-path="url(#achip-outer)">
                   <use href="#achip-artwork"/>
-                  <circle cx="500" cy="500" r="380" fill="#000"/>
-                  <use href="#achip-artwork" filter="url(#achip-invert)" clip-path="url(#achip-logo)"/>
+                  <circle cx="500" cy="500" r="380" fill="var(--bg)"/>
+                  <g clip-path="url(#achip-logo)">
+                    <rect width="1000" height="1000" fill="#fff" mask="url(#achip-white-ink)"/>
+                    <rect width="1000" height="1000" fill="url(#achip-burgundy)" mask="url(#achip-burgundy-ink)"/>
+                  </g>
                 </g>
               </svg>
             </a>
