@@ -1,0 +1,48 @@
+/* Shared cover download control for the paper pages. */
+.hero .paper-cover {
+  width: 210px;
+  max-width: 100%;
+  align-self: start;
+}
+
+.cover-download {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  margin: 4px auto 0;
+  color: #888888;
+  text-decoration: none;
+  border-radius: 4px;
+  transition: color 0.15s ease;
+}
+
+.cover-download:hover,
+.cover-download:focus-visible {
+  color: #b89a60;
+}
+
+.cover-download:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+
+.cover-download svg {
+  display: block;
+}
+
+[data-theme="dark"] .cover-download {
+  color: #aaa59b;
+}
+
+[data-theme="dark"] .cover-download:hover,
+[data-theme="dark"] .cover-download:focus-visible {
+  color: #c8aa70;
+}
+
+@media (max-width: 640px) {
+  .hero .paper-cover {
+    width: 150px;
+  }
+}

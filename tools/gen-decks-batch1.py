@@ -6,7 +6,9 @@ POST = '  </main>' + tpl.split('  </main>',1)[1]
 
 def esc(s): return s
 def hero(cover,eyebrow,h1,authors,badge,year,pdf,jlabel,jurl):
-    return f'''    <header class="hero"><img class="cover" src="../assets/covers/{cover}" alt="{h1.split(':')[0]}">
+    return f'''    <header class="hero"><div class="paper-cover"><img class="cover" src="../assets/covers/{cover}" alt="{h1.split(':')[0]}">
+        <a class="cover-download" href="../assets/covers/{cover}" download="{cover.rsplit('.', 1)[0]}-cover.png" title="Download cover as PNG" aria-label="Download paper cover as PNG"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 3v12m-4-4 4 4 4-4M5 16v4h14v-4"/></svg></a>
+      </div>
       <div><div class="eyebrow">{eyebrow}</div><h1>{h1}</h1>
         <div class="authors">{authors}</div>
         <div class="venue"><span class="badge">{badge}</span> {year}</div>
