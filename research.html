@@ -840,8 +840,9 @@
         if (d.apex) { t.style.alignItems = 'flex-end'; t.style.paddingBottom = '8px'; }
         var s = document.createElement('span');
         s.className = 'ep-flab'; s.dataset.tier = k; s.textContent = d.t;
-        // keep labels inside the tapering upper tiers: narrower cap up top, roomier lower down
-        s.style.color = d.c; s.style.fontSize = (d.fs + 0.02) + 'rem'; s.style.maxWidth = Math.round(d.mw * 0.72) + 'px';
+        // Enlarge the flat-view labels, with a smaller size at the narrow apex.
+        s.style.color = d.c; s.style.fontSize = (d.apex ? 0.65 : 0.7) + 'rem';
+        s.style.maxWidth = (d.apex ? d.mw : d.mw + 20) + 'px';
         t.appendChild(s);
         var tp = document.createElement('span');   // top-left trapezoid vertex
         tp.className = 'ep-tp'; tp.dataset.tier = k; tp.dataset.dir = 0;
