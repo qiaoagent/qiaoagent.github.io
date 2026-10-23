@@ -17,11 +17,11 @@ PHOTO_TEXT = ' '.join(PHOTO_LINES)
 BLUE, GOLD, INK, MUTED, FAINT, LINE = '#2c5a8c', '#b89a60', '#222', '#6a655d', '#918b81', '#d8d4cc'
 
 def timeline_svg():
-    steps = [('2014', 'Diagnosed with advanced', 'synovial sarcoma, age 19'),
-             ('2014–15', 'Chemotherapy and', 'radiotherapy fail'),
-             ('Baidu', 'A Baidu ad ranks', 'a Beijing hospital first'),
+    steps = [('2014', 'Diagnosed with a rare', 'cancer, age 19'),
+             ('2014–15', 'Conventional', 'treatments failed'),
+             ('Baidu', 'Family searched online', 'for another option'),
              ('Untested', '“Immunotherapy”, 4 rounds,', 'about $30,000, no effect'),
-             ('April 2016', 'Dies at 21', '')]
+             ('April 2016', 'Died at 21', '')]
     W, H = 960, 230; n = len(steps); x0, x1 = 90, W - 90; y = 110
     out = [f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {H}" font-family="DM Sans, sans-serif">']
     out.append(f'<line x1="{x0}" y1="{y}" x2="{x1}" y2="{y}" stroke="{LINE}" stroke-width="1.5"/>')
@@ -31,7 +31,7 @@ def timeline_svg():
         out.append(f'<circle cx="{x:.1f}" cy="{y}" r="{9 if last else 7}" fill="{GOLD if i == 2 else (INK if last else BLUE)}"/>')
         out.append(f'<text x="{x:.1f}" y="{y - 26}" text-anchor="middle" font-size="12" font-weight="600" letter-spacing=".12em" fill="{GOLD if i == 2 else (INK if last else BLUE)}">{html.escape(k.upper())}</text>')
         out.append(f'<text x="{x:.1f}" y="{y + 40}" text-anchor="middle" font-size="15" fill="{INK}">{html.escape(a)}</text>')
-        if b: out.append(f'<text x="{x:.1f}" y="{y + 62}" text-anchor="middle" font-size="15" fill="{MUTED}">{html.escape(b)}</text>')
+        if b: out.append(f'<text x="{x:.1f}" y="{y + 62}" text-anchor="middle" font-size="15" fill="{INK}">{html.escape(b)}</text>')
     out.append('</svg>')
     return '\n'.join(out)
 
