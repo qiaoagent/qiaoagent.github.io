@@ -341,6 +341,12 @@
     .ep2-flat { display: none; width: 300px; margin: 0; }
     .ep2-flat .ep-ftier { width: 300px; }
     .ep2-toggle { margin-top: 20px; }
+    .ep2-export { position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); display: inline-flex; align-items: center; gap: 5px; padding: 5px 11px; border: 1px solid var(--border); border-radius: 16px; background: var(--panel); color: var(--muted); font: inherit; font-size: 0.68rem; line-height: 1.3; white-space: nowrap; cursor: pointer; }
+    .ep2-export[hidden] { display: none; }
+    .ep2-export:hover { color: var(--ink); border-color: var(--faint); }
+    .ep2-export:focus-visible { outline: 2px solid var(--gen); outline-offset: 3px; }
+    .ep2-export:disabled { opacity: 0.6; cursor: wait; }
+    .ep2-export-status { position: absolute; top: 100%; left: 0; width: 100%; margin-top: 5px; text-align: center; color: var(--muted); font-size: 0.68rem; }
 
     /* ── Evidence utilization: hexagonal retrieve→summarize→verify loop ── */
     .ep3-section { background: #ffffff; }
@@ -605,6 +611,8 @@
       <div class="ep2-center">
         <div class="ep-scene" id="ep2-scene"><div class="ep-pyramid" id="ep2-pyr"></div></div>
         <div class="ep-flat ep2-flat" id="ep2-flat"></div>
+        <button class="ep2-export" id="ep2-export" type="button" hidden title="Download just the 2D pyramid as a PNG"><span aria-hidden="true">↓</span><span>Export PNG</span></button>
+        <span class="ep2-export-status" id="ep2-export-status" role="status"></span>
       </div>
       <div class="ep2-info">
         <h2 style="color:var(--gen)">AI for Evidence Generation</h2>
@@ -1010,6 +1018,61 @@
         document.addEventListener('click', function (e) { if (hlState.on && !e.target.closest('.ep2-layout')) reset(); });
       }
 
+      // Export the canonical 2D tiers, independent of hover highlights or movement.
+      var exportButton = document.getElementById('ep2-export');
+      var exportStatus = document.getElementById('ep2-export-status');
+      exportButton.addEventListener('click', async function () {
+        exportButton.disabled = true;
+        exportStatus.textContent = '';
+        try {
+          await document.fonts.ready;
+          var width = 300, scale = 4;
+          var canvas = document.createElement('canvas');
+          canvas.width = width * scale; canvas.height = F2H2 * scale;
+          var ctx = canvas.getContext('2d');
+          ctx.scale(scale, scale);
+          ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+          TIERS.forEach(function (d, k) {
+            var top = F[k] * F2H2, bottom = F[k + 1] * F2H2;
+            ctx.save();
+            ctx.beginPath();
+            ctx.moveTo(width * (1 - F[k]) / 2, top);
+            ctx.lineTo(width * (1 + F[k]) / 2, top);
+            ctx.lineTo(width * (1 + F[k + 1]) / 2, bottom);
+            ctx.lineTo(width * (1 - F[k + 1]) / 2, bottom);
+            ctx.closePath(); ctx.fillStyle = d.bg; ctx.fill(); ctx.clip();
+            var label = flat2.querySelector('.ep-flab[data-tier="' + k + '"]');
+            var style = getComputedStyle(label);
+            ctx.font = style.fontWeight + ' ' + style.fontSize + ' ' + style.fontFamily;
+            var spacing = parseFloat(style.letterSpacing) || 0;
+            if ('letterSpacing' in ctx) ctx.letterSpacing = spacing + 'px';
+            var maxWidth = parseFloat(style.maxWidth), lineHeight = parseFloat(style.lineHeight);
+            var lines = [], line = '';
+            d.t.split(' ').forEach(function (word) {
+              var candidate = line ? line + ' ' + word : word;
+              if (line && ctx.measureText(candidate).width > maxWidth) { lines.push(line); line = word; }
+              else line = candidate;
+            });
+            lines.push(line);
+            var labelTop = d.apex ? bottom - 8 - lines.length * lineHeight : top + (bottom - top - lines.length * lineHeight) / 2;
+            ctx.fillStyle = d.c;
+            lines.forEach(function (text, i) { ctx.fillText(text, width / 2, labelTop + (i + 0.5) * lineHeight); });
+            ctx.restore();
+          });
+          var blob = await new Promise(function (resolve, reject) {
+            canvas.toBlob(function (result) { if (result) resolve(result); else reject(new Error('PNG export failed')); }, 'image/png');
+          });
+          var url = URL.createObjectURL(blob), link = document.createElement('a');
+          link.href = url; link.download = 'evidence-pyramid.png';
+          document.body.appendChild(link); link.click(); link.remove();
+          setTimeout(function () { URL.revokeObjectURL(url); }, 10000);
+        } catch (error) {
+          exportStatus.textContent = 'Export failed. Please try again.';
+        } finally {
+          exportButton.disabled = false;
+        }
+      });
+
       // ── 3D / 2D toggle ──
       document.getElementById('ep2-toggle').addEventListener('click', function (e) {
         var b = e.target.closest('button'); if (!b) return;
@@ -1017,6 +1080,8 @@
         mode3d = b.dataset.mode === '3d';
         scene.style.display = mode3d ? 'flex' : 'none';
         flat2.style.display = mode3d ? 'none' : 'block';
+        exportButton.hidden = mode3d;
+        exportStatus.textContent = '';
         reset();
         requestAnimationFrame(drawArrows);
       });
