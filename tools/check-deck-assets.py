@@ -32,9 +32,10 @@ def main():
 
     if check_all:
         decks = sorted(f'paper/{f}' for f in os.listdir(os.path.join(REPO, 'paper'))
-                       if f.endswith('.html'))
+                       if f.endswith('.html') and f != 'index.html')
     else:
-        decks = [d for d in git('ls-files', 'paper/').split() if d.endswith('.html')]
+        decks = [d for d in git('ls-files', 'paper/').split()
+                 if d.endswith('.html') and d != 'paper/index.html']
 
     problems, missing_locally = {}, {}
     for deck in decks:

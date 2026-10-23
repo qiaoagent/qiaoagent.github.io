@@ -92,7 +92,8 @@ def audit(path):
 
 
 def main():
-    decks = sorted(glob.glob(os.path.join(REPO, 'paper', '*.html')))
+    decks = sorted(path for path in glob.glob(os.path.join(REPO, 'paper', '*.html'))
+                   if os.path.basename(path) != 'index.html')
     total = 0
     for d in decks:
         name, issues = audit(d)
