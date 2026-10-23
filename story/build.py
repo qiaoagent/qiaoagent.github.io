@@ -6,7 +6,6 @@ import pathlib, re, html
 here = pathlib.Path(__file__).parent
 md = (here / 'why-i-left-medicine-for-ai.md').read_text().strip().split('\n\n')
 title = md[0].lstrip('# ').strip()
-if not title.endswith('?'): title += '?'
 paras = md[1:]
 
 SLIDE_SUB = 'Reliable medical information is as important as treatment'

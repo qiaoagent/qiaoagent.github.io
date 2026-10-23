@@ -1,4 +1,4 @@
-# Sources for "Why I left medicine for AI"
+# Sources for "Why I chose medical AI as an MD"
 
 - Qiao Jin, 我为什么弃医从 AI, Xiaohongshu, 2024-12-01: the original post; the narrative, the "green code" image, PubMed's search volume, the three-months-before-ChatGPT timing and the closing line come from it.
 - 魏则西事件, Chinese Wikipedia: Wei Zexi born 1994-02-18, died 2016-04-12; computer science student at Xidian University (Xi'an); advanced synovial sarcoma found in 2014 in his second year; chemotherapy and radiotherapy first; Baidu's paid ranking led the family to the Beijing Armed Police Corps Second Hospital's tumour biology centre; DC-CIK "biological immunotherapy" claimed 80–90% effective and a Stanford collaboration; still at the research stage in the US, with trials not continued after 2015; more than 200,000 yuan spent with no effect.

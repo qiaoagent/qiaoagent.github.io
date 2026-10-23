@@ -1,4 +1,4 @@
-# Why I left medicine for AI
+# Why I chose medical AI as an MD
 
 Wei Zexi was a computer science student in Xi'an. In 2014, in his second year, he was diagnosed with advanced synovial sarcoma, a rare cancer. When chemotherapy and radiotherapy failed, his family searched Baidu for other options. The top result was a paid advertisement for a hospital in Beijing that offered a "biological immunotherapy", claiming an 80 to 90% success rate and a collaboration with Stanford. Neither claim was true: the therapy was experimental, its trials in the United States had stopped, and Stanford had no such partnership. The family spent about $30,000 (more than 200,000 yuan) on it, and it did nothing. Wei died in April 2016 at 21. I was a second-year medical student then, two years younger than him, and his story convinced me that accurate medical information can matter as much as the right treatment, and that people deserve a much better medical search engine. That is what I set out to build.
 
