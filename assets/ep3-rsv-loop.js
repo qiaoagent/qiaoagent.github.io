@@ -85,6 +85,7 @@
           paper('/paper/LADER.html', '/assets/covers/LADER.png', 'LADER', 'Log-augmented dense retrieval', 'LADER', 'SIGIR, 2023') +
           paper('/paper/PubMed-and-Beyond.html', '/assets/covers/PubMed-and-Beyond.png', 'PubMed and Beyond', 'Survey of AI search tools', 'PubMed and Beyond', 'eBioMedicine, 2024') +
           paper('/paper/MedCPT.html', '/assets/covers/MedCPT.png', 'MedCPT', 'Zero-shot PubMed retriever', 'MedCPT', 'Bioinformatics, 2023') +
+          paper('/paper/PubTator-3.html', '/assets/covers/PubTator-3.png', 'PubTator 3.0', 'Entity-annotated PubMed', 'PubTator 3.0', 'Nucleic Acids Res, 2024') +
         '</div>' +
         '<div class="ep3-pgroup" data-stage="summarize"><div class="glabel">Summarize</div>' +
           paper('/paper/MedRAG.html', '/assets/covers/MedRAG.png', 'MedRAG', 'Benchmarking medical RAG', 'MedRAG', 'ACL Findings, 2024') +
