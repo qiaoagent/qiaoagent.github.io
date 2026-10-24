@@ -6,8 +6,20 @@
 (function () {
   var CSS = `
   .ep3-grid { display: grid; grid-template-columns: 202px 1fr 322px; gap: 30px; align-items: center; margin-top: 22px; }
-  .ep3-center { display: flex; justify-content: center; }
+  .ep3-center { display: flex; flex-direction: column; align-items: center; justify-content: center; min-width: 0; }
   .ep3-svg { width: 100%; max-width: 468px; height: auto; display: block; margin: 0 auto; }
+  .ep3-actions { display: flex; justify-content: center; align-items: center; gap: 10px; margin-top: 12px; }
+  .ep3-export, .ep3-reset { color: var(--muted); font: inherit; font-size: 0.68rem; line-height: 1.3; white-space: nowrap; cursor: pointer; }
+  .ep3-export { display: inline-flex; align-items: center; gap: 5px; padding: 5px 11px; border: 1px solid var(--border); border-radius: 16px; background: var(--panel); }
+  .ep3-reset { padding: 5px 2px; border: 0; background: transparent; text-decoration: underline; text-underline-offset: 3px; }
+  .ep3-export:hover, .ep3-reset:hover { color: #b89a60; }
+  .ep3-export:disabled { opacity: 0.6; cursor: wait; }
+  .ep3-reset:disabled { opacity: 0.4; cursor: default; }
+  .ep3-export:focus-visible, .ep3-reset:focus-visible, .ep3-stage:focus-visible { outline: 2px solid var(--util); outline-offset: 3px; }
+  .ep3-pill:focus-visible { outline: none; }
+  .ep3-pill:focus-visible rect { stroke-width: 3; }
+  .ep3-hint, .ep3-export-status { margin: 6px 0 0; font-size: 0.65rem; line-height: 1.3; color: var(--muted); text-align: center; }
+  .ep3-export-status:empty { display: none; }
   .ep3-cap { font-size: 14px; font-style: italic; fill: var(--muted); }
   .ep3-pill-t { font-size: 16px; font-weight: 600; fill: var(--util); }
   .ep3-left { display: flex; flex-direction: column; gap: 20px; }
@@ -48,7 +60,7 @@
   #ep3-mount.ep3-compact .ep3-right { gap: 10px; }
   #ep3-mount.ep3-compact .ep3-pgroup { row-gap: 9px; }
   @media (max-width: 900px) {
-    .ep3-grid { grid-template-columns: 1fr; }
+    .ep3-grid, #ep3-mount.ep3-compact .ep3-grid { grid-template-columns: 1fr; }
     .ep3-left, .ep3-right { max-width: 440px; margin: 0 auto; }
   }`;
 
@@ -78,7 +90,9 @@
         '<div class="ep3-stage" data-stage="verify"><div class="st">Verify</div><p>Check every claim in the answer against the source it cites.</p></div>' +
       '</div>' +
       '<div class="ep3-center">' +
-        '<svg class="ep3-svg" id="ep3-svg" viewBox="145 108 610 614" xmlns="http://www.w3.org/2000/svg"></svg>' +
+        '<svg class="ep3-svg" id="ep3-svg" viewBox="145 108 610 614" xmlns="http://www.w3.org/2000/svg" aria-label="Retrieve, Summarize, Verify diagram"></svg>' +
+        '<div class="ep3-actions"><button type="button" class="ep3-export" title="Download the full overview with the current highlight as a PNG"><span aria-hidden="true">↓</span><span>Export PNG</span></button><button type="button" class="ep3-reset" disabled>Show all</button></div>' +
+        '<p class="ep3-hint"></p><p class="ep3-export-status" role="status"></p>' +
       '</div>' +
       '<div class="ep3-side ep3-right">' +
         '<div class="ep3-pgroup" data-stage="retrieve"><div class="glabel">Retrieve</div>' +
@@ -234,25 +248,86 @@
     PILLS.forEach(function (p) { ITEMS.push({ el: p.g, stages: [p.stage] }); });
     var stagesEls = [].slice.call(root.querySelectorAll('.ep3-stage'));
     var groupsEls = [].slice.call(root.querySelectorAll('.ep3-pgroup'));
+    var currentStage = null, pinnedStage = null, exporting = false;
+    var exportButton = root.querySelector('.ep3-export');
+    var resetButton = root.querySelector('.ep3-reset');
+    var hint = root.querySelector('.ep3-hint');
+    var exportStatus = root.querySelector('.ep3-export-status');
+    var touchMode = window.matchMedia('(hover: none)').matches;
+    var stageNames = { retrieve: 'Retrieve', summarize: 'Summarize', verify: 'Verify' };
     function highlight(stage) {
+      currentStage = stage;
+      root.dataset.activeStage = stage || 'all';
+      root.dataset.pinnedStage = pinnedStage || '';
+      resetButton.disabled = !stage;
+      hint.textContent = pinnedStage ? stageNames[pinnedStage] + (touchMode ? ' pinned · Tap again to release' : ' pinned · Click again to release') :
+        (touchMode ? 'Tap a stage to highlight' : 'Hover to highlight · Click to keep');
       ITEMS.forEach(function (it) {
-        it.el.style.opacity = (!stage || it.stages.indexOf(stage) >= 0) ? '' : '0.4';
+        it.el.style.opacity = (!stage || it.stages.indexOf(stage) >= 0) ? '1' : '0.4';
       });
       PILLS.forEach(function (p) {
         var act = p.stage === stage;
         p.rect.style.fill = act ? p.color : '#ffffff';
         p.text.style.fill = act ? '#ffffff' : p.color;
+        p.g.setAttribute('aria-pressed', String(act));
       });
       [].concat(stagesEls, groupsEls).forEach(function (e) {
         e.classList.toggle('act', e.dataset.stage === stage);
         e.classList.toggle('dim', !!stage && e.dataset.stage !== stage);
+        if (e.classList.contains('ep3-stage')) e.setAttribute('aria-pressed', String(e.dataset.stage === stage));
       });
     }
-    var reset = function () { highlight(null); };
-    PILLS.forEach(function (p) { p.g.style.cursor = 'pointer'; p.g.addEventListener('mouseenter', function () { highlight(p.stage); }); });
-    stagesEls.forEach(function (s) { s.addEventListener('mouseenter', function () { highlight(s.dataset.stage); }); });
-    groupsEls.forEach(function (grp) { grp.addEventListener('mouseenter', function () { highlight(grp.dataset.stage); }); });
-    root.querySelector('.ep3-grid').addEventListener('mouseleave', reset);
+    function reset() { if (!exporting) { pinnedStage = null; highlight(null); } }
+    function preview(stage) { if (!exporting && !pinnedStage) highlight(stage); }
+    function select(stage) {
+      if (exporting) return;
+      pinnedStage = pinnedStage === stage ? null : stage;
+      highlight(pinnedStage);
+    }
+    function bindStage(element, stage, keyboard) {
+      if (!touchMode) element.addEventListener('mouseenter', function () { preview(stage); });
+      element.addEventListener('click', function (event) {
+        if (!event.target.closest('a')) select(stage);
+      });
+      if (keyboard) {
+        element.setAttribute('role', 'button');
+        element.setAttribute('tabindex', '0');
+        element.setAttribute('aria-label', 'Highlight ' + stageNames[stage]);
+        element.addEventListener('focus', function () { preview(stage); });
+        element.addEventListener('keydown', function (event) {
+          if (event.key === 'Enter' || event.key === ' ') {
+            event.preventDefault(); event.stopPropagation(); select(stage);
+          }
+        });
+      }
+    }
+    PILLS.forEach(function (p) { p.g.dataset.stage = p.stage; bindStage(p.g, p.stage, true); });
+    stagesEls.forEach(function (s) { bindStage(s, s.dataset.stage, true); });
+    groupsEls.forEach(function (grp) { bindStage(grp, grp.dataset.stage, false); });
+    resetButton.addEventListener('click', reset);
+    root.addEventListener('keydown', function (event) {
+      if (event.key === 'Escape') { event.stopPropagation(); reset(); }
+      if (event.target.closest('.ep3-actions') && (event.key === ' ' || event.key === 'Enter')) event.stopPropagation();
+    });
+    if (touchMode) document.addEventListener('click', function (event) { if (!root.contains(event.target)) reset(); });
+    exportButton.addEventListener('click', async function () {
+      if (exporting) return;
+      var stage = currentStage || 'overview';
+      exporting = true;
+      exportButton.disabled = true;
+      resetButton.disabled = true;
+      exportStatus.textContent = '';
+      try {
+        await window.exportOverviewPng(root, 'retrieve-summarize-verify-' + stage + '.png');
+      } catch (error) {
+        exportStatus.textContent = 'Export failed. Please try again.';
+      } finally {
+        exporting = false;
+        exportButton.disabled = false;
+        resetButton.disabled = !currentStage;
+      }
+    });
+    highlight(null);
   }
 
   function init() {
