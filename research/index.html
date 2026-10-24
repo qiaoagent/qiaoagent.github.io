@@ -375,11 +375,15 @@
     .ep3b-wrap, .deck > section > .wrap, .deck > header > .wrap { width: 100%; box-sizing: border-box; }
     .ep3b-head { max-width: 820px; margin: 0 auto 8px; text-align: center; }
     .ep3b-head .section-q { margin-left: auto; margin-right: auto; }
-    .ep3b-grid { display: grid; grid-template-columns: 340px minmax(0, 1fr) 322px; gap: 30px; align-items: center; margin-top: 22px; }
+    .ep3b-grid { display: grid; grid-template-columns: 340px minmax(0, 1fr) 322px; gap: 30px; align-items: center; margin-top: 10px; }
     .ep3b-center { display: flex; justify-content: center; }
     .ep3b-svg { width: 100%; max-width: 468px; height: auto; display: block; margin: 0 auto; }
     .ep3b-cap { font-size: 14px; font-style: italic; fill: var(--muted); }
     .ep3b-pill-t { font-size: 16px; font-weight: 600; fill: var(--util); }
+    .ep3b-agent { cursor: pointer; }
+    .ep3b-agent:focus-visible { outline: none; }
+    .ep3b-agent:focus-visible .ep3b-agent-body { stroke: #9a6b28; stroke-width: 2; }
+    .ep3b-agent-label { font-size: 16px; font-weight: 600; fill: var(--ink); }
     .ep3b-gentitle { font-family: "DM Serif Display", Georgia, serif; font-size: 13px; fill: var(--ink); }
     .ep3b-genvenue { font-size: 10.5px; fill: var(--muted); font-style: italic; }
     .ep3b-genhdr { font-size: 11px; font-weight: 700; letter-spacing: 1.2px; fill: var(--gen); }
@@ -393,7 +397,7 @@
     .ep3b-stage .st { font-family: "DM Serif Display", Georgia, serif; font-size: 1.05rem; color: var(--util); margin-bottom: 3px; }
     .ep3b-stage p { font-size: 0.83rem; color: var(--muted); line-height: 1.5; }
     /* right: papers grouped by stage, two-column grid to keep the column short */
-    .ep3b-right { display: flex; flex-direction: column; gap: 13px; }
+    .ep3b-right { display: flex; flex-direction: column; gap: 9px; }
     .ep3b-pgroup { display: grid; grid-template-columns: 1fr 1fr; column-gap: 14px; row-gap: 11px; align-items: center; }
     .ep3b-pgroup .glabel { grid-column: 1 / -1; font-size: 0.62rem; font-weight: 700; letter-spacing: 0.09em; text-transform: uppercase; color: var(--util); margin-bottom: -5px; }
     .ep3b-paper { display: flex; gap: 9px; align-items: center; }
@@ -416,6 +420,8 @@
     .ep3b-pgroup[data-stage="retrieve"] .ep3b-paper:hover .pn { color: var(--gen); }
     .ep3b-pgroup[data-stage="summarize"] .ep3b-paper:hover .pn { color: var(--util); }
     .ep3b-pgroup[data-stage="verify"] .ep3b-paper:hover .pn { color: var(--eval); }
+    .ep3b-pgroup[data-stage="agents"] .glabel, .ep3b-pgroup[data-stage="agents"] .d-role,
+    .ep3b-pgroup[data-stage="agents"] .ep3b-paper:hover .pn { color: #9a6b28; }
     .ep3b-left .ep3b-pgroup { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .ep3b-left .ep3b-paper, .ep3b-left .pmeta { min-width: 0; }
     .ep3b-left .d-cover-link { flex: 0 0 51px; }
@@ -670,7 +676,7 @@
   </section>
 
   <!-- ═══════════════ EVIDENCE UTILIZATION (ROTATED COPY) ═══════════════ -->
-  <section class="ep3b-section">
+  <section class="ep3b-section" id="combined">
     <div class="ep3b-wrap">
       <div class="ep3b-head">
         <h2>AI for Evidence Generation and Utilization</h2>
@@ -697,7 +703,7 @@
         </div>
         <!-- CENTER: the loop -->
         <div class="ep3b-center">
-          <svg class="ep3b-svg" id="ep3b-svg" viewBox="110 84 658 612" xmlns="http://www.w3.org/2000/svg"></svg>
+          <svg class="ep3b-svg" id="ep3b-svg" viewBox="110 84 658 612" xmlns="http://www.w3.org/2000/svg" aria-label="Evidence generation and AI agents orchestrating Retrieve, Summarize, and Verify"></svg>
         </div>
         <!-- RIGHT: the papers, grouped by stage -->
         <div class="ep3b-side ep3b-right">
@@ -719,6 +725,11 @@
             <div class="glabel">Verify</div>
             <div class="ep3b-paper"><a class="d-cover-link" href="/paper/MedCite.html" target="_blank" rel="noopener"><img src="/assets/covers/MedCite.png" alt="MedCite"></a><div class="pmeta"><div class="d-role">Verifiable answer citations</div><div class="pn">MedCite</div><div class="pv">ACL Findings, 2025</div></div></div>
             <div class="ep3b-paper"><a class="d-cover-link" href="/paper/Med-V1.html" target="_blank" rel="noopener"><img src="/assets/covers/Med-V1.png" alt="Med-V1"></a><div class="pmeta"><div class="d-role">Scalable evidence attribution</div><div class="pn">Med-V1</div><div class="pv">arXiv, 2026</div></div></div>
+          </div>
+          <div class="ep3b-pgroup" data-stage="agents">
+            <div class="glabel">Agentic orchestration</div>
+            <div class="ep3b-paper"><a class="d-cover-link" href="/paper/GeneAgent.html" target="_blank" rel="noopener"><img src="/assets/covers/GeneAgent.png" alt="GeneAgent"></a><div class="pmeta"><div class="d-role">Self-verifying gene-set analysis</div><div class="pn">GeneAgent</div><div class="pv">Nat Methods, 2025</div></div></div>
+            <div class="ep3b-paper"><a class="d-cover-link" href="/paper/AgentMD.html" target="_blank" rel="noopener"><img src="/assets/covers/AgentMD.png" alt="AgentMD"></a><div class="pmeta"><div class="d-role">Tool-augmented risk prediction</div><div class="pn">AgentMD</div><div class="pv">Nat Commun, 2025</div></div></div>
           </div>
         </div>
       </div>
@@ -1218,6 +1229,8 @@
       var defs = el('defs');
       var mk = el('marker', { id: 'ep3bah', markerWidth: 9, markerHeight: 9, refX: 6.5, refY: 4, orient: 'auto' }, defs);
       el('path', { d: 'M0,0 L7,4 L0,8 Z', fill: '#9fb0c2' }, mk);
+      var agentMarker = el('marker', { id: 'ep3b-agent-arrow', markerWidth: 6, markerHeight: 6, refX: 6, refY: 3, orient: 'auto-start-reverse' }, defs);
+      el('path', { d: 'M0,0 L6,3 L0,6 Z', fill: 'context-stroke' }, agentMarker);
       // shape-aware clearance: arrows stop AGAP px outside each station's real edge (triangle / rectangle)
       var STA = [
         { t: 'r', a: 60, b: 22 }, { t: 'p', a: 86, b: 74 }, { t: 'r', a: 65, b: 22 },
@@ -1249,6 +1262,36 @@
         });
         ITEMS.push({ el: ln, stages: [e2[2]] });
       });
+
+      // The agent coordinates the three operations at the center of the loop.
+      [[0, 'retrieve'], [2, 'summarize'], [4, 'verify']].forEach(function (entry) {
+        var target = V[entry[0]], dx = target.x - CX, dy = target.y - CY;
+        var length = Math.sqrt(dx * dx + dy * dy), ux = dx / length, uy = dy / length;
+        // The lower spoke starts below the caption under the chip.
+        var start = entry[1] === 'verify' ? 95 : 60;
+        var end = reach(entry[0], -ux, -uy) + AGAP;
+        var spoke = el('g', { 'class': 'ep3b-agent-link', 'data-stage': entry[1] });
+        el('line', {
+          x1: CX + ux * start, y1: CY + uy * start,
+          x2: target.x - ux * end, y2: target.y - uy * end,
+          stroke: STAGE_COLOR[entry[1]], 'stroke-width': 1.4, 'stroke-dasharray': '4 5',
+          'marker-start': 'url(#ep3b-agent-arrow)', 'marker-end': 'url(#ep3b-agent-arrow)', opacity: 0.65
+        }, spoke);
+        ITEMS.push({ el: spoke, stages: [entry[1]] });
+      });
+      var agent = el('g', { transform: 'translate(' + CX + ',' + CY + ')', 'class': 'ep3b-agent', 'data-stage': 'agents' });
+      el('rect', { x: -50, y: -50, width: 100, height: 130, rx: 12, fill: 'transparent', 'pointer-events': 'all' }, agent);
+      var agentColor = '#9a6b28';
+      [-20, 0, 20].forEach(function (p) {
+        el('rect', { x: p - 2, y: -42, width: 4, height: 10, rx: 2, fill: agentColor, opacity: 0.5 }, agent);
+        el('rect', { x: p - 2, y: 32, width: 4, height: 10, rx: 2, fill: agentColor, opacity: 0.5 }, agent);
+        el('rect', { x: -42, y: p - 2, width: 10, height: 4, rx: 2, fill: agentColor, opacity: 0.5 }, agent);
+        el('rect', { x: 32, y: p - 2, width: 10, height: 4, rx: 2, fill: agentColor, opacity: 0.5 }, agent);
+      });
+      var agentBody = el('rect', { x: -32, y: -32, width: 64, height: 64, rx: 9, fill: agentColor, opacity: 0.16, 'class': 'ep3b-agent-body' }, agent);
+      el('rect', { x: -23, y: -23, width: 46, height: 46, rx: 5, fill: agentColor, opacity: 0.10 }, agent);
+      el('text', { x: 0, y: 10, 'text-anchor': 'middle', 'font-family': 'DM Serif Display, Georgia, serif', 'font-size': 30, fill: agentColor }, agent).textContent = 'AI';
+      el('text', { x: 0, y: 68, 'text-anchor': 'middle', 'class': 'ep3b-agent-label' }, agent).textContent = 'AI agents';
 
       // ── shared evidence scatter (same seed → identical pyramid before/after) ──
       function mulberry32(a) {
@@ -1339,6 +1382,7 @@
 
       // each station lights up for the stage(s) whose input/output it is
       ITEMS.push(
+        { el: agent, stages: ['agents'] },
         { el: pyBase, stages: ['retrieve', 'verify'] },
         { el: pyRelevant, stages: ['retrieve', 'summarize'] },
         { el: gAnswer, stages: ['summarize', 'verify'] }
@@ -1360,6 +1404,12 @@
         activeChoice = choice;
         highlight(choice && choice.kind === 'stage' ? choice.value : null);
         highlightGen(choice && choice.kind === 'tier' ? choice.value : null);
+        if (choice && choice.kind === 'tier') {
+          agent.style.opacity = '0.4';
+          groupsEls.forEach(function (group) {
+            if (group.dataset.stage === 'agents') group.classList.add('dim');
+          });
+        }
         grid3b.dataset.highlight = choiceKey(choice);
         grid3b.dataset.pinned = choiceKey(pinnedChoice);
         choiceControls.forEach(function (control) {
@@ -1397,8 +1447,9 @@
       }
       function highlight(stage) {
         ITEMS.forEach(function (it) {
-          it.el.style.opacity = (!stage || it.stages.indexOf(stage) >= 0) ? '' : '0.4';
+          it.el.style.opacity = (!stage || stage === 'agents' || it.stages.indexOf(stage) >= 0) ? '' : '0.4';
         });
+        agentBody.style.opacity = stage === 'agents' ? '0.3' : '0.16';
         PILLS.forEach(function (p) {
           var act = p.stage === stage;
           p.rect.style.fill = act ? p.color : '#ffffff';
@@ -1410,6 +1461,7 @@
         });
       }
       PILLS.forEach(function (p) { bindChoice(p.g, { kind: 'stage', value: p.stage }, p.text.textContent); });
+      bindChoice(agent, { kind: 'stage', value: 'agents' }, 'AI agents');
       stagesEls.forEach(function (s) { bindChoice(s, { kind: 'stage', value: s.dataset.stage }, s.dataset.stage); });
       groupsEls.forEach(function (group) {
         group.querySelectorAll('.ep3b-paper').forEach(function (paper) {
