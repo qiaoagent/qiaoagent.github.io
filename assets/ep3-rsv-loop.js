@@ -42,7 +42,7 @@
   .ep3-pgroup[data-stage="summarize"] .ep3-paper:hover .pn { color: var(--util); }
   .ep3-pgroup[data-stage="verify"] .ep3-paper:hover .pn { color: var(--eval); }
   /* compact 3-col that fits the 900px deck slide — opt in with class "ep3-compact" on the mount; research.html keeps the full-width layout */
-  #ep3-mount.ep3-compact .ep3-grid { grid-template-columns: 178px 1fr 292px; gap: 20px; margin-top: 0; }
+  #ep3-mount.ep3-compact .ep3-grid { grid-template-columns: 178px 1fr 300px; gap: 20px; margin-top: 0; }
   #ep3-mount.ep3-compact .ep3-svg { max-width: 340px; }
   #ep3-mount.ep3-compact .ep3-left { gap: 14px; }
   #ep3-mount.ep3-compact .ep3-right { gap: 10px; }
@@ -91,11 +91,11 @@
           paper('/paper/MedRAG.html', '/assets/covers/MedRAG.png', 'MedRAG', 'Benchmarking medical RAG', 'MedRAG', 'ACL Findings, 2024') +
           paper('/paper/i-MedRAG.html', '/assets/covers/i-MedRAG.png', 'i-MedRAG', 'Iterative follow-up RAG', 'i-MedRAG', 'PSB, 2025') +
           paper('/paper/MedReview.html', '/assets/covers/MedReview.png', 'MedReview', 'Summarizing systematic reviews', 'MedReview', 'npj Digit Med, 2025') +
-          paper('/paper/MedCite.html', '/assets/covers/MedCite.png', 'MedCite', 'Verifiable answer citations', 'MedCite', 'ACL Findings, 2025') +
+          paper('/paper/RAG-Gym.html', '/assets/covers/RAG-Gym.png', 'RAG-Gym', 'Process&#8209;supervised agentic RAG', 'RAG-Gym', 'Nat Commun, in press') +
         '</div>' +
         '<div class="ep3-pgroup" data-stage="verify"><div class="glabel">Verify</div>' +
+          paper('/paper/MedCite.html', '/assets/covers/MedCite.png', 'MedCite', 'Verifiable answer citations', 'MedCite', 'ACL Findings, 2025') +
           paper('/paper/Med-V1.html', '/assets/covers/Med-V1.png', 'Med-V1', 'Scalable evidence attribution', 'Med-V1', 'arXiv, 2026') +
-          paper('/paper/GeneAgent.html', '/assets/covers/GeneAgent.png', 'GeneAgent', 'Self-verifying gene-set agent', 'GeneAgent', 'Nature Methods, 2025') +
         '</div>' +
       '</div>' +
     '</div>';
