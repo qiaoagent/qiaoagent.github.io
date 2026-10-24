@@ -279,13 +279,17 @@
     }
     function reset() { if (!exporting) { pinnedStage = null; highlight(null); } }
     function preview(stage) { if (!exporting && !pinnedStage) highlight(stage); }
+    function clearPreview() { if (!exporting && !pinnedStage) highlight(null); }
     function select(stage) {
       if (exporting) return;
       pinnedStage = pinnedStage === stage ? null : stage;
       highlight(pinnedStage);
     }
     function bindStage(element, stage, keyboard) {
-      if (!touchMode) element.addEventListener('mouseenter', function () { preview(stage); });
+      if (!touchMode) {
+        element.addEventListener('mouseenter', function () { preview(stage); });
+        element.addEventListener('mouseleave', clearPreview);
+      }
       element.addEventListener('click', function (event) {
         if (!event.target.closest('a')) select(stage);
       });
@@ -294,6 +298,7 @@
         element.setAttribute('tabindex', '0');
         element.setAttribute('aria-label', 'Highlight ' + stageNames[stage]);
         element.addEventListener('focus', function () { preview(stage); });
+        element.addEventListener('blur', clearPreview);
         element.addEventListener('keydown', function (event) {
           if (event.key === 'Enter' || event.key === ' ') {
             event.preventDefault(); event.stopPropagation(); select(stage);

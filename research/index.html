@@ -340,7 +340,7 @@
     .ep2-info .section-q { margin-left: auto; margin-right: auto; }
     .ep2-center { grid-column: 2; grid-row: 2 / span 3; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 360px; }
     .ep2-section .ep-scene { width: 320px; height: 360px; margin: 0; }
-    .ep2-section .ep-pyramid { transform: rotateX(-16deg) rotateY(45deg); }
+    .ep2-section .ep-pyramid { transform: rotateX(-16deg) rotateY(45deg) scale3d(0.85, 0.85, 0.85); }
     .ep2-flat { display: none; width: 300px; margin: 0; }
     .ep2-flat .ep-ftier { width: 300px; }
     .ep2-toggle { margin-top: 8px; }
@@ -682,13 +682,13 @@
         <div class="ep3b-side ep3b-left">
           <div class="ep3b-pgroup" data-stage="gen-sr">
             <div class="glabel">Systematic Reviews</div>
-            <div class="ep3b-paper"><a class="d-cover-link" href="/paper/TrialMind.html" target="_blank" rel="noopener"><img src="/assets/covers/TrialMind.png" alt="TrialMind"></a><div class="pmeta"><div class="d-role">Automating evidence synthesis</div><div class="pn">TrialMind</div><div class="pv">npj Digit Med, 2025</div></div></div>
-            <div class="ep3b-paper"><a class="d-cover-link" href="/paper/LEADS.html" target="_blank" rel="noopener"><img src="/assets/covers/leads.png" alt="LEADS"></a><div class="pmeta"><div class="d-role">Human-AI literature mining</div><div class="pn">LEADS</div><div class="pv">Nat Commun, 2025</div></div></div>
+            <div class="ep3b-paper"><a class="d-cover-link" href="/paper/TrialMind.html" target="_blank" rel="noopener"><img src="/assets/covers/TrialMind.png" alt="TrialMind"></a><div class="pmeta"><div class="d-role">Agentic systematic literature review</div><div class="pn">TrialMind</div><div class="pv">npj Digit Med, 2025</div></div></div>
+            <div class="ep3b-paper"><a class="d-cover-link" href="/paper/LEADS.html" target="_blank" rel="noopener"><img src="/assets/covers/leads.png" alt="LEADS"></a><div class="pmeta"><div class="d-role">Human-AI collaborative review</div><div class="pn">LEADS</div><div class="pv">Nat Commun, 2025</div></div></div>
           </div>
           <div class="ep3b-pgroup" data-stage="gen-ct">
             <div class="glabel">Clinical Trials</div>
             <div class="ep3b-paper"><a class="d-cover-link" href="/paper/TrialGPT.html" target="_blank" rel="noopener"><img src="/assets/covers/TrialGPT.png" alt="TrialGPT"></a><div class="pmeta"><div class="d-role">Zero-shot trial matching</div><div class="pn">TrialGPT</div><div class="pv">Nat Commun, 2024</div></div></div>
-            <div class="ep3b-paper"><a class="d-cover-link" href="/paper/TrialGPT-2.html" target="_blank" rel="noopener"><img src="/assets/covers/TrialGPT-2.png" alt="TrialGPT 2.0"></a><div class="pmeta"><div class="d-role">Clinical trial recommendations</div><div class="pn">TrialGPT 2.0</div><div class="pv">arXiv, 2026</div></div></div>
+            <div class="ep3b-paper"><a class="d-cover-link" href="/paper/TrialGPT-2.html" target="_blank" rel="noopener"><img src="/assets/covers/TrialGPT-2.png" alt="TrialGPT 2.0"></a><div class="pmeta"><div class="d-role">Clinical validation and deployment</div><div class="pn">TrialGPT 2.0</div><div class="pv">arXiv, 2026</div></div></div>
           </div>
           <div class="ep3b-pgroup" data-stage="gen-cr">
             <div class="glabel">Case Reports</div>
@@ -910,12 +910,12 @@
       // works grouped by pyramid range (TrialGPT spans the clinical-study tiers)
       var GROUPS = [
         { range:[0,0], works:[
-          { role:'Automating Systematic Reviews', roleColor:'#3d4f68', title:'TrialMind', venue:'npj Digit Med, 2025', link:'/paper/TrialMind.html', cover:'/assets/covers/TrialMind.png' },
-          { role:'Human-AI Literature Mining', roleColor:'#3d4f68', title:'LEADS', venue:'Nat Commun, 2025', link:'/paper/LEADS.html', cover:'/assets/covers/leads.png' }
+          { role:'Agentic systematic literature review', roleColor:'#3d4f68', title:'TrialMind', venue:'npj Digit Med, 2025', link:'/paper/TrialMind.html', cover:'/assets/covers/TrialMind.png' },
+          { role:'Human-AI collaborative review', roleColor:'#3d4f68', title:'LEADS', venue:'Nat Commun, 2025', link:'/paper/LEADS.html', cover:'/assets/covers/leads.png' }
         ] },
         { range:[1,3], works:[
           { role:'Accelerating Patient Recruitment', roleColor:'#3a6389', title:'TrialGPT', venue:'Nat Commun, 2024', link:'/paper/TrialGPT.html', cover:'/assets/covers/TrialGPT.png' },
-          { role:'Clinical Trial Recommendations', roleColor:'#3a6389', title:'TrialGPT 2.0', venue:'arXiv, 2026', link:'/paper/TrialGPT-2.html', cover:'/assets/covers/TrialGPT-2.png' }
+          { role:'Clinical validation and deployment', roleColor:'#3a6389', title:'TrialGPT 2.0', venue:'arXiv, 2026', link:'/paper/TrialGPT-2.html', cover:'/assets/covers/TrialGPT-2.png' }
         ] },
         { range:[4,4], works:[
           { role:'Curating Case Reports', roleColor:'#6690b3', title:'PMC-Patients', venue:'Scientific Data, 2023', link:'/paper/PMC-Patients.html', cover:'/assets/covers/PMC-Patients.png' }
@@ -989,6 +989,10 @@
           var ey = (bl.top + tl.top) / 2 - lr.top;
           var cr = card.getBoundingClientRect();
           var sx = (fromRight ? cr.left - 4 : cr.right + 4) - lr.left, sy = cr.top + cr.height / 2 - lr.top, mx = (sx + ex) / 2;
+          if (gi === 2) {
+            // Leave the nearest card edge to clear the wider pyramid base.
+            sy = Math.max(cr.top - lr.top + 8, Math.min(ey, cr.bottom - lr.top - 8));
+          }
           out += '<path class="ep2-arrow" data-group="' + gi + '" data-side="' + card.dataset.side + '" marker-end="url(#ep2ah)" d="M' + sx + ',' + sy + ' C' + mx + ',' + sy + ' ' + mx + ',' + ey + ' ' + ex + ',' + ey + '"/>';
         });
         svg.innerHTML = out;
@@ -1059,7 +1063,10 @@
         trackArrows();
       }
       function reset() { if (!exporting) { pinnedGroup = null; highlight(0, false); } }
-      function preview(gi) { if (!exporting && pinnedGroup == null) highlight(gi, true); }
+      function preview(gi) {
+        if (!exporting && pinnedGroup == null && (!hlState.on || hlState.gi !== gi)) highlight(gi, true);
+      }
+      function clearPreview() { if (!exporting && pinnedGroup == null && hlState.on) highlight(0, false); }
       function select(gi) {
         if (exporting) return;
         pinnedGroup = pinnedGroup === gi ? null : gi;
@@ -1089,13 +1096,22 @@
         var element = event.target.closest(selector);
         return element ? tierGroup[+element.dataset.tier] : null;
       }
-      if (!touchMode) {
-        scene.addEventListener('mouseover', function (event) { var gi = tierAt(event, '.ep-sface'); if (gi != null) preview(gi); });
-        flat2.addEventListener('mouseover', function (event) { var gi = tierAt(event, '.ep-ftier'); if (gi != null) preview(gi); });
-        decks.addEventListener('mouseover', function (event) { var card = event.target.closest('.ep2-deck'); if (card) preview(+card.dataset.group); });
+      function hoverGroup(target) {
+        var element = target && target.closest && target.closest('.ep-sface, .ep-cap, .ep-ftier, .ep2-deck');
+        if (!element || !layout.contains(element)) return null;
+        return element.classList.contains('ep2-deck') ? +element.dataset.group : tierGroup[+element.dataset.tier];
       }
-      // Retain the last highlight while moving to Export; clicking pins the group.
-      scene.addEventListener('click', function (event) { var gi = tierAt(event, '.ep-sface'); if (gi != null) select(gi); });
+      if (!touchMode) {
+        layout.addEventListener('mouseover', function (event) { var gi = hoverGroup(event.target); if (gi != null) preview(gi); });
+        layout.addEventListener('mouseout', function (event) {
+          if (hoverGroup(event.target) == null) return;
+          var gi = hoverGroup(event.relatedTarget);
+          if (gi == null) clearPreview(); else preview(gi);
+        });
+        layout.addEventListener('mouseleave', clearPreview);
+      }
+      // Hover previews clear on leave; click to pin a highlight for export.
+      scene.addEventListener('click', function (event) { var gi = tierAt(event, '.ep-sface, .ep-cap'); if (gi != null) select(gi); });
       flat2.addEventListener('click', function (event) { var gi = tierAt(event, '.ep-ftier'); if (gi != null) select(gi); });
       decks.addEventListener('click', function (event) {
         if (event.target.closest('a')) return;
@@ -1107,6 +1123,7 @@
         element.setAttribute('tabindex', '0');
         element.setAttribute('aria-label', 'Highlight ' + name);
         element.addEventListener('focus', function () { if (!touchMode) preview(gi); });
+        element.addEventListener('blur', clearPreview);
         element.addEventListener('keydown', function (event) {
           if (event.key === 'Enter' || event.key === ' ') {
             event.preventDefault(); event.stopPropagation(); select(gi);
@@ -1173,7 +1190,7 @@
   <script src="/assets/vendor/html2canvas-1.4.1.min.js"></script>
   <script src="/assets/overview-png-export.js?v=1"></script>
   <script src="/assets/generation-png-export.js?v=1"></script>
-  <script src="/assets/ep3-rsv-loop.js?v=8"></script>
+  <script src="/assets/ep3-rsv-loop.js?v=9"></script>
 
   <script>
     /* Evidence utilization — hexagonal loop: evidence → Retrieve → relevant → Summarize → Answer → Verify → evidence */
@@ -1275,14 +1292,14 @@
             an.setAttribute('class', 'ep3b-ebanchor'); an.setAttribute('data-tier', k);
           }
         }
-        el('polygon', { points: '0,' + (-PH / 2) + ' ' + PHW + ',' + PH / 2 + ' ' + (-PHW) + ',' + PH / 2, fill: 'none', stroke: '#b9c4d0', 'stroke-width': 1.2 }, g);
+        el('polygon', { points: '0,' + (-PH / 2) + ' ' + PHW + ',' + PH / 2 + ' ' + (-PHW) + ',' + PH / 2, fill: 'none', stroke: '#b9c4d0', 'stroke-width': 1.2, 'pointer-events': 'none' }, g);
         pts.forEach(function (p, i) {
           var rel = REL[i];
           el('polygon', {
             points: hexPts(p.x, p.y, rel && highlighted ? HR + 1.4 : HR),
             fill: rel && highlighted ? '#dce9f7' : '#ffffff',
             stroke: rel && highlighted ? UTIL : '#8fa3b8', 'stroke-width': rel && highlighted ? 1.7 : 1,
-            opacity: highlighted && !rel ? 0.25 : 0.95
+            opacity: highlighted && !rel ? 0.25 : 0.95, 'pointer-events': 'none'
           }, g);
         });
         el('text', { x: 0, y: PH / 2 + 24, 'text-anchor': 'middle', 'class': 'ep3b-cap' }, g).textContent = caption;
@@ -1336,6 +1353,48 @@
       // ── spotlight: hover a stage (left), pill (center) or paper group (right) ──
       var stagesEls = [].slice.call(document.querySelectorAll('.ep3b-stage'));
       var groupsEls = [].slice.call(document.querySelectorAll('.ep3b-right .ep3b-pgroup'));
+      var activeChoice = null, pinnedChoice = null, choiceControls = [];
+      var touchMode = window.matchMedia('(hover: none)').matches;
+      function choiceKey(choice) { return choice ? choice.kind + ':' + choice.value : ''; }
+      function showChoice(choice) {
+        activeChoice = choice;
+        highlight(choice && choice.kind === 'stage' ? choice.value : null);
+        highlightGen(choice && choice.kind === 'tier' ? choice.value : null);
+        grid3b.dataset.highlight = choiceKey(choice);
+        grid3b.dataset.pinned = choiceKey(pinnedChoice);
+        choiceControls.forEach(function (control) {
+          control.element.setAttribute('aria-pressed', String(choiceKey(control.choice) === choiceKey(choice)));
+        });
+      }
+      function previewChoice(choice) { if (!pinnedChoice) showChoice(choice); }
+      function clearChoice() { if (!pinnedChoice) showChoice(null); }
+      function selectChoice(choice) {
+        pinnedChoice = choiceKey(pinnedChoice) === choiceKey(choice) ? null : choice;
+        showChoice(pinnedChoice);
+      }
+      function bindChoice(element, choice, label, keyboardTarget) {
+        if (!touchMode) {
+          element.addEventListener('mouseenter', function () { previewChoice(choice); });
+          element.addEventListener('mouseleave', clearChoice);
+        }
+        element.addEventListener('click', function (event) {
+          if (!event.target.closest('a')) selectChoice(choice);
+        });
+        var target = keyboardTarget || element;
+        target.style.cursor = 'pointer';
+        target.setAttribute('role', 'button');
+        target.setAttribute('tabindex', '0');
+        target.setAttribute('aria-label', 'Highlight ' + label);
+        target.setAttribute('aria-pressed', 'false');
+        choiceControls.push({ element: target, choice: choice });
+        target.addEventListener('focus', function () { previewChoice(choice); });
+        target.addEventListener('blur', clearChoice);
+        target.addEventListener('keydown', function (event) {
+          if (event.key === 'Enter' || event.key === ' ') {
+            event.preventDefault(); event.stopPropagation(); selectChoice(choice);
+          }
+        });
+      }
       function highlight(stage) {
         ITEMS.forEach(function (it) {
           it.el.style.opacity = (!stage || it.stages.indexOf(stage) >= 0) ? '' : '0.4';
@@ -1350,11 +1409,13 @@
           e.classList.toggle('dim', !!stage && e.dataset.stage !== stage);
         });
       }
-      var reset = function () { highlight(null); };
-      PILLS.forEach(function (p) { p.g.style.cursor = 'pointer'; p.g.addEventListener('mouseenter', function () { highlight(p.stage); }); });
-      stagesEls.forEach(function (s) { s.addEventListener('mouseenter', function () { highlight(s.dataset.stage); }); });
-      groupsEls.forEach(function (grp) { grp.addEventListener('mouseenter', function () { highlight(grp.dataset.stage); }); });
-      document.querySelector('.ep3b-grid').addEventListener('mouseleave', reset);
+      PILLS.forEach(function (p) { bindChoice(p.g, { kind: 'stage', value: p.stage }, p.text.textContent); });
+      stagesEls.forEach(function (s) { bindChoice(s, { kind: 'stage', value: s.dataset.stage }, s.dataset.stage); });
+      groupsEls.forEach(function (group) {
+        group.querySelectorAll('.ep3b-paper').forEach(function (paper) {
+          bindChoice(paper, { kind: 'stage', value: group.dataset.stage }, paper.querySelector('.pn').textContent, paper.querySelector('.pmeta'));
+        });
+      });
 
       // ── generation papers ↔ evidence-base tiers: connectors + two-way hover (AI-for-EG style) ──
       var GEN_COLOR = '#2f6d5b';
@@ -1382,15 +1443,23 @@
           out += '<path class="ep3b-genarrow" data-tier="' + t + '" marker-end="url(#ep3bg-ah)" d="M' + sx + ',' + sy + ' C' + mx + ',' + sy + ' ' + mx + ',' + ey + ' ' + ex + ',' + ey + '"/>';
         });
         garrows.innerHTML = out;
+        highlightGen(activeChoice && activeChoice.kind === 'tier' ? activeChoice.value : null);
       }
       function highlightGen(tier) {
         ebTiers.forEach(function (b) { var t = +b.dataset.tier; b.style.opacity = (tier == null) ? '' : (t === tier ? '0.92' : '0.1'); });
         if (garrows) garrows.querySelectorAll('.ep3b-genarrow').forEach(function (p) { var t = +p.dataset.tier, act = tier != null && t === tier; p.style.stroke = act ? GEN_COLOR : ''; p.style.strokeWidth = act ? '2.2' : ''; p.style.opacity = act ? '0.95' : ''; });
         genCards.forEach(function (c) { c.classList.toggle('gen-dim', tier != null && +c.dataset.tier !== tier); });
       }
-      genCards.forEach(function (c) { c.addEventListener('mouseenter', function () { highlightGen(+c.dataset.tier); }); });
-      ebTiers.forEach(function (b) { b.style.cursor = 'pointer'; b.addEventListener('mouseenter', function () { highlightGen(+b.dataset.tier); }); });
-      document.querySelector('.ep3b-grid').addEventListener('mouseleave', function () { highlightGen(null); });
+      genCards.forEach(function (card) {
+        bindChoice(card, { kind: 'tier', value: +card.dataset.tier }, card.querySelector('.pn').textContent, card.querySelector('.pmeta'));
+      });
+      var tierNames = ['Systematic reviews', 'Randomized controlled trials', 'Cohort studies', 'Case-controlled studies', 'Case series and reports', 'Background and expert opinion'];
+      ebTiers.forEach(function (tier) {
+        bindChoice(tier, { kind: 'tier', value: +tier.dataset.tier }, tierNames[+tier.dataset.tier]);
+      });
+      grid3b.addEventListener('keydown', function (event) {
+        if (event.key === 'Escape') { event.stopPropagation(); pinnedChoice = null; showChoice(null); }
+      });
       drawGenArrows();
       window.addEventListener('resize', drawGenArrows);
       window.addEventListener('load', drawGenArrows);
@@ -1520,14 +1589,14 @@
     })();
 
     var slices=[].slice.call(svg.querySelectorAll('.ib-slice'));
-    slices.forEach(function(el,i){
-      el.addEventListener('mouseenter',function(){ setActive(i); });
-      el.addEventListener('click',function(){ setActive(i); });
-    });
+    var pinnedSlice=null, sliceControls=[], touchMode=window.matchMedia('(hover: none)').matches;
+    var stage=document.querySelector('.ib-stage');
 
     /* which slice is pulled out of the stack — null puts the berg back together */
     var groups=[];
     function setActive(i){
+      stage.dataset.highlight=i===null?'':STRATA[i].key;
+      stage.dataset.pinned=pinnedSlice===null?'':STRATA[pinnedSlice].key;
       svg.classList.toggle('ib-exp', i!==null);
       slices.forEach(function(el,j){
         el.classList.toggle('on', i!==null && j===i);
@@ -1536,6 +1605,35 @@
       groups.forEach(function(g,j){
         g.classList.toggle('on', i!==null && j===i);
         g.classList.toggle('ib-gdim', i!==null && j!==i);
+      });
+      sliceControls.forEach(function(control){
+        control.element.setAttribute('aria-pressed',String(control.index===i));
+      });
+    }
+    function previewSlice(i){ if(pinnedSlice===null) setActive(i); }
+    function clearSlice(){ if(pinnedSlice===null) setActive(null); }
+    function selectSlice(i){ pinnedSlice=pinnedSlice===i?null:i; setActive(pinnedSlice); }
+    function bindSlice(element,i,keyboardTarget){
+      if(!touchMode){
+        element.addEventListener('mouseenter',function(){ previewSlice(i); });
+        element.addEventListener('mouseleave',clearSlice);
+      }
+      element.addEventListener('click',function(event){
+        if(!event.target.closest('a')) selectSlice(i);
+      });
+      var target=keyboardTarget||element;
+      target.style.cursor='pointer';
+      target.setAttribute('role','button');
+      target.setAttribute('tabindex','0');
+      target.setAttribute('aria-label','Highlight '+STRATA[i].title);
+      target.setAttribute('aria-pressed','false');
+      sliceControls.push({element:target,index:i});
+      target.addEventListener('focus',function(){ previewSlice(i); });
+      target.addEventListener('blur',clearSlice);
+      target.addEventListener('keydown',function(event){
+        if(event.key==='Enter'||event.key===' '){
+          event.preventDefault(); event.stopPropagation(); selectSlice(i);
+        }
       });
     }
     function buildPanel(){
@@ -1552,12 +1650,13 @@
       }).join('');
       groups=[].slice.call(panel.querySelectorAll('.ib-group'));
       groups.forEach(function(g,i){
-        g.addEventListener('mouseenter',function(){ setActive(i); });
+        g.querySelectorAll('.ib-paper').forEach(function(paper){ bindSlice(paper,i,paper.querySelector('.pmeta')); });
       });
     }
-    /* leaving the whole figure realigns the ice; the panel keeps whatever was
-       last shown, so its links stay clickable on the way to them */
-    document.querySelector('.ib-stage').addEventListener('mouseleave',function(){ setActive(null); });
+    slices.forEach(function(slice,i){ bindSlice(slice,i); });
+    stage.addEventListener('keydown',function(event){
+      if(event.key==='Escape'){ event.stopPropagation(); pinnedSlice=null; setActive(null); }
+    });
     buildPanel();
 
     var water=berg.querySelector('.ib-water'),
