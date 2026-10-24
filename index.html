@@ -186,6 +186,7 @@
             document.getElementById('bio-content').innerHTML=md.trim().split(/\n\s*\n/).map(function(p){
               return '<p>'+esc(p).replace(/\[([^\]]+)\]\(((?:[^()]|\([^()]*\))*)\)/g,'<a href="$2">$1</a>')+'</p>';
             }).join('\n');
+            document.dispatchEvent(new Event('bio-ready'));
           });
           </script>
         </div>
@@ -675,11 +676,9 @@
                   vision: document.getElementById('view-vision'),
                   news:   document.getElementById('view-news') };
     var mounted = false;
-    sw.querySelectorAll('.ds-btn').forEach(function (b) {
-      b.addEventListener('click', function () {
-        var v = b.dataset.view;
+    function setView(v) {
         sw.querySelectorAll('.ds-btn').forEach(function (x) {
-          var on = x === b;
+          var on = x.dataset.view === v;
           x.classList.toggle('ds-on', on);
           x.setAttribute('aria-selected', on ? 'true' : 'false');
         });
@@ -692,8 +691,39 @@
         }
         if (v === 'areas') armTilt();
         if (v === 'vision' && window.FutureFigureLayout) window.FutureFigureLayout();   /* text can't be measured while hidden */
+    }
+    var linkedVision = false, previousView = 'papers';
+    sw.querySelectorAll('.ds-btn').forEach(function (b) {
+      b.addEventListener('click', function () {
+        if (location.hash === '#view-vision' && b.dataset.view !== 'vision') {
+          history.replaceState(null, '', location.pathname + location.search);
+          linkedVision = false;
+        }
+        setView(b.dataset.view);
       });
     });
+    function openLinkedVision() {
+      if (location.hash === '#view-vision') {
+        if (!linkedVision) previousView = sw.querySelector('.ds-on').dataset.view;
+        linkedVision = true;
+        setView('vision');
+        sw.scrollIntoView({ block: 'center' });
+      } else if (linkedVision) {
+        linkedVision = false;
+        setView(previousView);
+      }
+    }
+    document.addEventListener('click', function (e) {
+      if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+      var a = e.target.closest('a[href="#view-vision"]');
+      if (a && location.hash === a.hash) {
+        e.preventDefault();
+        openLinkedVision();
+      }
+    });
+    window.addEventListener('hashchange', openLinkedVision);
+    document.addEventListener('bio-ready', openLinkedVision);
+    openLinkedVision();
 
     /* Cards stay square. On hover each leans toward the cursor, so moving
        across a card tips it to different places — same idea as the pyramid. */
