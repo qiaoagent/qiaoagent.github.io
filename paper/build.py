@@ -15,6 +15,7 @@ DISPLAY_NAMES = {
     'PubMed-and-Beyond': 'PubMed and Beyond',
     'PubTator-3': 'PubTator 3.0',
     'Retrieve-Summarize-Verify': 'Retrieve, Summarize, and Verify',
+    'TrialGPT-2': 'TrialGPT 2.0',
 }
 
 

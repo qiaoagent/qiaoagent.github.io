@@ -333,21 +333,28 @@
     .ep-ftier.ep-dim { opacity: 0.4; }
     .ep-flab { text-align: center; font-weight: 600; line-height: 1.12; letter-spacing: 0.01em; pointer-events: none; }
 
-    /* ── Evidence generation: pyramid (center) + greyed paper deck (side) ─── */
+    /* ── Evidence generation: pyramid (center) + compact paper rows (side) ─── */
     .ep2-section { background: #ffffff; }
-    .ep2-layout { position: relative; display: grid; grid-template-columns: 1fr 320px 1fr; gap: 72px; align-items: center; }
-    .ep2-info { text-align: left; padding-left: 28px; max-width: 340px; }
-    .ep2-center { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 360px; }
+    .ep2-layout { position: relative; display: grid; max-width: 940px; grid-template-columns: 163px 320px 163px; grid-template-rows: auto repeat(3, 120px); column-gap: 24px; justify-content: center; align-items: center; }
+    .ep2-info { grid-column: 1 / -1; grid-row: 1; text-align: center; margin-bottom: 20px; }
+    .ep2-info .section-q { margin-left: auto; margin-right: auto; }
+    .ep2-center { grid-column: 2; grid-row: 2 / span 3; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 360px; }
     .ep2-section .ep-scene { width: 320px; height: 360px; margin: 0; }
+    .ep2-section .ep-pyramid { transform: rotateX(-16deg) rotateY(45deg); }
     .ep2-flat { display: none; width: 300px; margin: 0; }
     .ep2-flat .ep-ftier { width: 300px; }
-    .ep2-toggle { margin-top: 20px; }
-    .ep2-export { position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); display: inline-flex; align-items: center; gap: 5px; padding: 5px 11px; border: 1px solid var(--border); border-radius: 16px; background: var(--panel); color: var(--muted); font: inherit; font-size: 0.68rem; line-height: 1.3; white-space: nowrap; cursor: pointer; }
-    .ep2-export[hidden] { display: none; }
-    .ep2-export:hover { color: var(--ink); border-color: var(--faint); }
-    .ep2-export:focus-visible { outline: 2px solid var(--gen); outline-offset: 3px; }
+    .ep2-toggle { margin-top: 8px; }
+    .ep2-tools { grid-column: 1 / -1; grid-row: 5; margin-top: 10px; text-align: center; }
+    .ep2-actions { display: flex; justify-content: center; align-items: center; gap: 12px; }
+    .ep2-export, .ep2-reset { color: var(--muted); font: inherit; font-size: 0.68rem; line-height: 1.3; white-space: nowrap; cursor: pointer; }
+    .ep2-export { display: inline-flex; align-items: center; gap: 5px; padding: 5px 11px; border: 1px solid var(--border); border-radius: 16px; background: var(--panel); }
+    .ep2-reset { padding: 4px 0; border: 0; background: none; text-decoration: underline; text-underline-offset: 3px; }
+    .ep2-export:hover, .ep2-reset:hover { color: #b89a60; }
+    .ep2-export:focus-visible, .ep2-reset:focus-visible, .ep2-deck .d-info:focus-visible, .ep2-center [role="button"]:focus-visible { outline: 2px solid var(--gen); outline-offset: 3px; }
     .ep2-export:disabled { opacity: 0.6; cursor: wait; }
-    .ep2-export-status { position: absolute; top: 100%; left: 0; width: 100%; margin-top: 5px; text-align: center; color: var(--muted); font-size: 0.68rem; }
+    .ep2-reset:disabled { opacity: 0.4; cursor: default; }
+    .ep2-hint, .ep2-export-status { margin: 6px 0 0; font-size: 0.65rem; line-height: 1.3; color: var(--muted); text-align: center; }
+    .ep2-export-status:empty { display: none; }
 
     /* ── Evidence utilization: hexagonal retrieve→summarize→verify loop ── */
     .ep3-section { background: #ffffff; }
@@ -359,12 +366,12 @@
     /* ── Rotated copy (ep3b) ── */
     /* ── Evidence utilization: hexagonal retrieve→summarize→verify loop ── */
     .ep3b-section { background: #ffffff; }
-    .ep3b-wrap { max-width: 1140px; margin: 0 auto; padding: 0 28px; }
+    .ep3b-wrap { max-width: 1280px; margin: 0 auto; padding: 0 28px; }
     /* deck pages are flex items — force content wrappers to full width (else 1fr columns collapse) */
     .ep3b-wrap, .deck > section > .wrap, .deck > header > .wrap { width: 100%; box-sizing: border-box; }
     .ep3b-head { max-width: 820px; margin: 0 auto 8px; text-align: center; }
     .ep3b-head .section-q { margin-left: auto; margin-right: auto; }
-    .ep3b-grid { display: grid; grid-template-columns: 202px 1fr 322px; gap: 30px; align-items: center; margin-top: 22px; }
+    .ep3b-grid { display: grid; grid-template-columns: 340px minmax(0, 1fr) 322px; gap: 30px; align-items: center; margin-top: 22px; }
     .ep3b-center { display: flex; justify-content: center; }
     .ep3b-svg { width: 100%; max-width: 468px; height: auto; display: block; margin: 0 auto; }
     .ep3b-cap { font-size: 14px; font-style: italic; fill: var(--muted); }
@@ -405,14 +412,18 @@
     .ep3b-pgroup[data-stage="retrieve"] .ep3b-paper:hover .pn { color: var(--gen); }
     .ep3b-pgroup[data-stage="summarize"] .ep3b-paper:hover .pn { color: var(--util); }
     .ep3b-pgroup[data-stage="verify"] .ep3b-paper:hover .pn { color: var(--eval); }
-    .ep3b-left .ep3b-pgroup { grid-template-columns: 1fr; }
+    .ep3b-left .ep3b-pgroup { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .ep3b-left .ep3b-paper, .ep3b-left .pmeta { min-width: 0; }
+    .ep3b-left .d-cover-link { flex: 0 0 51px; }
+    .ep3b-pgroup[data-stage="gen-cr"] .ep3b-paper,
+    .ep3b-pgroup[data-stage="gen-cr"] .glabel { grid-column: 2; }
     .ep3b-grid { position: relative; }
     .ep3b-genarrows { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; overflow: visible; }
     .ep3b-left, .ep3b-center, .ep3b-right { position: relative; z-index: 2; }
     .ep3b-genarrow { fill: none; stroke: #b9c4d0; stroke-width: 1.4; opacity: 0.45; transition: stroke 0.2s, opacity 0.2s, stroke-width 0.2s; }
     .ep3b-ebtier { transition: opacity 0.2s ease; }
     .ep3b-left .ep3b-paper { transition: opacity 0.2s ease; }
-    .ep3b-left .ep3b-paper.gen-dim { opacity: 0.35; }
+    .ep3b-left .ep3b-paper.gen-dim { opacity: 0.3; }
     .ep3b-pgroup[data-stage="generation"] .glabel, .ep3b-pgroup[data-stage="generation"] .d-role { color: var(--gen); }
     .ep3b-pgroup[data-stage="gen-sr"] .glabel, .ep3b-pgroup[data-stage="gen-sr"] .d-role { color: var(--gen); }
     .ep3b-pgroup[data-stage="gen-ct"] .glabel, .ep3b-pgroup[data-stage="gen-ct"] .d-role { color: var(--util); }
@@ -426,19 +437,30 @@
     .ep2-arrows { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; overflow: visible; }
     .ep2-arrow { fill: none; stroke: #ccc7bd; stroke-width: 1.4; opacity: 0.4; transition: stroke 0.2s ease, opacity 0.2s ease, stroke-width 0.2s ease; }
 
-    .ep2-decks { display: flex; flex-direction: column; gap: 10px; }
+    .ep2-decks, .ep2-deck-group { display: contents; }
+    .ep2-deck-group.dim .ep2-deck { opacity: 0.3; }
+    .ep2-deck[data-side="left"] { grid-column: 1; }
+    .ep2-deck[data-side="right"] { grid-column: 3; }
     .ep2-deck {
-      display: flex; gap: 12px; align-items: center; padding: 8px 10px; border-radius: 9px;
-      border: 1px solid transparent; filter: grayscale(1); opacity: 0.5;
-      transition: opacity 0.22s ease, filter 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease, transform 0.22s ease;
+      position: relative; z-index: 2; grid-row: var(--paper-row); display: flex; min-width: 0; gap: 9px; align-items: center; transition: opacity 0.2s ease;
     }
-    .ep2-deck.active { filter: grayscale(0); opacity: 1; border-color: var(--border); background: var(--panel); box-shadow: 0 8px 20px rgba(0,0,0,0.09); transform: translateY(-1px); }
-    .ep2-deck .d-cover-link { display: block; flex-shrink: 0; line-height: 0; }
-    .ep2-deck img { width: 60px; height: auto; border: 1px solid var(--border); border-radius: 3px; box-shadow: 0 2px 6px rgba(0,0,0,0.12); }
-    .ep2-deck .d-role { font-size: 0.66rem; font-weight: 600; color: var(--gen); letter-spacing: 0.02em; margin-bottom: 2px; }
-    .ep2-deck .d-ttl { font-family: "DM Serif Display", Georgia, serif; font-size: 1rem; color: var(--ink); line-height: 1.1; }
-    .ep2-deck .d-venue { font-size: 0.72rem; color: var(--muted); font-style: italic; margin-top: 3px; }
-    @media (max-width: 860px) { .ep2-layout { grid-template-columns: 1fr; } .ep2-decks { max-width: 320px; margin: 0 auto; } .ep2-arrows { display: none; } }   /* stacked: the side-by-side connectors no longer make sense */
+    .ep2-deck .d-info { min-width: 0; cursor: default; }
+    .ep2-deck .d-cover-link { display: block; flex: 0 0 51px; line-height: 0; }
+    .ep2-deck img { width: 51px; height: auto; border: 1px solid var(--border); border-radius: 3px; box-shadow: 0 2px 6px rgba(0,0,0,0.12); }
+    .ep2-deck .d-role { font-size: 0.6rem; font-weight: 600; color: var(--gen); line-height: 1.12; margin-bottom: 1px; }
+    .ep2-deck .d-ttl { font-family: "DM Serif Display", Georgia, serif; font-size: 0.85rem; color: var(--ink); line-height: 1.06; }
+    .ep2-deck .d-venue { font-size: 0.64rem; color: var(--muted); font-style: italic; margin-top: 2px; }
+    .ep2-deck:hover .d-ttl { color: var(--paper-color, var(--gen)); }
+    @media (max-width: 860px) {
+      .ep2-layout { display: flex; flex-direction: column; gap: 22px; }
+      .ep2-info { order: -2; margin-bottom: 0; }
+      .ep2-center { order: -1; }
+      .ep2-decks { display: flex; flex-direction: column; gap: 22px; width: 100%; max-width: 340px; margin: 0 auto; }
+      .ep2-deck-group { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; align-items: center; }
+      .ep2-deck { grid-row: auto; }
+      .ep2-deck[data-side="right"] { grid-column: 2; }
+      .ep2-arrows { display: none; }
+    }
     /* ── Deck / paging: each top-level block is a full-viewport "slide" ── */
     html, body { height: 100%; }
     body { margin: 0; }
@@ -471,7 +493,7 @@
     }
     .deck-dots button:hover { opacity: 0.8; }
     .deck-dots button.active { background: var(--util); border-color: var(--util); opacity: 1; transform: scale(1.3); }
-    /* ── Small screens: the interactive figures are built for wide layouts, so phones get a notice instead ── */
+    /* ── Narrow windows: the interactive figures are built for wide layouts ── */
     .mobile-notice { display: none; }
     @media (max-width: 900px) {
       html:not(.view-anyway) .deck, html:not(.view-anyway) .deck-dots { display: none; }
@@ -568,8 +590,8 @@
 
   <nav class="nav"><div class="wrap"><a class="brand" href="/">Qiao Jin</a><a class="back" href="/">&larr; Home</a></div></nav>
   <section class="mobile-notice" id="mobile-notice">
-    <h1>Mobile version under construction</h1>
-    <p>This page uses interactive figures designed for larger screens. Please revisit on a laptop or desktop.</p>
+    <h1>Best viewed in a wider window</h1>
+    <p>Widen your browser window or use a larger screen to explore the interactive figures.</p>
     <a class="mn-home" href="/">&larr; Back to homepage</a>
     <button class="mn-anyway" type="button" onclick="document.documentElement.classList.add('view-anyway');window.dispatchEvent(new Event('resize'))">View anyway</button>
   </section>
@@ -612,8 +634,6 @@
       <div class="ep2-center">
         <div class="ep-scene" id="ep2-scene"><div class="ep-pyramid" id="ep2-pyr"></div></div>
         <div class="ep-flat ep2-flat" id="ep2-flat"></div>
-        <button class="ep2-export" id="ep2-export" type="button" hidden title="Download just the 2D pyramid as a PNG"><span aria-hidden="true">↓</span><span>Export PNG</span></button>
-        <span class="ep2-export-status" id="ep2-export-status" role="status"></span>
       </div>
       <div class="ep2-info">
         <h2 style="color:var(--gen)">AI for Evidence Generation</h2>
@@ -622,6 +642,14 @@
           <button data-mode="3d" class="ep-active">3D</button>
           <button data-mode="2d">2D</button>
         </div>
+      </div>
+      <div class="ep2-tools">
+        <div class="ep2-actions">
+          <button class="ep2-export" id="ep2-export" type="button" title="Download the full figure with the current highlight as a PNG"><span aria-hidden="true">↓</span><span>Export PNG</span></button>
+          <button class="ep2-reset" id="ep2-reset" type="button" disabled>Show all</button>
+        </div>
+        <p class="ep2-hint" id="ep2-hint"></p>
+        <p class="ep2-export-status" id="ep2-export-status" role="status"></p>
       </div>
     </div>
   </section>
@@ -651,10 +679,12 @@
           <div class="ep3b-pgroup" data-stage="gen-sr">
             <div class="glabel">Systematic Reviews</div>
             <div class="ep3b-paper"><a class="d-cover-link" href="/paper/TrialMind.html" target="_blank" rel="noopener"><img src="/assets/covers/TrialMind.png" alt="TrialMind"></a><div class="pmeta"><div class="d-role">Automating evidence synthesis</div><div class="pn">TrialMind</div><div class="pv">npj Digit Med, 2025</div></div></div>
+            <div class="ep3b-paper"><a class="d-cover-link" href="/paper/LEADS.html" target="_blank" rel="noopener"><img src="/assets/covers/leads.png" alt="LEADS"></a><div class="pmeta"><div class="d-role">Human-AI literature mining</div><div class="pn">LEADS</div><div class="pv">Nat Commun, 2025</div></div></div>
           </div>
           <div class="ep3b-pgroup" data-stage="gen-ct">
             <div class="glabel">Clinical Trials</div>
             <div class="ep3b-paper"><a class="d-cover-link" href="/paper/TrialGPT.html" target="_blank" rel="noopener"><img src="/assets/covers/TrialGPT.png" alt="TrialGPT"></a><div class="pmeta"><div class="d-role">Zero-shot trial matching</div><div class="pn">TrialGPT</div><div class="pv">Nat Commun, 2024</div></div></div>
+            <div class="ep3b-paper"><a class="d-cover-link" href="/paper/TrialGPT-2.html" target="_blank" rel="noopener"><img src="/assets/covers/TrialGPT-2.png" alt="TrialGPT 2.0"></a><div class="pmeta"><div class="d-role">Clinical trial recommendations</div><div class="pn">TrialGPT 2.0</div><div class="pv">arXiv, 2026</div></div></div>
           </div>
           <div class="ep3b-pgroup" data-stage="gen-cr">
             <div class="glabel">Case Reports</div>
@@ -815,6 +845,10 @@
           tpa.className = 'ep-tp'; tpa.dataset.tier = k; tpa.dataset.dir = dir;
           tpa.style.cssText = 'position:absolute;left:' + inset.toFixed(2) + 'px;top:0;width:1px;height:1px;pointer-events:none;';
           f.appendChild(tpa);
+          var rp = lp.cloneNode(); rp.className = 'ep-rp';
+          rp.style.left = 'auto'; rp.style.right = '0'; f.appendChild(rp);
+          var trp = tpa.cloneNode(); trp.className = 'ep-trp';
+          trp.style.left = 'auto'; trp.style.right = inset.toFixed(2) + 'px'; f.appendChild(trp);
           if (d.apex && dir === 0) {   // pyramid tip, for the apex tier's left-edge midpoint
             var tp = document.createElement('span'); tp.className = 'ep-tip';
             tp.style.cssText = 'position:absolute;left:50%;top:0;width:1px;height:1px;pointer-events:none;';
@@ -862,16 +896,22 @@
         lp.className = 'ep-lp'; lp.dataset.tier = k; lp.dataset.dir = 0;
         lp.style.cssText = 'position:absolute;left:' + botLeft.toFixed(2) + '%;bottom:0;width:1px;height:1px;pointer-events:none;';
         t.appendChild(lp);
+        var rp = lp.cloneNode(); rp.className = 'ep-rp';
+        rp.style.left = 'auto'; rp.style.right = botLeft.toFixed(2) + '%'; t.appendChild(rp);
+        var trp = tp.cloneNode(); trp.className = 'ep-trp';
+        trp.style.left = 'auto'; trp.style.right = topLeft.toFixed(2) + '%'; t.appendChild(trp);
         flat2.appendChild(t);
       });
 
       // works grouped by pyramid range (TrialGPT spans the clinical-study tiers)
       var GROUPS = [
         { range:[0,0], works:[
-          { role:'Automating Systematic Reviews', roleColor:'#3d4f68', title:'TrialMind', venue:'npj Digit Med, 2025', link:'/paper/TrialMind.html', cover:'/assets/covers/TrialMind.png' }
+          { role:'Automating Systematic Reviews', roleColor:'#3d4f68', title:'TrialMind', venue:'npj Digit Med, 2025', link:'/paper/TrialMind.html', cover:'/assets/covers/TrialMind.png' },
+          { role:'Human-AI Literature Mining', roleColor:'#3d4f68', title:'LEADS', venue:'Nat Commun, 2025', link:'/paper/LEADS.html', cover:'/assets/covers/leads.png' }
         ] },
         { range:[1,3], works:[
-          { role:'Accelerating Patient Recruitment', roleColor:'#3a6389', title:'TrialGPT', venue:'Nat Commun, 2024', link:'/paper/TrialGPT.html', cover:'/assets/covers/TrialGPT.png' }
+          { role:'Accelerating Patient Recruitment', roleColor:'#3a6389', title:'TrialGPT', venue:'Nat Commun, 2024', link:'/paper/TrialGPT.html', cover:'/assets/covers/TrialGPT.png' },
+          { role:'Clinical Trial Recommendations', roleColor:'#3a6389', title:'TrialGPT 2.0', venue:'arXiv, 2026', link:'/paper/TrialGPT-2.html', cover:'/assets/covers/TrialGPT-2.png' }
         ] },
         { range:[4,4], works:[
           { role:'Curating Case Reports', roleColor:'#6690b3', title:'PMC-Patients', venue:'Scientific Data, 2023', link:'/paper/PMC-Patients.html', cover:'/assets/covers/PMC-Patients.png' }
@@ -883,29 +923,35 @@
       var tierGroup = [];
       GROUPS.forEach(function (g, gi) { for (var i = g.range[0]; i <= g.range[1]; i++) tierGroup[i] = gi; });
 
-      // build the greyed paper deck on the side (one card per work that has a cover)
+      // Split paired papers across the pyramid; single papers stay on the left.
       var decks = document.getElementById('ep2-decks');
       GROUPS.forEach(function (g, gi) {
-        g.works.forEach(function (w) {
+        var row = document.createElement('div');
+        row.className = 'ep2-deck-group';
+        row.dataset.group = gi;
+        g.works.forEach(function (w, wi) {
           if (!w.cover) return;
           var card = document.createElement('div');
           card.className = 'ep2-deck';
           card.dataset.group = gi;
+          card.dataset.side = wi === 0 ? 'left' : 'right';
+          card.style.setProperty('--paper-row', gi + 2);
+          card.style.setProperty('--paper-color', w.roleColor || 'var(--gen)');
           var cover = w.link
             ? '<a class="d-cover-link" href="' + w.link + '" target="_blank" rel="noopener"><img src="' + w.cover + '" alt="' + w.title + '"></a>'
             : '<img src="' + w.cover + '" alt="' + w.title + '">';
           card.innerHTML = cover +
             '<div class="d-info"><div class="d-role" style="color:' + (w.roleColor || 'var(--gen)') + '">' + w.role + '</div>' +
             '<div class="d-ttl">' + w.title + '</div><div class="d-venue">' + w.venue + '</div></div>';
-          decks.appendChild(card);
+          row.appendChild(card);
         });
+        if (row.children.length) decks.appendChild(row);
       });
 
-      // connector arrows from each paper (left) to its pyramid tier (center)
-      var GROUP_FC = { 0: 0.17, 1: 0.54, 2: 0.805 };            // vertical center of each group on the pyramid
+      // Connect every paper, with mirrored curves on either side of the pyramid.
       var GROUP_COLOR = { 0: '#3d4f68', 1: '#3a6389', 2: '#6690b3' };
       var svg = document.getElementById('ep2-arrows');
-      var TIER_OF = { 0: 0, 1: 2, 2: 4 };   // group → the tier whose left vertex the arrow points to
+      var TIER_OF = { 0: 0, 1: 2, 2: 4 };   // group → the tier whose outer edge the arrows point to
       function drawArrows() {
         var layout = document.querySelector('.ep2-layout');
         var lr = layout.getBoundingClientRect();
@@ -923,22 +969,48 @@
           tps.forEach(function (tp) { var r = tp.getBoundingClientRect(); if (!best || r.left < best.left) best = r; });
           return best;
         }
+        function rightCorner(tier, top) {
+          var anchors = document.querySelectorAll(SRC + ' .' + (top ? 'ep-trp' : 'ep-rp') + '[data-tier="' + tier + '"]'), best = null;
+          anchors.forEach(function (a) { var r = a.getBoundingClientRect(); if (!best || r.right > best.right) best = r; });
+          return best;
+        }
         var tipEl = document.querySelector(SRC + ' .ep-tip');                 // 3D apex tip (flat has none)
-        document.querySelectorAll('.ep2-deck').forEach(function (card) {
+        decks.querySelectorAll('.ep2-deck').forEach(function (card) {
           var gi = +card.dataset.group, t = TIER_OF[gi]; if (t == null) return;
-          var bl = leftCorner(t);                                            // this tier's bottom-left point
-          var tl = (t === 0 && tipEl) ? tipEl.getBoundingClientRect() : topCorner(t);  // this tier's own top-left (apex: the tip)
+          var fromRight = card.dataset.side === 'right';
+          var bl = fromRight ? rightCorner(t, false) : leftCorner(t);
+          var tl = (t === 0 && tipEl) ? tipEl.getBoundingClientRect() : (fromRight ? rightCorner(t, true) : topCorner(t));
           if (!bl || !tl) return;
-          var ex = (bl.left + tl.left) / 2 - lr.left - 3, ey = (bl.top + tl.top) / 2 - lr.top;  // midpoint of the tier's left edge
+          var ex = fromRight ? (bl.right + tl.right) / 2 - lr.left + 3 : (bl.left + tl.left) / 2 - lr.left - 3;
+          var ey = (bl.top + tl.top) / 2 - lr.top;
           var cr = card.getBoundingClientRect();
-          var sx = cr.right - lr.left + 4, sy = cr.top + cr.height / 2 - lr.top, mx = (sx + ex) / 2;
-          out += '<path class="ep2-arrow" data-group="' + gi + '" marker-end="url(#ep2ah)" d="M' + sx + ',' + sy + ' C' + mx + ',' + sy + ' ' + mx + ',' + ey + ' ' + ex + ',' + ey + '"/>';
+          var sx = (fromRight ? cr.left - 4 : cr.right + 4) - lr.left, sy = cr.top + cr.height / 2 - lr.top, mx = (sx + ex) / 2;
+          out += '<path class="ep2-arrow" data-group="' + gi + '" data-side="' + card.dataset.side + '" marker-end="url(#ep2ah)" d="M' + sx + ',' + sy + ' C' + mx + ',' + sy + ' ' + mx + ',' + ey + ' ' + ex + ',' + ey + '"/>';
         });
         svg.innerHTML = out;
         paintArrows();
       }
       // apply the current highlight colour to the (possibly just-rebuilt) arrows
-      var hlState = { on: false, gi: 0 };
+      var hlState = { on: false, gi: 0 }, pinnedGroup = null, exporting = false, changedAt = 0;
+      var layout = document.querySelector('.ep2-layout');
+      var exportButton = document.getElementById('ep2-export');
+      var resetButton = document.getElementById('ep2-reset');
+      var exportStatus = document.getElementById('ep2-export-status');
+      var hint = document.getElementById('ep2-hint');
+      var touchMode = window.matchMedia && window.matchMedia('(hover: none)').matches;
+      var groupNames = ['Systematic reviews', 'Clinical studies', 'Case reports', 'Background and expert opinion'];
+      var groupSlugs = ['systematic-reviews', 'clinical-studies', 'case-reports', 'background'];
+      function updateControls() {
+        layout.dataset.activeGroup = hlState.on ? String(hlState.gi) : 'all';
+        layout.dataset.pinnedGroup = pinnedGroup == null ? '' : String(pinnedGroup);
+        layout.dataset.mode = mode3d ? '3d' : '2d';
+        resetButton.disabled = exporting || !hlState.on;
+        hint.textContent = pinnedGroup != null ? groupNames[pinnedGroup] + (touchMode ? ' pinned · Tap again to release' : ' pinned · Click again to release') :
+          (touchMode ? 'Tap a tier or paper to highlight' : 'Hover to highlight · Click to keep');
+        layout.querySelectorAll('[data-highlight-group]').forEach(function (element) {
+          element.setAttribute('aria-pressed', String(hlState.on && +element.dataset.highlightGroup === hlState.gi));
+        });
+      }
       function paintArrows() {
         svg.querySelectorAll('.ep2-arrow').forEach(function (p) {
           var g = +p.dataset.group, act = hlState.on && g === hlState.gi;
@@ -971,16 +1043,24 @@
           t.style.transform = !on ? '' : (i < lo ? 'translateY(-' + GAP2F + 'px)' : i > hi ? 'translateY(' + GAP2F + 'px)' : 'translateY(0)');
           t.classList.toggle('ep-dim', on && (i < lo || i > hi));
         });
-        // side deck: un-grey the matching paper card(s)
-        decks.querySelectorAll('.ep2-deck').forEach(function (d) {
-          d.classList.toggle('active', on && +d.dataset.group === gi);
+        // Spotlight the selected evidence group without individual card boxes.
+        decks.querySelectorAll('.ep2-deck-group').forEach(function (row) {
+          row.classList.toggle('dim', on && +row.dataset.group !== gi);
         });
-        // connector arrow: colour the matching one, and keep endpoints on the moving tiers
+        // Colour every matching connector and keep endpoints on the moving tiers.
         hlState = { on: on, gi: gi };
+        changedAt = performance.now();
+        updateControls();
         paintArrows();
         trackArrows();
       }
-      function reset() { highlight(0, false); }
+      function reset() { if (!exporting) { pinnedGroup = null; highlight(0, false); } }
+      function preview(gi) { if (!exporting && pinnedGroup == null) highlight(gi, true); }
+      function select(gi) {
+        if (exporting) return;
+        pinnedGroup = pinnedGroup === gi ? null : gi;
+        highlight(pinnedGroup == null ? 0 : pinnedGroup, pinnedGroup != null);
+      }
 
       // redraw arrows every frame while the explode transition is animating,
       // so endpoints follow tiers as they lift/lower instead of drifting off
@@ -1001,79 +1081,75 @@
       setTimeout(drawArrows, 400);
 
       var scene = document.getElementById('ep2-scene');
-      var touchMode = window.matchMedia && window.matchMedia('(hover: none)').matches;
-      if (!touchMode) {
-        // hover a pyramid tier (3D) → light the relevant paper
-        scene.addEventListener('mouseover', function (e) { var f = e.target.closest('.ep-sface'); if (f) highlight(tierGroup[+f.dataset.tier], true); });
-        // hover a flat tier (2D) → same
-        flat2.addEventListener('mouseover', function (e) { var t = e.target.closest('.ep-ftier'); if (t) highlight(tierGroup[+t.dataset.tier], true); });
-        // hover a deck card → light it and its pyramid tier(s) (two-way)
-        decks.addEventListener('mouseover', function (e) { var d = e.target.closest('.ep2-deck'); if (d) highlight(+d.dataset.group, true); });
-        // reset only when leaving the whole section
-        document.querySelector('.ep2-layout').addEventListener('mouseleave', reset);
-      } else {
-        // touch: hover never ends, so a tap toggles — the same card/tier again, or a tap outside the section, releases it
-        function toggle(gi) { if (hlState.on && hlState.gi === gi) reset(); else highlight(gi, true); }
-        scene.addEventListener('click', function (e) { var f = e.target.closest('.ep-sface'); if (f) toggle(tierGroup[+f.dataset.tier]); });
-        flat2.addEventListener('click', function (e) { var t = e.target.closest('.ep-ftier'); if (t) toggle(tierGroup[+t.dataset.tier]); });
-        decks.addEventListener('click', function (e) { if (e.target.closest('a')) return; var d = e.target.closest('.ep2-deck'); if (d) toggle(+d.dataset.group); });
-        document.addEventListener('click', function (e) { if (hlState.on && !e.target.closest('.ep2-layout')) reset(); });
+      function tierAt(event, selector) {
+        var element = event.target.closest(selector);
+        return element ? tierGroup[+element.dataset.tier] : null;
       }
-
-      // Export the canonical 2D tiers, independent of hover highlights or movement.
-      var exportButton = document.getElementById('ep2-export');
-      var exportStatus = document.getElementById('ep2-export-status');
+      if (!touchMode) {
+        scene.addEventListener('mouseover', function (event) { var gi = tierAt(event, '.ep-sface'); if (gi != null) preview(gi); });
+        flat2.addEventListener('mouseover', function (event) { var gi = tierAt(event, '.ep-ftier'); if (gi != null) preview(gi); });
+        decks.addEventListener('mouseover', function (event) { var card = event.target.closest('.ep2-deck'); if (card) preview(+card.dataset.group); });
+      }
+      // Retain the last highlight while moving to Export; clicking pins the group.
+      scene.addEventListener('click', function (event) { var gi = tierAt(event, '.ep-sface'); if (gi != null) select(gi); });
+      flat2.addEventListener('click', function (event) { var gi = tierAt(event, '.ep-ftier'); if (gi != null) select(gi); });
+      decks.addEventListener('click', function (event) {
+        if (event.target.closest('a')) return;
+        var card = event.target.closest('.ep2-deck'); if (card) select(+card.dataset.group);
+      });
+      function keyboardHighlight(element, gi, name) {
+        element.dataset.highlightGroup = gi;
+        element.setAttribute('role', 'button');
+        element.setAttribute('tabindex', '0');
+        element.setAttribute('aria-label', 'Highlight ' + name);
+        element.addEventListener('focus', function () { if (!touchMode) preview(gi); });
+        element.addEventListener('keydown', function (event) {
+          if (event.key === 'Enter' || event.key === ' ') {
+            event.preventDefault(); event.stopPropagation(); select(gi);
+          }
+        });
+      }
+      decks.querySelectorAll('.ep2-deck').forEach(function (card) {
+        keyboardHighlight(card.querySelector('.d-info'), +card.dataset.group, card.querySelector('.d-ttl').textContent);
+      });
+      flat2.querySelectorAll('.ep-ftier').forEach(function (tier) {
+        keyboardHighlight(tier, tierGroup[+tier.dataset.tier], tier.textContent);
+      });
+      pyr.querySelectorAll('.ep-slice').forEach(function (tier) {
+        var face = tier.querySelector('.ep-sface');
+        keyboardHighlight(face, tierGroup[+tier.dataset.tier], face.textContent);
+      });
+      resetButton.addEventListener('click', reset);
+      layout.addEventListener('keydown', function (event) {
+        if (event.key === 'Escape') { event.stopPropagation(); reset(); }
+        if (event.target.closest('.ep2-actions, .ep2-toggle') && (event.key === ' ' || event.key === 'Enter')) event.stopPropagation();
+      });
+      if (touchMode) document.addEventListener('click', function (event) { if (!layout.contains(event.target)) reset(); });
       exportButton.addEventListener('click', async function () {
+        if (exporting) return;
+        exporting = true;
         exportButton.disabled = true;
+        updateControls();
+        var toggles = document.querySelectorAll('#ep2-toggle button');
+        toggles.forEach(function (button) { button.disabled = true; });
         exportStatus.textContent = '';
         try {
-          await document.fonts.ready;
-          var width = 300, scale = 4;
-          var canvas = document.createElement('canvas');
-          canvas.width = width * scale; canvas.height = F2H2 * scale;
-          var ctx = canvas.getContext('2d');
-          ctx.scale(scale, scale);
-          ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-          TIERS.forEach(function (d, k) {
-            var top = F[k] * F2H2, bottom = F[k + 1] * F2H2;
-            ctx.save();
-            ctx.beginPath();
-            ctx.moveTo(width * (1 - F[k]) / 2, top);
-            ctx.lineTo(width * (1 + F[k]) / 2, top);
-            ctx.lineTo(width * (1 + F[k + 1]) / 2, bottom);
-            ctx.lineTo(width * (1 - F[k + 1]) / 2, bottom);
-            ctx.closePath(); ctx.fillStyle = d.bg; ctx.fill(); ctx.clip();
-            var label = flat2.querySelector('.ep-flab[data-tier="' + k + '"]');
-            var style = getComputedStyle(label);
-            ctx.font = style.fontWeight + ' ' + style.fontSize + ' ' + style.fontFamily;
-            var spacing = parseFloat(style.letterSpacing) || 0;
-            if ('letterSpacing' in ctx) ctx.letterSpacing = spacing + 'px';
-            var maxWidth = parseFloat(style.maxWidth), lineHeight = parseFloat(style.lineHeight);
-            var lines = [], line = '';
-            d.t.split(' ').forEach(function (word) {
-              var candidate = line ? line + ' ' + word : word;
-              if (line && ctx.measureText(candidate).width > maxWidth) { lines.push(line); line = word; }
-              else line = candidate;
-            });
-            lines.push(line);
-            var labelTop = d.apex ? bottom - 8 - lines.length * lineHeight : top + (bottom - top - lines.length * lineHeight) / 2;
-            ctx.fillStyle = d.c;
-            lines.forEach(function (text, i) { ctx.fillText(text, width / 2, labelTop + (i + 0.5) * lineHeight); });
-            ctx.restore();
-          });
-          var blob = await new Promise(function (resolve, reject) {
-            canvas.toBlob(function (result) { if (result) resolve(result); else reject(new Error('PNG export failed')); }, 'image/png');
-          });
-          var url = URL.createObjectURL(blob), link = document.createElement('a');
-          link.href = url; link.download = 'evidence-pyramid.png';
-          document.body.appendChild(link); link.click(); link.remove();
-          setTimeout(function () { URL.revokeObjectURL(url); }, 10000);
+          // Finish the tier separation before measuring projected corners.
+          var remaining = 450 - (performance.now() - changedAt);
+          if (remaining > 0) await new Promise(function (resolve) { setTimeout(resolve, remaining); });
+          drawArrows();
+          var selection = hlState.on ? groupSlugs[hlState.gi] : 'overview';
+          await window.exportGenerationPng(layout, 'evidence-generation-' + selection + '-' + (mode3d ? '3d' : '2d') + '.png');
         } catch (error) {
           exportStatus.textContent = 'Export failed. Please try again.';
         } finally {
+          exporting = false;
           exportButton.disabled = false;
+          toggles.forEach(function (button) { button.disabled = false; });
+          updateControls();
         }
       });
+      updateControls();
 
       // ── 3D / 2D toggle ──
       document.getElementById('ep2-toggle').addEventListener('click', function (e) {
@@ -1082,9 +1158,8 @@
         mode3d = b.dataset.mode === '3d';
         scene.style.display = mode3d ? 'flex' : 'none';
         flat2.style.display = mode3d ? 'none' : 'block';
-        exportButton.hidden = mode3d;
         exportStatus.textContent = '';
-        reset();
+        highlight(hlState.gi, hlState.on);
         requestAnimationFrame(drawArrows);
       });
     })();
@@ -1093,6 +1168,7 @@
   <script src="/assets/direction-figures.js?v=1"></script>
   <script src="/assets/vendor/html2canvas-1.4.1.min.js"></script>
   <script src="/assets/overview-png-export.js?v=1"></script>
+  <script src="/assets/generation-png-export.js?v=1"></script>
   <script src="/assets/ep3-rsv-loop.js?v=8"></script>
 
   <script>
@@ -1281,14 +1357,19 @@
       var garrows = document.getElementById('ep3b-genarrows');
       var grid3b = document.querySelector('.ep3b-grid');
       var genCards = [].slice.call(document.querySelectorAll('.ep3b-left .ep3b-paper'));
-      [0, 2, 4].forEach(function (t, i) { if (genCards[i]) genCards[i].dataset.tier = t; });
+      var genGroups = [].slice.call(document.querySelectorAll('.ep3b-left .ep3b-pgroup'));
+      var genTierByStage = { 'gen-sr': 0, 'gen-ct': 2, 'gen-cr': 4 };
+      genCards.forEach(function (card) {
+        card.dataset.tier = genTierByStage[card.closest('.ep3b-pgroup').dataset.stage];
+      });
       var ebTiers = [].slice.call(document.querySelectorAll('#ep3b-svg .ep3b-ebtier'));
       function ebAnchor(t) { return document.querySelector('#ep3b-svg .ep3b-ebanchor[data-tier="' + t + '"]'); }
       function drawGenArrows() {
         if (!garrows || !grid3b) return;
         var lr = grid3b.getBoundingClientRect();
         var out = '<defs><marker id="ep3bg-ah" markerWidth="8" markerHeight="8" refX="5.5" refY="3.5" orient="auto"><path d="M0,0 L6,3.5 L0,7 Z" fill="context-stroke"/></marker></defs>';
-        genCards.forEach(function (card) {
+        genGroups.forEach(function (group) {
+          var card = group.querySelector('.ep3b-paper:last-child');
           var t = +card.dataset.tier, a = ebAnchor(t); if (!a) return;
           var ar = a.getBoundingClientRect(), cr = card.getBoundingClientRect();
           var sx = cr.right - lr.left + 4, sy = cr.top + cr.height / 2 - lr.top;
