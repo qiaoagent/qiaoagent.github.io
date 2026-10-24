@@ -306,9 +306,11 @@
           });
           copy.querySelectorAll('.ep3-stage, .ep3-pgroup').forEach(function (element) {
             var active = element.dataset.stage === selected;
+            var showStage = selected === 'agents' && element.classList.contains('ep3-stage');
+            var dim = !!selected && !active && !showStage;
             element.classList.toggle('act', active);
-            element.classList.toggle('dim', !!selected && !active);
-            element.style.opacity = selected && !active ? '0.3' : '1';
+            element.classList.toggle('dim', dim);
+            element.style.opacity = dim ? '0.3' : '1';
           });
           var copiedCovers = [].slice.call(copy.querySelectorAll('img'));
           if (copiedCovers.length !== coverData.length) throw new Error('The paper covers changed during export.');

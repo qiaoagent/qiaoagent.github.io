@@ -5,7 +5,7 @@
    Asset URLs are root-absolute (/assets/…) so covers/PDFs resolve from / and from /paper/. */
 (function () {
   var CSS = `
-  .ep3-grid { display: grid; grid-template-columns: 202px 1fr 322px; gap: 30px; align-items: center; margin-top: 22px; }
+  .ep3-grid { display: grid; grid-template-columns: 202px 1fr 322px; gap: 30px; align-items: center; margin-top: 10px; }
   .ep3-center { display: flex; flex-direction: column; align-items: center; justify-content: center; min-width: 0; }
   .ep3-svg { width: 100%; max-width: 468px; height: auto; display: block; margin: 0 auto; }
   .ep3-actions { display: flex; justify-content: center; align-items: center; gap: 10px; margin-top: 12px; }
@@ -16,12 +16,15 @@
   .ep3-export:disabled { opacity: 0.6; cursor: wait; }
   .ep3-reset:disabled { opacity: 0.4; cursor: default; }
   .ep3-export:focus-visible, .ep3-reset:focus-visible, .ep3-stage:focus-visible { outline: 2px solid var(--util); outline-offset: 3px; }
-  .ep3-pill:focus-visible { outline: none; }
+  .ep3-pill:focus-visible, .ep3-agent:focus-visible { outline: none; }
   .ep3-pill:focus-visible rect { stroke-width: 3; }
+  .ep3-agent { cursor: pointer; }
+  .ep3-agent:focus-visible .ep3-agent-body { stroke: #9a6b28; stroke-width: 2; }
   .ep3-hint, .ep3-export-status { margin: 6px 0 0; font-size: 0.65rem; line-height: 1.3; color: var(--muted); text-align: center; }
   .ep3-export-status:empty { display: none; }
   .ep3-cap { font-size: 14px; font-style: italic; fill: var(--muted); }
   .ep3-pill-t { font-size: 16px; font-weight: 600; fill: var(--util); }
+  .ep3-agent-label { font-size: 16px; font-weight: 600; fill: var(--ink); }
   .ep3-left { display: flex; flex-direction: column; gap: 20px; }
   .ep3-persp { display: flex; gap: 11px; align-items: center; padding: 10px 11px; border: 1px solid var(--border); border-radius: 9px; background: var(--panel); }
   .ep3-persp img { width: 52px; height: auto; border: 1px solid var(--border); border-radius: 3px; box-shadow: 0 2px 6px rgba(0,0,0,0.12); flex-shrink: 0; }
@@ -30,7 +33,7 @@
   .ep3-persp .pv { font-size: 0.68rem; color: var(--muted); font-style: italic; margin-top: 2px; }
   .ep3-stage .st { font-family: "DM Serif Display", Georgia, serif; font-size: 1.05rem; color: var(--util); margin-bottom: 3px; }
   .ep3-stage p { font-size: 0.83rem; color: var(--muted); line-height: 1.5; margin: 0; }
-  .ep3-right { display: flex; flex-direction: column; gap: 13px; }
+  .ep3-right { display: flex; flex-direction: column; gap: 9px; }
   .ep3-pgroup { display: grid; grid-template-columns: 1fr 1fr; column-gap: 14px; row-gap: 11px; align-items: center; }
   .ep3-pgroup .glabel { grid-column: 1 / -1; font-size: 0.62rem; font-weight: 700; letter-spacing: 0.09em; text-transform: uppercase; color: var(--util); margin-bottom: -5px; }
   .ep3-paper { display: flex; gap: 9px; align-items: center; }
@@ -53,6 +56,8 @@
   .ep3-pgroup[data-stage="retrieve"] .ep3-paper:hover .pn { color: var(--gen); }
   .ep3-pgroup[data-stage="summarize"] .ep3-paper:hover .pn { color: var(--util); }
   .ep3-pgroup[data-stage="verify"] .ep3-paper:hover .pn { color: var(--eval); }
+  .ep3-stage[data-stage="agents"] .st, .ep3-pgroup[data-stage="agents"] .glabel, .ep3-pgroup[data-stage="agents"] .d-role,
+  .ep3-pgroup[data-stage="agents"] .ep3-paper:hover .pn { color: #9a6b28; }
   /* compact 3-col that fits the 900px deck slide — opt in with class "ep3-compact" on the mount; research.html keeps the full-width layout */
   #ep3-mount.ep3-compact .ep3-grid { grid-template-columns: 178px 1fr 300px; gap: 20px; margin-top: 0; }
   #ep3-mount.ep3-compact .ep3-svg { max-width: 340px; }
@@ -88,9 +93,10 @@
         '<div class="ep3-stage" data-stage="retrieve"><div class="st">Retrieve</div><p>Search the evidence base for the pieces that actually answer the clinical question.</p></div>' +
         '<div class="ep3-stage" data-stage="summarize"><div class="st">Summarize</div><p>Condense the retrieved evidence into a single, grounded answer.</p></div>' +
         '<div class="ep3-stage" data-stage="verify"><div class="st">Verify</div><p>Check every claim in the answer against the source it cites.</p></div>' +
+        '<div class="ep3-stage" data-stage="agents"><div class="st">Agentic orchestration</div><p>Coordinate retrieval, summarization, and verification to complete complex tasks.</p></div>' +
       '</div>' +
       '<div class="ep3-center">' +
-        '<svg class="ep3-svg" id="ep3-svg" viewBox="145 108 610 614" xmlns="http://www.w3.org/2000/svg" aria-label="Retrieve, Summarize, Verify diagram"></svg>' +
+        '<svg class="ep3-svg" id="ep3-svg" viewBox="145 108 610 614" xmlns="http://www.w3.org/2000/svg" aria-label="AI agents orchestrate Retrieve, Summarize, and Verify"></svg>' +
         '<div class="ep3-actions"><button type="button" class="ep3-export" title="Download the full overview with the current highlight as a PNG"><span aria-hidden="true">↓</span><span>Export PNG</span></button><button type="button" class="ep3-reset" disabled>Show all</button></div>' +
         '<p class="ep3-hint"></p><p class="ep3-export-status" role="status"></p>' +
       '</div>' +
@@ -110,6 +116,10 @@
         '<div class="ep3-pgroup" data-stage="verify"><div class="glabel">Verify</div>' +
           paper('/paper/MedCite.html', '/assets/covers/MedCite.png', 'MedCite', 'Verifiable answer citations', 'MedCite', 'ACL Findings, 2025') +
           paper('/paper/Med-V1.html', '/assets/covers/Med-V1.png', 'Med-V1', 'Scalable evidence attribution', 'Med-V1', 'arXiv, 2026') +
+        '</div>' +
+        '<div class="ep3-pgroup" data-stage="agents"><div class="glabel">Agentic orchestration</div>' +
+          paper('/paper/GeneAgent.html', '/assets/covers/GeneAgent.png', 'GeneAgent', 'Self-verifying gene-set analysis', 'GeneAgent', 'Nat Methods, 2025') +
+          paper('/paper/AgentMD.html', '/assets/covers/AgentMD.png', 'AgentMD', 'Tool-augmented risk prediction', 'AgentMD', 'Nat Commun, 2025') +
         '</div>' +
       '</div>' +
     '</div>';
@@ -134,6 +144,8 @@
     var defs = el('defs');
     var mk = el('marker', { id: 'ep3ah', markerWidth: 9, markerHeight: 9, refX: 6.5, refY: 4, orient: 'auto' }, defs);
     el('path', { d: 'M0,0 L7,4 L0,8 Z', fill: 'context-stroke' }, mk);
+    var agentMarker = el('marker', { id: 'ep3-agent-arrow', markerWidth: 6, markerHeight: 6, refX: 6, refY: 3, orient: 'auto-start-reverse' }, defs);
+    el('path', { d: 'M0,0 L6,3 L0,6 Z', fill: 'context-stroke' }, agentMarker);
     var STA = [
       { t: 'r', a: 60, b: 22 }, { t: 'p', a: 86, b: 74 }, { t: 'r', a: 65, b: 22 },
       { t: 'r', a: 102, b: 64 }, { t: 'r', a: 50, b: 22 }, { t: 'p', a: 86, b: 74 }
@@ -163,6 +175,34 @@
       });
       ITEMS.push({ el: ln, stages: [e2[2]] });
     });
+    /* The Vision chip coordinates the three operations; the outer loop keeps
+       showing the flow of evidence and answers. */
+    [[0, 'retrieve'], [2, 'summarize'], [4, 'verify']].forEach(function (entry) {
+      var target = V[entry[0]], dx = target.x - CX, dy = target.y - CY;
+      var length = Math.sqrt(dx * dx + dy * dy), ux = dx / length, uy = dy / length;
+      var start = 60, end = reach(entry[0], -ux, -uy) + AGAP;
+      var spoke = el('g', { 'class': 'ep3-agent-link', 'data-stage': entry[1] });
+      el('line', {
+        x1: CX + ux * start, y1: CY + uy * start,
+        x2: target.x - ux * end, y2: target.y - uy * end,
+        stroke: STAGE_COLOR[entry[1]], 'stroke-width': 1.4, 'stroke-dasharray': '4 5',
+        'marker-start': 'url(#ep3-agent-arrow)', 'marker-end': 'url(#ep3-agent-arrow)', opacity: 0.65
+      }, spoke);
+      ITEMS.push({ el: spoke, stages: [entry[1]] });
+    });
+    var agent = el('g', { transform: 'translate(' + CX + ',' + CY + ')', 'class': 'ep3-agent', 'data-stage': 'agents' });
+    el('rect', { x: -50, y: -50, width: 100, height: 130, rx: 12, fill: 'transparent', 'pointer-events': 'all' }, agent);
+    var agentColor = '#9a6b28';
+    [-20, 0, 20].forEach(function (p) {
+      el('rect', { x: p - 2, y: -42, width: 4, height: 10, rx: 2, fill: agentColor, opacity: 0.5 }, agent);
+      el('rect', { x: p - 2, y: 32, width: 4, height: 10, rx: 2, fill: agentColor, opacity: 0.5 }, agent);
+      el('rect', { x: -42, y: p - 2, width: 10, height: 4, rx: 2, fill: agentColor, opacity: 0.5 }, agent);
+      el('rect', { x: 32, y: p - 2, width: 10, height: 4, rx: 2, fill: agentColor, opacity: 0.5 }, agent);
+    });
+    var agentBody = el('rect', { x: -32, y: -32, width: 64, height: 64, rx: 9, fill: agentColor, opacity: 0.16, 'class': 'ep3-agent-body' }, agent);
+    el('rect', { x: -23, y: -23, width: 46, height: 46, rx: 5, fill: agentColor, opacity: 0.10 }, agent);
+    el('text', { x: 0, y: 10, 'text-anchor': 'middle', 'font-family': 'DM Serif Display, Georgia, serif', 'font-size': 30, fill: agentColor }, agent).textContent = 'AI';
+    el('text', { x: 0, y: 68, 'text-anchor': 'middle', 'class': 'ep3-agent-label' }, agent).textContent = 'AI agents';
     function mulberry32(a) {
       return function () {
         a |= 0; a = a + 0x6D2B79F5 | 0;
@@ -236,6 +276,7 @@
     var pVerify = pill(V[4].x, V[4].y, 'Verify', STAGE_COLOR.verify);
     var pyBase = pyramid(V[5].x, V[5].y, false, 'Evidence base');
     ITEMS.push(
+      { el: agent, stages: ['agents'] },
       { el: pyBase, stages: ['retrieve', 'verify'] },
       { el: pyRelevant, stages: ['retrieve', 'summarize'] },
       { el: gAnswer, stages: ['summarize', 'verify'] }
@@ -254,7 +295,7 @@
     var hint = root.querySelector('.ep3-hint');
     var exportStatus = root.querySelector('.ep3-export-status');
     var touchMode = window.matchMedia('(hover: none)').matches;
-    var stageNames = { retrieve: 'Retrieve', summarize: 'Summarize', verify: 'Verify' };
+    var stageNames = { retrieve: 'Retrieve', summarize: 'Summarize', verify: 'Verify', agents: 'AI agents' };
     function highlight(stage) {
       currentStage = stage;
       root.dataset.activeStage = stage || 'all';
@@ -263,8 +304,10 @@
       hint.textContent = pinnedStage ? stageNames[pinnedStage] + (touchMode ? ' pinned · Tap again to release' : ' pinned · Click again to release') :
         (touchMode ? 'Tap a stage to highlight' : 'Hover to highlight · Click to keep');
       ITEMS.forEach(function (it) {
-        it.el.style.opacity = (!stage || it.stages.indexOf(stage) >= 0) ? '1' : '0.4';
+        it.el.style.opacity = (!stage || stage === 'agents' || it.stages.indexOf(stage) >= 0) ? '1' : '0.4';
       });
+      agent.setAttribute('aria-pressed', String(stage === 'agents'));
+      agentBody.style.opacity = stage === 'agents' ? '0.3' : '0.16';
       PILLS.forEach(function (p) {
         var act = p.stage === stage;
         p.rect.style.fill = act ? p.color : '#ffffff';
@@ -273,7 +316,8 @@
       });
       [].concat(stagesEls, groupsEls).forEach(function (e) {
         e.classList.toggle('act', e.dataset.stage === stage);
-        e.classList.toggle('dim', !!stage && e.dataset.stage !== stage);
+        var coordinated = stage === 'agents' && e.classList.contains('ep3-stage');
+        e.classList.toggle('dim', !!stage && !coordinated && e.dataset.stage !== stage);
         if (e.classList.contains('ep3-stage')) e.setAttribute('aria-pressed', String(e.dataset.stage === stage));
       });
     }
@@ -307,6 +351,7 @@
       }
     }
     PILLS.forEach(function (p) { p.g.dataset.stage = p.stage; bindStage(p.g, p.stage, true); });
+    bindStage(agent, 'agents', true);
     stagesEls.forEach(function (s) { bindStage(s, s.dataset.stage, true); });
     groupsEls.forEach(function (grp) { bindStage(grp, grp.dataset.stage, false); });
     resetButton.addEventListener('click', reset);
