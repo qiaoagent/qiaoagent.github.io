@@ -345,6 +345,10 @@
     .ep2-flat .ep-ftier { width: 300px; }
     .ep2-toggle { margin-top: 8px; }
     .ep2-tools { grid-column: 1 / -1; grid-row: 5; margin-top: 10px; text-align: center; }
+    /* Reserve room for the projected base, including its downward expansion. */
+    @media (min-width: 861px) {
+      .ep2-layout[data-mode="3d"] .ep2-tools { margin-top: 44px; }
+    }
     .ep2-actions { display: flex; justify-content: center; align-items: center; gap: 12px; }
     .ep2-export, .ep2-reset { color: var(--muted); font: inherit; font-size: 0.68rem; line-height: 1.3; white-space: nowrap; cursor: pointer; }
     .ep2-export { display: inline-flex; align-items: center; gap: 5px; padding: 5px 11px; border: 1px solid var(--border); border-radius: 16px; background: var(--panel); }
