@@ -82,6 +82,22 @@
     .stbl td.slab{color:var(--accent);font-weight:600;width:132px;padding-right:22px;white-space:nowrap;}
     footer{border-top:1px solid var(--border);padding:26px 0 46px;color:var(--faint);font-size:0.82rem;text-align:center;margin-top:10px;}
     @media (max-width:640px){.hero{grid-template-columns:1fr;gap:22px;padding-top:34px;}.hero .cover{width:150px;}h1{font-size:1.6rem;}.slide h2{font-size:1.42rem;}.deck{padding:0 20px;}}
+    /* The method schematic keeps the published stages and the code-revision path. */
+    .agent-workflow{margin:22px 0 0;}
+    .agent-workflow svg{display:block;width:100%;height:auto;overflow:visible;font-family:"DM Sans",sans-serif;}
+    .agent-workflow .flow-title{font-size:21px;font-weight:600;fill:var(--ink);}
+    .agent-workflow .flow-note{font-size:16px;fill:var(--muted);}
+    .agent-workflow .flow-accent{fill:var(--accent);}
+    .agent-workflow .flow-line{fill:none;stroke:#bcb7bf;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;}
+    .agent-workflow .flow-loop{stroke:var(--accent);}
+    .agent-workflow .flow-mobile{display:none;}
+    .agent-workflow figcaption{font-size:0.8rem;color:var(--faint);font-style:italic;line-height:1.5;margin-top:6px;}
+    @media(max-width:600px){
+      .agent-workflow .flow-desktop{display:none;}
+      .agent-workflow .flow-mobile{display:block;max-width:380px;margin:auto;}
+      .agent-workflow{margin-top:14px;}
+      #method{justify-content:flex-start;}
+    }
 </style>
 <link rel="stylesheet" href="../assets/paper-cover.css">
 </head><body>
@@ -98,7 +114,134 @@
 
     <section class="slide" id="motivation"><div class="kick"><span class="n">01</span>Motivation</div><h2>Clinical calculators are trusted &mdash; and hard to reach</h2><div class="body"><ul class="highlights"><li>Risk scores like CURB-65 turn a patient&rsquo;s numbers into a decision: admit, discharge, escalate.</li><li>Thousands sit published in the literature, but usability and dissemination keep most of them from the bedside.</li><li>Of a random sample of calculators, <b>96% had no online implementation at all</b> &mdash; the tools exist only as prose in a paper.</li></ul></div></section>
 
-    <section class="slide" id="method"><div class="kick"><span class="n">02</span>Method</div><h2>AgentMD both curates clinical calculators and applies them</h2><div class="body"><ul class="highlights"><li>As a <b>tool builder</b>, AgentMD reads PubMed and writes executable clinical calculators.</li><li>As a <b>tool user</b>, it selects the calculator a patient needs, runs it, and explains the score.</li></ul><figure class="fig"><img src="../assets/figures/auto/AgentMD_fig1_b.png" alt="AgentMD tool-using pipeline: a patient note is embedded with MedCPT to select relevant calculators, an LLM writes code that a Python interpreter executes, and the result is summarized."><figcaption>Tool selection retrieves candidates with <a class="ref own" href="https://academic.oup.com/bioinformatics/article/39/11/btad651/7335842" target="_blank" rel="noopener">MedCPT</a>; an LLM then writes code that a Python interpreter executes, and the score is summarized in plain language. <span class="src"><a class="srcref" href="https://www.nature.com/articles/s41467-025-64430-x" target="_blank" rel="noopener">Fig. 1b</a>.</span></figcaption></figure></div></section>
+    <section class="slide" id="method">
+      <div class="kick"><span class="n">02</span>Method</div>
+      <h2>AgentMD both curates clinical calculators and applies them</h2>
+      <div class="body">
+        <ul class="highlights">
+          <li>As a <b>tool/skill builder</b>, AgentMD reads PubMed and writes executable clinical calculators.</li>
+          <li>As a <b>tool/skill user</b>, it selects the calculator a patient needs, runs it, and explains the score.</li>
+        </ul>
+        <figure class="agent-workflow">
+          <svg aria-hidden="true" focusable="false" style="position:absolute;width:0;height:0;overflow:hidden">
+            <defs>
+              <marker id="agent-arrow" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto"><path d="M1 1 7 4 1 7" fill="none" stroke="#bcb7bf" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></marker>
+              <marker id="agent-arrow-accent" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto"><path d="M1 1 7 4 1 7" fill="none" stroke="#2c5a8c" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></marker>
+              <g id="agent-flow-input">
+                <rect x="-70" y="-44" width="140" height="88" rx="8" fill="#f7f7f5"/>
+                <text font-size="21" font-weight="600" fill="#222" class="flow-title" text-anchor="middle" y="-6">Patient note</text>
+                <text font-size="16" fill="#6a655d" class="flow-note" text-anchor="middle" y="21">Clinical context</text>
+              </g>
+              <g id="agent-flow-draft">
+                <rect x="-70" y="-44" width="140" height="88" rx="8" fill="#f7f7f5"/>
+                <text font-size="21" font-weight="600" fill="#222" class="flow-title" text-anchor="middle" y="-6">Select tools</text>
+                <text font-size="16" fill="#6a655d" class="flow-note" text-anchor="middle" y="21">Check eligibility</text>
+              </g>
+              <g id="agent-flow-verify">
+                <rect x="-70" y="-44" width="140" height="88" rx="8" fill="#e4ecf5"/>
+                <text font-size="21" font-weight="600" fill="#2c5a8c" class="flow-title flow-accent" text-anchor="middle" y="-6">Write code</text>
+                <text font-size="16" fill="#6a655d" class="flow-note" text-anchor="middle" y="21">Call calculator</text>
+              </g>
+              <g id="agent-flow-refine">
+                <rect x="-70" y="-44" width="140" height="88" rx="8" fill="#f0f4f9"/>
+                <text font-size="21" font-weight="600" fill="#2c5a8c" class="flow-title flow-accent" text-anchor="middle" y="-6">Execute</text>
+                <text font-size="16" fill="#6a655d" class="flow-note" text-anchor="middle" y="21">Python</text>
+              </g>
+              <g id="agent-flow-final">
+                <rect x="-70" y="-44" width="140" height="88" rx="8" fill="#f7f7f5"/>
+                <text font-size="21" font-weight="600" fill="#222" class="flow-title" text-anchor="middle" y="-6">Summarize</text>
+                <text font-size="16" fill="#6a655d" class="flow-note" text-anchor="middle" y="21">Score or range</text>
+              </g>
+              <g id="agent-flow-databases">
+                <path d="M-18-11v24c0 5 36 5 36 0v-24c0 5-36 5-36 0Z" fill="#e4ecf5"/>
+                <ellipse cy="-11" rx="18" ry="5" fill="#2c5a8c"/>
+                <path d="M-18 1c0 5 36 5 36 0M-18 9c0 5 36 5 36 0" fill="none" stroke="#fff" stroke-width="2"/>
+              </g>
+              <g id="agent-curate-source">
+                <rect x="-70" y="-44" width="140" height="88" rx="8" fill="#f7f7f5"/>
+                <text font-size="21" font-weight="600" fill="#222" class="flow-title" text-anchor="middle" y="-6">PubMed</text>
+                <text font-size="16" fill="#6a655d" class="flow-note" text-anchor="middle" y="21">Abstracts</text>
+              </g>
+              <g id="agent-curate-screen">
+                <rect x="-70" y="-44" width="140" height="88" rx="8" fill="#f0f4f9"/>
+                <text font-size="21" font-weight="600" fill="#2c5a8c" class="flow-title flow-accent" text-anchor="middle" y="-6">Screen</text>
+                <text font-size="16" fill="#6a655d" class="flow-note" text-anchor="middle" y="21">Find calculators</text>
+              </g>
+              <g id="agent-curate-build">
+                <rect x="-70" y="-44" width="140" height="88" rx="8" fill="#e4ecf5"/>
+                <text font-size="21" font-weight="600" fill="#2c5a8c" class="flow-title flow-accent" text-anchor="middle" y="-6">Draft</text>
+                <text font-size="16" fill="#6a655d" class="flow-note" text-anchor="middle" y="21">Code + metadata</text>
+              </g>
+              <g id="agent-curate-check">
+                <rect x="-70" y="-44" width="140" height="88" rx="8" fill="#f0f4f9"/>
+                <text font-size="21" font-weight="600" fill="#2c5a8c" class="flow-title flow-accent" text-anchor="middle" y="-6">Verify</text>
+                <text font-size="16" fill="#6a655d" class="flow-note" text-anchor="middle" y="21">Six quality checks</text>
+              </g>
+              <g id="agent-curate-library">
+                <rect x="-70" y="-44" width="140" height="88" rx="8" fill="#e4ecf5"/>
+                <text font-size="21" font-weight="600" fill="#2c5a8c" class="flow-title flow-accent" text-anchor="middle" y="-6">RiskCalcs</text>
+                <text font-size="16" fill="#6a655d" class="flow-note" text-anchor="middle" y="21">2,164 calculators</text>
+              </g>
+            </defs>
+          </svg>
+          <svg class="flow-desktop" viewBox="0 0 840 420" role="img" aria-labelledby="agent-flow-title agent-flow-desc">
+            <title id="agent-flow-title">AgentMD builds clinical tools and applies them to patients</title>
+            <desc id="agent-flow-desc">Tool/skill builder: screen PubMed articles, draft executable calculators and metadata, and verify them to create RiskCalcs with 2,164 calculators. Tool/skill user: retrieve candidates with MedCPT, check patient eligibility, write and execute Python code, then summarize the score or range. Revise code when needed based on execution feedback.</desc>
+            <text font-size="16" font-weight="600" fill="#2c5a8c" x="0" y="20">Tool/skill builder</text>
+            <use href="#agent-curate-source" x="70" y="82"/>
+            <use href="#agent-curate-screen" x="245" y="82"/>
+            <use href="#agent-curate-build" x="420" y="82"/>
+            <use href="#agent-curate-check" x="595" y="82"/>
+            <use href="#agent-curate-library" x="770" y="82"/>
+            <g class="flow-line" marker-end="url(#agent-arrow)">
+              <path d="M148 82H167"/><path d="M323 82H342"/>
+              <path d="M498 82H517"/><path d="M673 82H692"/>
+            </g>
+            <path class="flow-line flow-loop" d="M770 136V153Q770 165 758 165H257Q245 165 245 177V222" marker-end="url(#agent-arrow-accent)"/>
+            <text font-size="16" fill="#2c5a8c" class="flow-note flow-accent" x="507.5" y="153" text-anchor="middle">Retrieve with MedCPT</text>
+            <text font-size="16" font-weight="600" fill="#2c5a8c" x="0" y="212">Tool/skill user</text>
+            <use href="#agent-flow-input" x="70" y="274"/>
+            <use href="#agent-flow-draft" x="245" y="274"/>
+            <use href="#agent-flow-verify" x="420" y="274"/>
+            <use href="#agent-flow-refine" x="595" y="274"/>
+            <use href="#agent-flow-final" x="770" y="274"/>
+            <g class="flow-line" marker-end="url(#agent-arrow)">
+              <path d="M148 274H167"/><path d="M323 274H342"/>
+              <path d="M498 274H517"/><path d="M673 274H692"/>
+            </g>
+            <path class="flow-line flow-loop" d="M595 328V359Q595 371 583 371H432Q420 371 420 359V328" marker-end="url(#agent-arrow-accent)"/>
+            <text font-size="16" fill="#2c5a8c" class="flow-note flow-accent" x="507.5" y="402" text-anchor="middle">Revise code if needed</text>
+          </svg>
+          <svg class="flow-mobile" viewBox="0 0 410 560" role="img" aria-labelledby="agent-flow-mobile-title agent-flow-mobile-desc">
+            <title id="agent-flow-mobile-title">AgentMD tool/skill building and use</title>
+            <desc id="agent-flow-mobile-desc">Left column: PubMed, screen articles, draft calculators, verify, RiskCalcs. Right column: patient note, select eligible tools retrieved from RiskCalcs with MedCPT, write code, execute in Python, summarize score or range. Execution feedback permits code revision.</desc>
+            <g transform="translate(10 0) scale(.94)">
+              <text font-size="16" font-weight="600" fill="#2c5a8c" x="80" y="25" text-anchor="middle">Tool/skill builder</text>
+              <text font-size="16" font-weight="600" fill="#2c5a8c" x="285" y="25" text-anchor="middle">Tool/skill user</text>
+              <use href="#agent-curate-source" x="80" y="90"/>
+              <use href="#agent-curate-screen" x="80" y="200"/>
+              <use href="#agent-curate-build" x="80" y="310"/>
+              <use href="#agent-curate-check" x="80" y="420"/>
+              <use href="#agent-curate-library" x="80" y="530"/>
+              <use href="#agent-flow-input" x="285" y="90"/>
+              <use href="#agent-flow-draft" x="285" y="200"/>
+              <use href="#agent-flow-verify" x="285" y="310"/>
+              <use href="#agent-flow-refine" x="285" y="420"/>
+              <use href="#agent-flow-final" x="285" y="530"/>
+              <g class="flow-line" marker-end="url(#agent-arrow)">
+                <path d="M80 142V148"/><path d="M80 252V258"/><path d="M80 362V368"/><path d="M80 472V478"/>
+                <path d="M285 142V148"/><path d="M285 252V258"/><path d="M285 362V368"/><path d="M285 472V478"/>
+              </g>
+              <path class="flow-line flow-loop" d="M158 530H167Q179 530 179 518V212Q179 200 191 200H207" marker-end="url(#agent-arrow-accent)"/>
+              <text font-size="15" fill="#2c5a8c" transform="translate(169 400) rotate(-90)" text-anchor="middle">Retrieve with MedCPT</text>
+              <path class="flow-line flow-loop" d="M363 420H370Q380 420 380 410V320Q380 310 370 310H363" marker-end="url(#agent-arrow-accent)"/>
+              <text font-size="15" fill="#2c5a8c" transform="translate(402 365) rotate(-90)" text-anchor="middle">Revise code if needed</text>
+            </g>
+          </svg>
+          <figcaption>Tool curation and use, with retrieval by our <a class="ref own" href="MedCPT.html" target="_blank" rel="noopener">MedCPT</a>. Simplified from <a class="srcref" href="../assets/papers/AgentMD.pdf#page=2" target="_blank" rel="noopener">Fig. 1a–b</a>.</figcaption>
+        </figure>
+      </div>
+    </section>
 
     <section class="slide" id="skills"><div class="kick"><span class="n">03</span>Perspective</div><h2>In today&rsquo;s terms, RiskCalcs is a skill library</h2><div class="body"><ul class="highlights"><li>Written before the vocabulary existed &mdash; but the architecture is the one agents now use for skills.</li><li>The pattern generalizes: an agent gets reliable not by knowing more, but by being handed a vetted tool &mdash; and a way to find it.</li></ul><div class="tbl-wrap"><table class="utbl wrap"><thead><tr><th style="text-align:left">What each RiskCalcs tool ships with</th><th style="text-align:left">Its counterpart today</th></tr></thead><tbody><tr><td style="text-align:left">Purpose, Computation, Interpretation and Utility &mdash; written in plain language</td><td style="text-align:left">the body of a skill file</td></tr><tr><td style="text-align:left"><b>Eligibility</b> &mdash; which patients the calculator applies to</td><td style="text-align:left">the description that tells an agent <i>when</i> to load it</td></tr><tr><td style="text-align:left"><span style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:0.88em">compute_curb65(&hellip;)</span> with a typed docstring, plus generated unit tests</td><td style="text-align:left">the bundled script, and its tests</td></tr><tr><td style="text-align:left">2,164 tools indexed by <a class="ref own" href="https://academic.oup.com/bioinformatics/article/39/11/btad651/7335842" target="_blank" rel="noopener">MedCPT</a> &mdash; only the top candidates ever reach the prompt</td><td style="text-align:left">skill search, and progressive disclosure</td></tr><tr><td style="text-align:left">the chosen function runs in a Python interpreter, not in the model</td><td style="text-align:left">sandboxed execution</td></tr></tbody></table></div></div></section>
     <section class="slide" id="result"><div class="kick"><span class="n">04</span>Result</div><h2>RiskCalcs: 2,164 calculators that actually run</h2><div class="body"><ul class="highlights"><li>Over <b>90% pass rate</b> on automatically generated unit tests, and 84.0% on manually written ones.</li><li>Because most curated calculators have no online version, RiskCalcs supplements &mdash; rather than duplicates &mdash; existing hubs.</li></ul><div class="stats"><div class="stat"><div class="num">2,164</div><div class="lbl">executable calculators<br>curated from PubMed</div></div><div class="stat"><div class="num">87.6%</div><div class="lbl">computing logic<br>correct</div></div><div class="stat"><div class="num">89.0%</div><div class="lbl">result interpretation<br>correct</div></div><div class="stat"><div class="num">91.6%</div><div class="lbl">calculations match<br>manual computation</div></div></div></div></section>
