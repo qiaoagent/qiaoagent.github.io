@@ -622,6 +622,7 @@ svg.cycle .hit { fill: none; stroke: transparent; stroke-width: 28; pointer-even
 .faq-item summary:hover { color: #b89a60; }
 .faq-item summary:focus-visible { outline: 1.5px solid #b89a60; outline-offset: 3px; }
 .faq-answer { padding: 0 34px 20px 0; font-size: .94rem; line-height: 1.7; color: var(--muted); }
+.faq-answer p + p { margin-top: 12px; }
 [data-theme="dark"] .faq-item summary:hover { color: #c2a76b; }
 @media (max-width: 700px) {
   .news-list li { grid-template-columns: 62px 1fr; gap: 10px; }
