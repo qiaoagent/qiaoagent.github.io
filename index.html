@@ -42,7 +42,7 @@
              "https://github.com/drqiaojin",
              "https://twitter.com/DrQiaoJin"]}
   </script>
-  <link rel="stylesheet" href="style.css?v=20261024-areas">
+  <link rel="stylesheet" href="style.css?v=20261025-faq">
 </head>
 <body>
 
@@ -202,6 +202,8 @@
             <button type="button" class="ds-btn" data-view="vision" role="tab" aria-selected="false">Vision</button>
             <span class="ds-sep" aria-hidden="true">/</span>
             <button type="button" class="ds-btn" data-view="news" role="tab" aria-selected="false">News</button>
+            <span class="ds-sep" aria-hidden="true">/</span>
+            <button type="button" class="ds-btn" data-view="faq" role="tab" aria-selected="false" id="faq-tab" aria-controls="view-faq">FAQ</button>
           </span>
         </h2>
 
@@ -432,6 +434,28 @@
               <li><time>2022</time><span>Started postdoctoral training at NIH/NLM/NCBI.</span></li>
             </ul>
             </div>
+          </div>
+        </div>
+        <div class="deck-view" id="view-faq" role="tabpanel" aria-labelledby="faq-tab">
+          <div class="faq-wrap">
+            <details class="faq-item">
+              <summary>What inspired you to pursue medical AI as an MD?</summary>
+              <div class="faq-answer">
+                <p>While I was in medical school, Wei Zexi&rsquo;s story convinced me that reliable medical information can matter as much as treatment. I chose medical AI to help people find and use trustworthy medical evidence. <a href="story/" target="_blank" rel="noopener">Read my story</a>.</p>
+              </div>
+            </details>
+            <details class="faq-item">
+              <summary>Are you recruiting students or postdocs?</summary>
+              <div class="faq-answer">
+                <p>I am currently in transition and expect to launch my lab around fall 2027. I am not recruiting yet, but prospective students and postdocs are welcome to <a href="mailto:qiaojin.andy@gmail.com">email me</a> about future opportunities.</p>
+              </div>
+            </details>
+            <details class="faq-item">
+              <summary>Are you open to collaborations with academia and industry?</summary>
+              <div class="faq-answer">
+                <p>We welcome collaboration inquiries from academia and industry. Under current institutional policy, we cannot collaborate with institutions based in <a href="https://www.state.gov/countries-of-particular-concern-special-watch-list-countries-entities-of-particular-concern/" target="_blank" rel="noopener">Countries of Particular Concern</a> designated by the U.S. Department of State. Please <a href="mailto:qiaojin.andy@gmail.com">email me</a> to discuss potential collaborations.</p>
+              </div>
+            </details>
           </div>
         </div>
       </section>
@@ -674,7 +698,8 @@
     var views = { papers: document.getElementById('view-papers'),
                   areas:  document.getElementById('view-areas'),
                   vision: document.getElementById('view-vision'),
-                  news:   document.getElementById('view-news') };
+                  news:   document.getElementById('view-news'),
+                  faq:    document.getElementById('view-faq') };
     var mounted = false;
     function setView(v) {
         sw.querySelectorAll('.ds-btn').forEach(function (x) {
@@ -692,38 +717,45 @@
         if (v === 'areas') armTilt();
         if (v === 'vision' && window.FutureFigureLayout) window.FutureFigureLayout();   /* text can't be measured while hidden */
     }
-    var linkedVision = false, previousView = 'papers';
+    var linkedView = null, previousView = 'papers';
+    function viewFromHash() {
+      if (location.hash === '#view-vision') return 'vision';
+      if (location.hash === '#view-faq') return 'faq';
+      return null;
+    }
     sw.querySelectorAll('.ds-btn').forEach(function (b) {
       b.addEventListener('click', function () {
-        if (location.hash === '#view-vision' && b.dataset.view !== 'vision') {
+        if (viewFromHash() && b.dataset.view !== viewFromHash()) {
           history.replaceState(null, '', location.pathname + location.search);
-          linkedVision = false;
+          linkedView = null;
         }
         setView(b.dataset.view);
       });
     });
-    function openLinkedVision() {
-      if (location.hash === '#view-vision') {
-        if (!linkedVision) previousView = sw.querySelector('.ds-on').dataset.view;
-        linkedVision = true;
-        setView('vision');
+    function openLinkedView() {
+      var v = viewFromHash();
+      if (v) {
+        if (!linkedView) previousView = sw.querySelector('.ds-on').dataset.view;
+        linkedView = v;
+        setView(v);
         sw.scrollIntoView({ block: 'center' });
-      } else if (linkedVision) {
-        linkedVision = false;
+        if (v === 'faq') sw.querySelector('[data-view="faq"]').scrollIntoView({ block: 'nearest', inline: 'nearest' });
+      } else if (linkedView) {
+        linkedView = null;
         setView(previousView);
       }
     }
     document.addEventListener('click', function (e) {
       if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
-      var a = e.target.closest('a[href="#view-vision"]');
+      var a = e.target.closest('a[href="#view-vision"], a[href="#view-faq"]');
       if (a && location.hash === a.hash) {
         e.preventDefault();
-        openLinkedVision();
+        openLinkedView();
       }
     });
-    window.addEventListener('hashchange', openLinkedVision);
-    document.addEventListener('bio-ready', openLinkedVision);
-    openLinkedVision();
+    window.addEventListener('hashchange', openLinkedView);
+    document.addEventListener('bio-ready', openLinkedView);
+    openLinkedView();
 
     /* Cards stay square. On hover each leans toward the cursor, so moving
        across a card tips it to different places — same idea as the pyramid. */

@@ -592,6 +592,37 @@ svg.cycle .hit { fill: none; stroke: transparent; stroke-width: 28; pointer-even
 .news-list .nls { margin-left: 2px; font-size: 0.78rem; color: var(--muted); }   /* numbered links when a venue name has fewer words than papers */
 .news-list .nl { padding: 0 2px; text-decoration: none; border-bottom: 1px solid var(--border); }
 .news-list .nl:hover { color: var(--text); border-bottom-color: #b89a60; }
+
+/* FAQ: native disclosures keep keyboard and touch interactions simple. */
+.faq-wrap { max-width: 640px; margin: 0 auto; padding-top: 22px; }
+.faq-item { border-bottom: 1px solid var(--border); }
+.faq-item summary {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 18px 0;
+  font-family: "DM Serif Display", Georgia, serif;
+  font-size: 1.08rem;
+  font-weight: 400;
+  line-height: 1.45;
+  list-style: none;
+  cursor: pointer;
+  color: var(--text);
+}
+.faq-item summary::-webkit-details-marker { display: none; }
+.faq-item summary::after {
+  content: "+";
+  flex: 0 0 14px;
+  text-align: center;
+  font-family: "DM Sans", sans-serif;
+  color: var(--muted);
+}
+.faq-item[open] summary::after { content: "\2212"; }
+.faq-item summary:hover { color: #b89a60; }
+.faq-item summary:focus-visible { outline: 1.5px solid #b89a60; outline-offset: 3px; }
+.faq-answer { padding: 0 34px 20px 0; font-size: .94rem; line-height: 1.7; color: var(--muted); }
+[data-theme="dark"] .faq-item summary:hover { color: #c2a76b; }
 @media (max-width: 700px) {
   .news-list li { grid-template-columns: 62px 1fr; gap: 10px; }
 }
@@ -830,8 +861,10 @@ footer {
 
 /* ── Selected Papers / Research Areas switch ─────────────────────── */
 /* no pill — two headings split by a slash, echoing the links line above */
-.deck-switch { display: inline-flex; align-items: baseline; gap: 0; }
+.deck-switch { display: inline-flex; align-items: baseline; gap: 0; max-width: 100%; overflow-x: auto; padding-bottom: 12px; vertical-align: top; scrollbar-width: thin; }
 .deck-switch .ds-btn {
+  flex-shrink: 0;
+  white-space: nowrap;
   border: none;
   background: transparent;
   font-family: "DM Serif Display", Georgia, serif;
@@ -855,6 +888,7 @@ footer {
 }
 .deck-switch .ds-btn:not(.ds-on):hover { opacity: 0.85; }
 .deck-switch .ds-sep {
+  flex-shrink: 0;
   font-family: "DM Serif Display", Georgia, serif;
   font-size: 1.2rem;
   color: var(--muted);
