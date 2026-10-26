@@ -570,13 +570,29 @@
     .ib-slice.ib-dim{opacity:.6;}
     .ib-slice text{pointer-events:none;font-weight:600;letter-spacing:.005em;}
     .ib-panel{position:relative;z-index:3;align-self:center;
-      background:#fff;border-radius:16px;padding:18px 20px;}
-    .ib-group{margin:0 0 14px;transition:opacity .2s ease;}
-    .ib-group:last-child{margin-bottom:0;}
+      --ib-rule:#829eb3;background:#f8fbfd;border:2px solid var(--ib-rule);border-radius:12px;overflow:hidden;}
+    .ib-cell{padding:14px 16px;border-bottom:2px solid var(--ib-rule);}
+    .ib-cell-out{background:#eef5fa;}
+    .ib-group{min-width:0;transition:opacity .2s ease;}
+    /* One continuous L-shaped Safety cell surrounds the Process cell. */
+    .ib-lower{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+      grid-template-rows:repeat(2,minmax(0,1fr));background:#cddfeb;}
+    .ib-process-cell{position:relative;z-index:1;grid-area:1 / 1 / 2 / 2;min-width:0;
+      padding:14px 16px;background:#e7f0f7;border-right:2px solid var(--ib-rule);border-bottom:2px solid var(--ib-rule);border-bottom-right-radius:12px;}
+    .ib-process-cell .ib-papers{grid-template-columns:minmax(0,1fr);}
+    .ib-safety{grid-area:1 / 1 / 3 / 3;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+      grid-template-rows:repeat(2,minmax(0,1fr));pointer-events:none;}
+    .ib-safety-head{grid-area:1 / 2 / 2 / 3;padding:14px 16px;min-width:0;display:flex;align-items:flex-end;pointer-events:auto;}
+    .ib-safety-tail{grid-area:2 / 1 / 3 / 3;padding:14px 16px;pointer-events:auto;}
+    .ib-safety-tail .ib-papers{column-gap:0;margin:0 -16px;}
+    .ib-safety-tail .ib-paper{padding:0 16px;}
     .ib-group.ib-gdim{opacity:.34;}
-    .ib-glabel{font-size:.6rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;
-      color:#2f6f9e;margin:0 0 4px;}
+    .ib-glabel{font-size:.7rem;line-height:1.3;font-weight:700;letter-spacing:.045em;text-transform:uppercase;
+      color:#285e87;margin:0 0 4px;display:flex;align-items:center;gap:6px;}
+    .ib-glabel::before{content:"";width:16px;height:4px;flex-shrink:0;border-radius:1px;background:var(--ib-accent);}
     .ib-papers{display:grid;grid-template-columns:1fr 1fr;gap:11px 16px;align-items:start;}
+    .ib-cell .ib-papers{column-gap:0;margin:0 -16px;}
+    .ib-cell .ib-paper{padding:0 16px;}
     .ib-paper{display:flex;gap:10px;align-items:center;min-width:0;}
     .ib-paper .pmeta,.ep3b-paper .pmeta{cursor:default;}
     .d-cover-link{display:block;flex-shrink:0;line-height:0;cursor:pointer;}
@@ -586,6 +602,8 @@
     .ib-paper .pmeta{min-width:0;}
     .ib-paper .pv{font-size:.64rem;color:var(--muted);font-style:italic;margin-top:2px;}
     .ib-paper:hover .pn{color:#1f547c;}
+    .ib-tools{position:relative;z-index:3;margin:30px auto 0;text-align:center;}
+    .ib-tools button:focus-visible{outline:2px solid #2f6f9e;outline-offset:3px;}
     @media (max-width:820px){.ib-stage{grid-template-columns:1fr;}.ib-berg{height:400px;}.ib-wlab{display:none;}}
     /* site nav — the same bar as cj.html and the paper decks; the deck below is
        shrunk by its 56px so the 100vh snap-scroller still fits the viewport */
@@ -749,6 +767,14 @@
         <div class="ib-wlab ib-w2">rarely measured</div>
       </div>
       <div class="ib-panel" id="ib-panel"></div>
+    </div>
+    <div class="ib-tools">
+      <div class="ep2-actions">
+        <button class="ep2-export" id="ib-export" type="button" title="Download the full evaluation figure with the current highlight as a PNG"><span aria-hidden="true">↓</span><span>Export PNG</span></button>
+        <button class="ep2-reset" id="ib-reset" type="button" disabled>Show all</button>
+      </div>
+      <p class="ep2-hint" id="ib-hint"></p>
+      <p class="ep2-export-status" id="ib-export-status" role="status"></p>
     </div>
   </section>
 
@@ -1199,7 +1225,7 @@
 
   <script src="/assets/direction-figures.js?v=1"></script>
   <script src="/assets/vendor/html2canvas-1.4.1.min.js"></script>
-  <script src="/assets/overview-png-export.js?v=2"></script>
+  <script src="/assets/overview-png-export.js?v=3"></script>
   <script src="/assets/generation-png-export.js?v=1"></script>
   <script src="/assets/ep3-rsv-loop.js?v=15"></script>
 
@@ -1523,25 +1549,28 @@
   <script>
   /* ── Medical AI Evaluation · interactive iceberg ───────────────── */
   (function(){
-    var VB_W=400, VB_H=517, WL=148;
+    var VB_W=400, VB_H=517, WL=180;
 
     /* contour lives in assets/direction-figures.js so this section and the
        overview miniature can never drift apart */
     var RING=(window.DirectionFigures||{}).RING;
     if(!RING) return;
 
+    // New covers use the first page of the source PDFs:
+    // MedGuard-Bench: https://www.nature.com/articles/s43856-026-01881-3_reference.pdf
+    // Agents' Last Exam: https://arxiv.org/pdf/2606.05405 (temporary cover approved by Qiao).
     var STRATA=[
       { key:'mcq', lvl:-2, y0:-24, y1:80, labelY:51, fs:15, name:'MCQ',
         c0:'#ffffff', c1:'#c4dcee', stroke:'#7fadd0', ink:'#1c4a6b',
         title:'Multiple-choice questions', q:'Can it pick the right option?',
         papers:[['PubMedQA','EMNLP, 2019','/paper/PubMedQA.html','PubMedQA.png'],
                 ['BioNLP Benchmark','Nat Commun, 2025','/paper/BioNLP.html','BioNLP.png']] },
-      { key:'out', lvl:-1, y0:80, y1:WL, labelY:116, fs:15.5, name:'Clinical outcomes',
+      { key:'out', lvl:-1, y0:80, y1:WL, labelY:130, fs:14.5, centered:true, name:'Realistic &amp; verifiable outcomes',
         c0:'#eef6fc', c1:'#b2d2ea', stroke:'#7fadd0', ink:'#1c4a6b',
-        title:'Clinically meaningful outcomes',
-        q:'Is the answer right on a task that matters clinically?',
+        title:'Realistic and verifiable outcomes',
+        q:'Can it complete realistic tasks with verifiable outcomes?',
         papers:[['MedCalc-Bench','NeurIPS D&B, 2024','/paper/MedCalc-Bench.html','MedCalc-Bench.png'],
-                ['Lab Results in DDx','npj Digit Med, 2025','/paper/DDx.html','ddx.png']] },
+                ['Agents&rsquo; Last Exam','NeurIPS E&amp;D, 2026','https://neurips.cc/virtual/2026/poster/139517','Agents-Last-Exam.png']] },
       { key:'proc', lvl:1, sub:1, y0:WL, y1:276.2, labelY:181, fs:15.5, name:'Trustworthy process',
         c0:'#b3d5ea', c1:'#6fa6cd', stroke:'#6098c2', ink:'#0c3550',
         title:'Trustworthy process', q:'Was the right answer reached for the right reason?',
@@ -1549,7 +1578,8 @@
       { key:'safe', lvl:2, sub:1, y0:276.2, y1:531, labelY:319, fs:15.5, name:'Safety',
         c0:'#6ba2c5', c1:'#356f99', stroke:'#2f688f', ink:'#ffffff',
         title:'Safety', q:'What breaks that accuracy never measures?',
-        papers:[['Adversarial Attacks','Nat Commun, 2025','/paper/Adversarial.html','Adversarial.png'],
+        papers:[['MedGuard-Bench','Commun Med, 2026','https://www.nature.com/articles/s43856-026-01881-3','MedGuard-Bench.png'],
+                ['Adversarial Attacks','Nat Commun, 2025','/paper/Adversarial.html','Adversarial.png'],
                 ['Risks of AI Scientists','Nat Commun, 2025','/paper/AIScientist.html','AIScientist.png']] }
     ];
 
@@ -1592,8 +1622,10 @@
       out.push('<path d="M192,4 L150,512 L-60,512 L-60,4 Z" clip-path="url(#ibberg)" '+
                'fill="rgba(255,255,255,.16)" pointer-events="none"/>');
       if(s.sub) out.push('<path d="'+D+'" fill="url(#ibdepth)" pointer-events="none"/>');
-      out.push('<text x="'+cx.toFixed(1)+'" y="'+s.labelY+'" text-anchor="middle" '+
-               'font-size="'+s.fs+'" fill="'+s.ink+'">'+s.name+'</text>');
+      (s.lines||[s.name]).forEach(function(line){
+        out.push('<text x="'+cx.toFixed(1)+'" y="'+s.labelY+'" text-anchor="middle" '+
+                 'font-size="'+s.fs+'" fill="'+s.ink+'">'+line+'</text>');
+      });
       out.push('</g>');
     });
     out.push('<rect id="ib-wl" x="0" y="'+(WL-1)+'" width="'+VB_W+'" height="2" fill="none"/>');
@@ -1607,7 +1639,8 @@
 
     /* centre each label in its band; if the ice is too narrow to hold the text
        there, step outward to the nearest height where it fits */
-    (function(){
+    function centerLabels(){
+      if(!svg.getClientRects().length) return;
       var ys=RING.map(function(p){return p[1];});
       var iceTop=Math.min.apply(null,ys), iceBot=Math.max.apply(null,ys);
       /* the ice a label must clear is the narrowest slice of it across the
@@ -1622,10 +1655,20 @@
         return R>L ? [L,R] : null;
       }
       STRATA.forEach(function(s,i){
-        var t=svg.querySelectorAll('.ib-slice')[i].querySelector('text');
-        var bb=t.getBBox(), need=bb.width+16, hh=bb.height;
+        var labels=[].slice.call(svg.querySelectorAll('.ib-slice')[i].querySelectorAll('text'));
+        var labelHeight=Math.max.apply(null,labels.map(function(t){return t.getBBox().height;}));
+        var need=Math.max.apply(null,labels.map(function(t){return t.getBBox().width;}))+16;
+        var lineHeight=s.fs*1.15, hh=labelHeight+(labels.length-1)*lineHeight;
         var y0=Math.max(s.y0,iceTop), y1=Math.min(s.y1,iceBot);
         var mid=(y0+y1)/2;
+        if(s.centered){
+          // This wider band holds one line at its exact vertical midpoint.
+          var t=labels[0], bounds=t.getBBox(), space=box(mid-bounds.height/2,mid+bounds.height/2);
+          var cx=space?(space[0]+space[1])/2:VB_W/2;
+          t.setAttribute('x',(+t.getAttribute('x')+cx-bounds.x-bounds.width/2).toFixed(1));
+          t.setAttribute('y',(+t.getAttribute('y')+mid-bounds.y-bounds.height/2).toFixed(1));
+          return;
+        }
         function at(y){ var b=box(y-hh/2, y+hh/2); return (b&&(b[1]-b[0])>=need)?b:null; }
         var y=mid, b=at(mid);
         if(!b){
@@ -1635,36 +1678,48 @@
           }
         }
         if(!b) b=box(y-hh/2,y+hh/2)||spanAt(y);
-        t.setAttribute('y', (y+s.fs*0.35).toFixed(1));
-        if(b) t.setAttribute('x', ((b[0]+b[1])/2).toFixed(1));
+        labels.forEach(function(t,line){
+          t.setAttribute('y', (y+s.fs*0.35+(line-(labels.length-1)/2)*lineHeight).toFixed(1));
+          if(b) t.setAttribute('x', ((b[0]+b[1])/2).toFixed(1));
+        });
       });
-    })();
+    }
+    centerLabels();
+    window.addEventListener('resize',centerLabels);
+    if(document.fonts) document.fonts.ready.then(centerLabels);
 
     var slices=[].slice.call(svg.querySelectorAll('.ib-slice'));
-    var pinnedSlice=null, sliceControls=[], touchMode=window.matchMedia('(hover: none)').matches;
+    var pinnedSlice=null, exporting=false, changedAt=0, sliceControls=[], touchMode=window.matchMedia('(hover: none)').matches;
     var stage=document.querySelector('.ib-stage');
+    var exportButton=document.getElementById('ib-export'), resetButton=document.getElementById('ib-reset');
+    var exportStatus=document.getElementById('ib-export-status'), hint=document.getElementById('ib-hint');
 
     /* which slice is pulled out of the stack — null puts the berg back together */
     var groups=[];
     function setActive(i){
+      changedAt=performance.now();
       stage.dataset.highlight=i===null?'':STRATA[i].key;
       stage.dataset.pinned=pinnedSlice===null?'':STRATA[pinnedSlice].key;
+      resetButton.disabled=exporting||i===null;
+      hint.textContent=pinnedSlice!==null ? STRATA[pinnedSlice].title+(touchMode?' pinned · Tap again to release':' pinned · Click again to release') :
+        (touchMode?'Tap a layer or paper to highlight':'Hover to highlight · Click to keep');
       svg.classList.toggle('ib-exp', i!==null);
       slices.forEach(function(el,j){
         el.classList.toggle('on', i!==null && j===i);
         el.classList.toggle('ib-dim', i!==null && j!==i);
       });
-      groups.forEach(function(g,j){
-        g.classList.toggle('on', i!==null && j===i);
-        g.classList.toggle('ib-gdim', i!==null && j!==i);
+      groups.forEach(function(g){
+        var matches=i!==null && g.dataset.key===STRATA[i].key;
+        g.classList.toggle('on', matches);
+        g.classList.toggle('ib-gdim', i!==null && !matches);
       });
       sliceControls.forEach(function(control){
         control.element.setAttribute('aria-pressed',String(control.index===i));
       });
     }
-    function previewSlice(i){ if(pinnedSlice===null) setActive(i); }
-    function clearSlice(){ if(pinnedSlice===null) setActive(null); }
-    function selectSlice(i){ pinnedSlice=pinnedSlice===i?null:i; setActive(pinnedSlice); }
+    function previewSlice(i){ if(!exporting&&pinnedSlice===null) setActive(i); }
+    function clearSlice(){ if(!exporting&&pinnedSlice===null) setActive(null); }
+    function selectSlice(i){ if(exporting) return; pinnedSlice=pinnedSlice===i?null:i; setActive(pinnedSlice); }
     function bindSlice(element,i,keyboardTarget){
       if(!touchMode){
         element.addEventListener('mouseenter',function(){ previewSlice(i); });
@@ -1689,27 +1744,65 @@
       });
     }
     function buildPanel(){
-      panel.innerHTML=STRATA.map(function(s){
-        return '<div class="ib-group" data-key="'+s.key+'">'+
-          '<div class="ib-glabel">'+s.title+'</div><div class="ib-papers">'+
-          s.papers.map(function(p){
-            return '<div class="ib-paper">'+
-              '<a class="d-cover-link" href="'+p[2]+'" target="_blank" rel="noopener">'+
-              '<img src="/assets/covers/'+p[3]+'" alt="'+p[0].replace(/&amp;/g,'&')+'"></a>'+
-              '<div class="pmeta"><div class="pn">'+p[0]+'</div>'+
-              '<div class="pv">'+p[1]+'</div></div></div>';
-          }).join('')+'</div></div>';
-      }).join('');
+      function paper(p){
+        return '<div class="ib-paper">'+
+          '<a class="d-cover-link" href="'+p[2]+'" target="_blank" rel="noopener">'+
+          '<img src="/assets/covers/'+p[3]+'" alt="'+p[0].replace(/&amp;/g,'&')+'"></a>'+
+          '<div class="pmeta"><div class="pn">'+p[0]+'</div>'+
+          '<div class="pv">'+p[1]+'</div></div></div>';
+      }
+      function label(s){return '<div class="ib-glabel" id="ib-label-'+s.key+'">'+s.title+'</div>';}
+      function openGroup(s,extra){
+        return '<div class="ib-group'+(extra?' '+extra:'')+'" data-key="'+s.key+'" style="--ib-accent:'+s.c1+'" role="group" aria-labelledby="ib-label-'+s.key+'">';
+      }
+      function block(s){return openGroup(s)+label(s)+'<div class="ib-papers">'+s.papers.map(paper).join('')+'</div></div>';}
+      var safety=STRATA[3];
+      panel.innerHTML='<div class="ib-cell">'+block(STRATA[0])+'</div>'+
+        '<div class="ib-cell ib-cell-out">'+block(STRATA[1])+'</div>'+
+        '<div class="ib-lower"><div class="ib-process-cell">'+block(STRATA[2])+'</div>'+
+        openGroup(safety,'ib-safety')+
+        '<div class="ib-safety-head">'+paper(safety.papers[0])+'</div>'+
+        '<div class="ib-safety-tail">'+label(safety)+'<div class="ib-papers">'+safety.papers.slice(1).map(paper).join('')+'</div></div></div></div>';
       groups=[].slice.call(panel.querySelectorAll('.ib-group'));
-      groups.forEach(function(g,i){
+      groups.forEach(function(g){
+        var i=STRATA.findIndex(function(s){return s.key===g.dataset.key;});
         g.querySelectorAll('.ib-paper').forEach(function(paper){ bindSlice(paper,i,paper.querySelector('.pmeta')); });
       });
     }
     slices.forEach(function(slice,i){ bindSlice(slice,i); });
-    stage.addEventListener('keydown',function(event){
-      if(event.key==='Escape'){ event.stopPropagation(); pinnedSlice=null; setActive(null); }
+    document.getElementById('evaluation').addEventListener('keydown',function(event){
+      if(event.key==='Escape'&&!exporting){ event.stopPropagation(); pinnedSlice=null; setActive(null); }
     });
     buildPanel();
+    setActive(null);
+    resetButton.addEventListener('click',function(){ if(!exporting){ pinnedSlice=null; setActive(null); } });
+    document.querySelector('.ib-tools').addEventListener('keydown',function(event){
+      // Space activates the focused button instead of paging the research deck.
+      if(event.key===' ') event.stopPropagation();
+    });
+    exportButton.addEventListener('click',async function(){
+      if(exporting) return;
+      exporting=true;
+      exportButton.disabled=true;
+      resetButton.disabled=true;
+      exportButton.querySelector('span:last-child').textContent='Exporting…';
+      exportStatus.textContent='';
+      try {
+        // Finish the slice expansion before freezing shapes and label positions.
+        await new Promise(function(resolve){ setTimeout(resolve,Math.max(0,320-(performance.now()-changedAt))); });
+        await window.exportEvaluationPng(document.getElementById('evaluation'),
+          'medical-ai-evaluation-'+(stage.dataset.highlight||'overview')+'.png');
+        exportStatus.textContent='PNG downloaded.';
+      } catch(error) {
+        exportStatus.textContent='Could not export the PNG. Please try again.';
+        console.error('Evaluation PNG export failed:',error);
+      } finally {
+        exporting=false;
+        exportButton.disabled=false;
+        exportButton.querySelector('span:last-child').textContent='Export PNG';
+        setActive(pinnedSlice);
+      }
+    });
 
     var water=berg.querySelector('.ib-water'),
         w1=berg.querySelector('.ib-w1'), w2=berg.querySelector('.ib-w2'),

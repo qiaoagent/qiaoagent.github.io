@@ -1,4 +1,4 @@
-/* Export the complete RSV overview, excluding its controls and hint.
+/* Export the RSV and medical AI evaluation overviews without their controls.
    html2canvas renders the HTML layout. The inline SVG is rasterized separately
    so its labels retain the page's loaded fonts and its arrows retain their color. */
 (function () {
@@ -28,9 +28,13 @@
     return values && values.numberOfItems ? values.getItem(0).value : 0;
   }
 
-  function snapshot(svg) {
-    var box = svg.viewBox.baseVal;
-    if (!(box.width > 0 && box.height > 0)) {
+  function snapshot(svg, options) {
+    options = options || {};
+    var viewBox = svg.viewBox.baseVal;
+    var padding = options.padding || 0;
+    var box = { x: viewBox.x - padding, y: viewBox.y - padding,
+      width: viewBox.width + padding * 2, height: viewBox.height + padding * 2 };
+    if (!(viewBox.width > 0 && viewBox.height > 0)) {
       throw new Error('The SVG needs a nonempty viewBox for PNG export.');
     }
     var screen = svg.getScreenCTM();
@@ -47,9 +51,17 @@
       var paint = {};
       PAINT.forEach(function (property) {
         var value = targetStyle(element, computed, property);
+        // Computed SVG paints can contain a full document URL. The standalone
+        // image must reference its own gradient definitions instead.
+        if (options.freezeTransforms && value) value = value.replace(/url\(["']?[^)#]*#([^)'"\s]+)["']?\)/g, 'url(#$1)');
         paint[property] = value;
         if (value) copies[index].style.setProperty(property, value);
       });
+      if (options.freezeTransforms) {
+        ['transform', 'transform-origin', 'transform-box'].forEach(function (property) {
+          copies[index].style.setProperty(property, computed.getPropertyValue(property));
+        });
+      }
       copies[index].style.setProperty('transition', 'none');
       copies[index].style.setProperty('animation', 'none');
       styles.set(element, { computed: computed, paint: paint });
@@ -129,6 +141,7 @@
       });
     });
     clone.setAttribute('xmlns', NS);
+    clone.setAttribute('viewBox', [box.x, box.y, box.width, box.height].join(' '));
     clone.setAttribute('width', box.width);
     clone.setAttribute('height', box.height);
     clone.style.setProperty('width', box.width + 'px');
@@ -141,12 +154,13 @@
     };
   }
 
-  async function renderSvg(svg) {
+  async function renderSvg(svg, options) {
+    options = options || {};
     if (!svg || svg.namespaceURI !== NS || svg.localName !== 'svg') {
       throw new Error('PNG export requires an SVG element.');
     }
     // Freeze the selected appearance before the first await.
-    var saved = snapshot(svg);
+    var saved = snapshot(svg, options);
     if (document.fonts) await document.fonts.ready;
     var sourceUrl;
     try {
@@ -163,8 +177,10 @@
       canvas.height = Math.ceil(saved.box.height * scale);
       var context = canvas.getContext('2d');
       if (!context) throw new Error('Canvas is unavailable.');
-      context.fillStyle = '#ffffff';
-      context.fillRect(0, 0, canvas.width, canvas.height);
+      if (!options.transparent) {
+        context.fillStyle = '#ffffff';
+        context.fillRect(0, 0, canvas.width, canvas.height);
+      }
       context.drawImage(image, 0, 0, saved.box.width * scale, saved.box.height * scale);
       saved.text.forEach(function (label) {
         if (label.opacity <= 0 || label.fill === 'none') return;
@@ -341,5 +357,97 @@
       if (clonedFrame) clonedFrame.remove();
     }
     await downloadCanvas(canvas, filename || 'retrieve-summarize-verify-overview.png');
+  };
+
+  window.exportEvaluationPng = async function (section, filename) {
+    var stage = section && section.querySelector('.ib-stage');
+    var svg = section && section.querySelector('.ib-svg');
+    if (!stage || !svg) throw new Error('The evaluation figure is unavailable.');
+    if (typeof window.html2canvas !== 'function') throw new Error('The PNG renderer is unavailable.');
+    var covers = [].slice.call(stage.querySelectorAll('img'));
+    if (document.fonts) await document.fonts.ready;
+    await Promise.all(covers.map(readyImage));
+    var svgPadding = 24;
+    var diagram = await renderSvg(svg, { transparent: true, freezeTransforms: true, padding: svgPadding });
+    var diagramData = diagram.toDataURL('image/png');
+    var scale = 4;
+    var coverData = covers.map(function (image) { return coverDataUrl(image, scale); });
+    var coverBounds = covers.map(function (image) { return image.getBoundingClientRect(); });
+    var sectionBounds = section.getBoundingClientRect();
+    var stageBounds = stage.getBoundingClientRect();
+    var svgBounds = svg.getBoundingClientRect();
+    var viewBox = svg.viewBox.baseVal;
+    var unit = Math.min(svgBounds.width / viewBox.width, svgBounds.height / viewBox.height);
+    var columns = getComputedStyle(stage).gridTemplateColumns;
+    var parts = [svg, stage.querySelector('.ib-panel')].concat([].slice.call(stage.querySelectorAll('.ib-wlab')));
+    var bounds = parts.filter(function (part) { return part && part.getClientRects().length; })
+      .map(function (part) { return part.getBoundingClientRect(); });
+    // The water spans the screen, so crop to content, never its decorative bounds.
+    var padding = 24;
+    var left = Math.min.apply(null, bounds.map(function (box) { return box.left; })) - padding;
+    var top = Math.min.apply(null, bounds.map(function (box) { return box.top; })) - padding;
+    var right = Math.max.apply(null, bounds.map(function (box) { return box.right; })) + padding;
+    var bottom = Math.max.apply(null, bounds.map(function (box) { return box.bottom; })) + padding;
+    var selected = stage.dataset.highlight;
+    var canvas, clonedFrame;
+    try {
+      canvas = await window.html2canvas(section, {
+        backgroundColor: '#f9fbfd', scale: scale,
+        x: left - sectionBounds.left, y: top - sectionBounds.top,
+        width: Math.ceil(right - left), height: Math.ceil(bottom - top),
+        windowWidth: window.innerWidth, windowHeight: window.innerHeight,
+        scrollX: window.scrollX, scrollY: window.scrollY,
+        foreignObjectRendering: false, allowTaint: false, logging: false,
+        imageTimeout: 15000, removeContainer: true,
+        onclone: async function (clonedDocument, copy) {
+          clonedFrame = clonedDocument.defaultView.frameElement;
+          copy.style.width = sectionBounds.width + 'px';
+          copy.style.height = sectionBounds.height + 'px';
+          var copiedStage = copy.querySelector('.ib-stage');
+          copiedStage.style.width = stageBounds.width + 'px';
+          copiedStage.style.gridTemplateColumns = columns;
+          [copy].concat([].slice.call(copy.querySelectorAll('*'))).forEach(function (element) {
+            element.style.transition = 'none';
+            element.style.animation = 'none';
+            element.style.outline = 'none';
+          });
+          copy.querySelector('.ib-tools').style.visibility = 'hidden';
+          copy.querySelector('.wrap').style.visibility = 'hidden';
+          copiedStage.querySelectorAll('.ib-group').forEach(function (group) {
+            group.style.opacity = selected && group.dataset.key !== selected ? '0.34' : '1';
+          });
+          var copiedCovers = [].slice.call(copiedStage.querySelectorAll('img'));
+          copiedCovers.forEach(function (image, index) {
+            image.removeAttribute('srcset');
+            image.src = coverData[index];
+            image.style.width = coverBounds[index].width + 'px';
+            image.style.height = coverBounds[index].height + 'px';
+          });
+          // Keep the SVG's layout box while allowing the expanded slices to
+          // extend into a transparent raster margin without clipping the apex.
+          var frame = clonedDocument.createElement('div');
+          frame.className = 'ib-svg';
+          frame.style.width = svgBounds.width + 'px';
+          frame.style.height = svgBounds.height + 'px';
+          var replacement = clonedDocument.createElement('img');
+          replacement.src = diagramData;
+          replacement.style.cssText = 'position:absolute;max-width:none;left:' + ((svgBounds.width - viewBox.width * unit) / 2 - svgPadding * unit) +
+            'px;top:' + ((svgBounds.height - viewBox.height * unit) / 2 - svgPadding * unit) +
+            'px;width:' + ((viewBox.width + svgPadding * 2) * unit) + 'px;height:' + ((viewBox.height + svgPadding * 2) * unit) + 'px;';
+          frame.appendChild(replacement);
+          copiedStage.querySelector('.ib-svg').replaceWith(frame);
+          for (var ancestor = copy; ancestor; ancestor = ancestor.parentElement) {
+            ancestor.style.overflow = 'visible';
+            ancestor.style.clipPath = 'none';
+            ancestor.style.contain = 'none';
+          }
+          await Promise.all([replacement].concat(copiedCovers).map(readyImage));
+          if (clonedDocument.fonts) await clonedDocument.fonts.ready;
+        }
+      });
+    } finally {
+      if (clonedFrame) clonedFrame.remove();
+    }
+    await downloadCanvas(canvas, filename || 'medical-ai-evaluation-overview.png');
   };
 })();
