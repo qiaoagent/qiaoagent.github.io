@@ -144,6 +144,67 @@
     pre{background:#ffffff;border:1px solid var(--border);border-radius:8px;padding:16px 18px;overflow-x:auto;font-size:0.8rem;line-height:1.5;color:#3a3630;}
     footer{border-top:1px solid var(--border);padding:26px 0 46px;color:var(--faint);font-size:0.82rem;text-align:center;margin-top:10px;}
     @media (max-width:640px){.hero{grid-template-columns:1fr;gap:22px;padding-top:34px;}.hero .cover{width:150px;}h1{font-size:1.6rem;}.slide h2{font-size:1.42rem;}.deck{padding:0 20px;}}
+
+    /* Native task and adoption overview; evidence comes from Fig. 1 of the paper. */
+    figure.pqa-overview{margin:8px 0 0;text-align:left;--pqa-line:#bcb7bf;--pqa-paper:#fff;--pqa-gray:#b6b3b0;}
+    .pqa-flow{display:grid;grid-template-columns:1fr 1.2fr .75fr;gap:42px;list-style:none;padding:0;margin:0;}
+    .pqa-stage{position:relative;min-width:0;text-align:center;}
+    .pqa-stage+.pqa-stage::before{content:'';position:absolute;left:-32px;top:100px;width:22px;border-top:1.5px solid var(--pqa-line);}
+    .pqa-stage+.pqa-stage::after{content:'';position:absolute;left:-15px;top:97.5px;width:5px;height:5px;border-top:1.5px solid var(--pqa-line);border-right:1.5px solid var(--pqa-line);transform:rotate(45deg);}
+    .pqa-visual{height:212px;display:flex;align-items:center;justify-content:center;}
+    .pqa-stage h3{font-size:1.02rem;font-weight:600;line-height:1.3;margin:12px 0 3px;color:var(--ink);}
+    .pqa-stage .pqa-sub{font-size:.82rem;line-height:1.4;color:var(--muted);margin:0;}
+    .pqa-question{position:relative;min-height:188px;max-width:235px;padding:19px 20px 20px;text-align:left;border:1.5px solid var(--border);border-radius:8px;background:var(--pqa-paper);}
+    .pqa-question::before{content:'';position:absolute;inset:-7px 5px 5px -7px;border-radius:8px;background:var(--accent-bg);z-index:-1;transform:rotate(-4deg);}
+    .pqa-question-icon{display:block;width:32px;height:32px;color:var(--accent);margin-bottom:9px;}
+    .pqa-question p{font-size:1.02rem;line-height:1.45;color:var(--ink);margin:0;}
+    .pqa-evidence{display:block;width:100%;max-width:305px;height:212px;overflow:visible;font-family:"DM Sans",sans-serif;}
+    .pqa-evidence .paper{fill:var(--pqa-paper);stroke:var(--border);stroke-width:1.5;}
+    .pqa-evidence .line{stroke:var(--pqa-gray);stroke-width:4;stroke-linecap:round;}
+    .pqa-evidence .ink{fill:var(--ink);}
+    .pqa-evidence .muted{fill:var(--muted);}
+    .pqa-evidence .accent{fill:var(--accent);}
+    .pqa-evidence .tint{fill:var(--accent-bg);}
+    .pqa-answers{display:flex;flex-direction:column;align-items:center;gap:10px;width:100%;}
+    .pqa-answer{display:flex;align-items:center;justify-content:center;gap:9px;min-width:130px;border:1.5px solid var(--border);border-radius:30px;padding:6px 16px;font-size:1.05rem;color:var(--muted);line-height:1.4;}
+    .pqa-answer.is-yes{background:var(--accent);border-color:var(--accent);color:#fff;padding:12px 16px;font-size:1.65rem;font-weight:600;}
+    .pqa-answer svg{width:23px;height:23px;}
+    .pqa-reach{display:grid;grid-template-columns:1fr 205px;gap:30px;border-top:1px solid var(--border);margin-top:26px;padding-top:20px;}
+    .pqa-reach h3{font-size:1.02rem;font-weight:600;line-height:1.4;color:var(--ink);margin:0 0 15px;}
+    .pqa-orgs{display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:17px 20px;}
+    .pqa-org{display:block;text-decoration:none;line-height:1.35;}
+    .pqa-logo-wrap{display:flex;align-items:center;height:36px;}
+    .pqa-logo{display:block;width:100%;height:auto;max-height:32px;object-fit:contain;object-position:left center;}
+    .pqa-logo-deepmind{max-width:180px;}.pqa-logo-meta{max-width:96px;}.pqa-logo-openai{max-width:115px;}
+    .pqa-logo-anthropic{max-width:160px;}.pqa-logo-microsoft{max-width:133px;}.pqa-logo-nvidia{max-width:116px;}
+    .pqa-org span{display:block;font-size:.77rem;color:var(--muted);margin-top:5px;}
+    .pqa-org:hover span,.pqa-org:focus-visible span{color:var(--accent);text-decoration:underline;text-underline-offset:4px;}
+    .pqa-downloads{align-self:center;border-left:1px solid var(--border);padding-left:28px;text-decoration:none;color:var(--accent);}
+    .pqa-download-icon{display:block;width:34px;height:34px;margin-bottom:6px;}
+    .pqa-downloads strong{display:block;font-family:"DM Serif Display",Georgia,serif;font-size:2.05rem;font-weight:400;line-height:1.15;white-space:nowrap;}
+    .pqa-downloads span{display:block;font-size:.82rem;line-height:1.4;color:var(--ink);margin-top:4px;}
+    .pqa-downloads small{display:block;font-size:.7rem;color:var(--muted);margin-top:5px;}
+    .pqa-downloads:hover strong,.pqa-downloads:focus-visible strong{text-decoration:underline;text-underline-offset:4px;}
+    figure.pqa-overview figcaption{font-size:.73rem;line-height:1.45;color:var(--muted);margin-top:18px;}
+    [data-theme="dark"] .pqa-overview{--ink:#eee9e4;--muted:#bcb6b0;--faint:#a59e99;--border:#4a454d;--accent:#c4a4db;--accent-bg:#463250;--pqa-line:#8e8893;--pqa-paper:#292725;--pqa-gray:#8e8893;}
+    [data-theme="dark"] .pqa-answer.is-yes{color:#241c29;}
+    @media(max-width:760px){
+      #task{justify-content:flex-start;}
+      .pqa-flow{grid-template-columns:1fr;gap:37px;}
+      .pqa-stage+.pqa-stage::before{left:50%;top:-28px;width:0;height:16px;border-top:0;border-left:1.5px solid var(--pqa-line);}
+      .pqa-stage+.pqa-stage::after{left:calc(50% - 2px);top:-17px;transform:rotate(135deg);}
+      .pqa-visual{height:auto;min-height:0;}
+      .pqa-question{max-width:340px;min-height:0;}
+      .pqa-stage h3{margin-top:11px;}
+      .pqa-answers{flex-direction:row;justify-content:center;gap:8px;}
+      .pqa-answer{min-width:0;font-size:1rem;padding:8px 16px;}
+      .pqa-answer.is-yes{font-size:1.2rem;padding:8px 16px;}
+      .pqa-reach{grid-template-columns:1fr;gap:22px;}
+      .pqa-downloads{border-left:0;border-top:1px solid var(--border);padding:18px 0 0;display:grid;grid-template-columns:40px 1fr;column-gap:10px;align-items:center;}
+      .pqa-download-icon{grid-column:1;grid-row:1 / 4;margin:0;}
+      .pqa-downloads strong,.pqa-downloads span,.pqa-downloads small{grid-column:2;}
+    }
+    @media(max-width:420px){.pqa-orgs{grid-template-columns:1fr 1fr;gap:18px;}.pqa-logo-wrap{height:34px;}}
 </style>
 <link rel="stylesheet" href="../assets/paper-cover.css">
 </head><body>
@@ -158,7 +219,74 @@
         <div class="links"><a class="primary" href="../assets/papers/PubMedQA.pdf" target="_blank" rel="noopener">PDF</a>
           <a href="https://aclanthology.org/D19-1259/" target="_blank" rel="noopener">Proceedings</a><a href="https://huggingface.co/datasets/qiaojin/PubMedQA" target="_blank" rel="noopener">Hugging Face</a><a href="https://pubmedqa.github.io/" target="_blank" rel="noopener">Leaderboard</a></div></div><div class="hero-disc">These slides were generated with the help of AI and may contain errors.</div></header>
     <section class="slide" id="motivation"><div class="kick"><span class="n">01</span>Motivation</div><h2>Can models reason over biomedical research text?</h2><div class="body"><div class="groups"><div class="grp"><div class="grp-h">The gap</div><ul class="gb"><li>QA is the standard probe for reasoning, but biomedical QA was small and factoid (<a class="ref" href="https://doi.org/10.1186/s12859-015-0564-6" target="_blank" rel="noopener">BioASQ</a> has &lt;3k).</li><li>Larger auto-built sets ask questions whose answers can be copied from the text, needing little reasoning.</li></ul></div><div class="grp"><div class="grp-h">Our aim</div><ul class="gb"><li class="nobul">A biomedical QA dataset with expert labels that requires reasoning over the quantitative results in abstracts.</li></ul></div></div></div></section>
-    <section class="slide" id="task"><div class="kick"><span class="n">02</span>Task</div><h2>Answer research questions yes / no / maybe</h2><div class="body"><ul class="highlights"><li>Each question is a research-article title; the context is its abstract without the conclusion.</li><li>The model must answer <b>yes / no / maybe</b> by reasoning over the abstract&rsquo;s quantitative results.</li></ul><figure class="fig m"><img src="../assets/figures/auto/PubMedQA_fig1.png" alt="An instance: the answer needs the results &mdash; here 16% vs 33% postoperative AF (p=0.005) &rarr; "><figcaption>An instance: the answer needs the results &mdash; here 16% vs 33% postoperative AF (p=0.005) &rarr; yes. <span class="src"><a class="srcref" href="https://aclanthology.org/D19-1259/" target="_blank" rel="noopener">Fig. 1</a>.</span></figcaption></figure></div></section>
+    <section class="slide" id="task">
+      <div class="kick"><span class="n">02</span>Overview</div>
+      <h2>PubMedQA: Benchmarking AI with 1,000 questions</h2>
+      <div class="body">
+        <figure class="pqa-overview" aria-label="PubMedQA task example and research adoption">
+          <ol class="pqa-flow" aria-label="Question, evidence, and expert answer">
+            <li class="pqa-stage">
+              <div class="pqa-visual">
+                <div class="pqa-question">
+                  <svg class="pqa-question-icon" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M25 22a12 12 0 1 0-8 5h10l-2-5Z"/><path d="M12 11a4 4 0 0 1 8 0c0 3-4 3-4 6"/><circle cx="16" cy="22" r=".8" fill="currentColor"/></svg>
+                  <p>Do preoperative statins reduce atrial fibrillation after coronary artery bypass grafting?</p>
+                </div>
+              </div>
+              <h3>Research question</h3>
+              <p class="pqa-sub">From the article title</p>
+            </li>
+            <li class="pqa-stage">
+              <div class="pqa-visual">
+                <svg class="pqa-evidence" viewBox="0 0 305 212" role="img" aria-labelledby="pqa-evidence-title pqa-evidence-desc">
+                  <title id="pqa-evidence-title">Reason over the abstract&rsquo;s quantitative results</title>
+                  <desc id="pqa-evidence-desc">Postoperative atrial fibrillation occurred in 16 percent of the statin group and 33 percent of the non-statin group, p equals 0.005. The conclusion is withheld from the context.</desc>
+                  <rect class="paper" x="1" y="1" width="303" height="210" rx="8"/>
+                  <text class="muted" x="18" y="25" font-size="11">Objective</text><path class="line" d="M89 21h161" opacity=".35"/>
+                  <text class="muted" x="18" y="48" font-size="11">Methods</text><path class="line" d="M89 44h136" opacity=".35"/>
+                  <text class="ink" x="18" y="78" font-size="13" font-weight="600">Postoperative atrial fibrillation</text>
+                  <text class="ink" x="18" y="103" font-size="12">Statin</text><rect class="accent" x="91" y="90" width="76.8" height="17" rx="3"/><text class="accent" x="177" y="103" font-size="14" font-weight="600">16%</text>
+                  <text class="muted" x="18" y="133" font-size="12">Non-statin</text><rect x="91" y="120" width="158.4" height="17" rx="3" fill="var(--pqa-gray)"/><text class="ink" x="258" y="133" font-size="14" font-weight="600">33%</text>
+                  <text class="muted" x="169" y="158" text-anchor="middle" font-size="11" font-style="italic">p = 0.005</text>
+                  <line x1="18" y1="173" x2="287" y2="173" stroke="var(--border)"/>
+                  <g stroke="var(--muted)" stroke-width="1.3" stroke-linecap="round" fill="none"><rect x="20" y="186" width="10" height="9" rx="2"/><path d="M22 186v-3a3 3 0 0 1 6 0v3"/></g>
+                  <text class="muted" x="39" y="194" font-size="11">Conclusion withheld from input</text>
+                </svg>
+              </div>
+              <h3>Abstract evidence</h3>
+              <p class="pqa-sub">Reason over quantitative results</p>
+            </li>
+            <li class="pqa-stage">
+              <div class="pqa-visual">
+                <div class="pqa-answers" role="group" aria-label="Expert answer for this example: yes. Other possible labels are no and maybe.">
+                  <div class="pqa-answer is-yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 4 4L19 6"/></svg>Yes</div>
+                  <div class="pqa-answer">No</div>
+                  <div class="pqa-answer">Maybe</div>
+                </div>
+              </div>
+              <h3>Expert answer</h3>
+              <p class="pqa-sub">1,000 labeled questions</p>
+            </li>
+          </ol>
+          <div class="pqa-reach">
+            <div>
+              <h3>Used in research &amp; evaluation by</h3>
+              <div class="pqa-orgs">
+                <a class="pqa-org" href="https://research.google/pubs/towards-physician-level-medical-question-answering-with-large-language-models/" target="_blank" rel="noopener"><div class="pqa-logo-wrap"><img class="pqa-logo pqa-logo-deepmind" src="../assets/logos/deepmind.svg" alt="Google DeepMind"></div><span>Med-PaLM 2</span></a>
+                <a class="pqa-org" href="https://arxiv.org/html/2211.09085v1" target="_blank" rel="noopener"><div class="pqa-logo-wrap"><img class="pqa-logo pqa-logo-meta" src="../assets/logos/meta.svg" alt="Meta"></div><span>Galactica</span></a>
+                <a class="pqa-org" href="https://arxiv.org/html/2303.13375v2" target="_blank" rel="noopener" title="Joint Microsoft and OpenAI research"><div class="pqa-logo-wrap"><img class="pqa-logo pqa-logo-openai" src="../assets/logos/openai.svg" alt="OpenAI"></div><span>GPT-4 evaluation</span></a>
+                <a class="pqa-org" href="https://assets.anthropic.com/m/61e7d27f8c8f5919/original/Claude-3-Model-Card.pdf" target="_blank" rel="noopener"><div class="pqa-logo-wrap"><img class="pqa-logo pqa-logo-anthropic" src="../assets/logos/anthropic.svg" alt="Anthropic"></div><span>Claude 3</span></a>
+                <a class="pqa-org" href="https://github.com/microsoft/BioGPT" target="_blank" rel="noopener"><div class="pqa-logo-wrap"><img class="pqa-logo pqa-logo-microsoft" src="../assets/logos/microsoft.png" alt="Microsoft"></div><span>BioGPT</span></a>
+                <a class="pqa-org" href="https://developer.nvidia.com/blog/customizing-nvidia-nims-for-domain-specific-needs-with-nvidia-nemo/" target="_blank" rel="noopener"><div class="pqa-logo-wrap"><img class="pqa-logo pqa-logo-nvidia" src="../assets/logos/nvidia.svg" alt="NVIDIA"></div><span>NeMo / NIM</span></a>
+              </div>
+            </div>
+            <a class="pqa-downloads" href="https://huggingface.co/datasets/qiaojin/PubMedQA" target="_blank" rel="noopener" title="953,152 all-time downloads, verified October 27, 2026 via the Hugging Face API">
+              <img class="pqa-download-icon" src="../assets/logos/huggingface.svg" alt="">
+              <strong>950,000+</strong><span>Hugging Face downloads</span><small>All-time &middot; October 2026</small>
+            </a>
+          </div>
+          <figcaption>Example adapted from <a class="srcref" href="https://aclanthology.org/D19-1259/" target="_blank" rel="noopener">Fig. 1</a>; 1,000 expert-annotated questions in PQA-L. Logos link to research or evaluation sources.</figcaption>
+        </figure>
+      </div></section>
     <section class="slide" id="dataset"><div class="kick"><span class="n">03</span>Dataset</div><h2>Three subsets: expert, unlabeled &amp; artificial</h2><div class="body"><ul class="highlights"><li>Questions are article titles; the context is the abstract with its conclusion removed.</li><li>Labels come from the conclusion &mdash; hand-annotated for PQA-L, auto-derived (yes/no) for PQA-A.</li></ul><div class="stats"><div class="stat"><div class="num">1.0k</div><div class="lbl">expert-labeled &middot; PQA-L</div></div><div class="stat"><div class="num">61.2k</div><div class="lbl">unlabeled &middot; PQA-U</div></div><div class="stat"><div class="num">211.3k</div><div class="lbl">artificial &middot; PQA-A</div></div></div></div></section>
     <section class="slide" id="result"><div class="kick"><span class="n">04</span>Result</div><h2>Reasoning over quantitative results is hard</h2><div class="body"><ul class="highlights"><li>The best model &mdash; multi-phase fine-tuned <a class="ref" href="https://arxiv.org/abs/1901.08746" target="_blank" rel="noopener">BioBERT</a> with long-answer statistics &mdash; reaches <b>68.1%</b>.</li><li>A single human scores <b>78.0%</b> and the majority baseline 55.2% &mdash; a wide reasoning gap remains.</li></ul><div class="chart-wrap"><svg viewBox="0 0 680 332" class="chart" xmlns="http://www.w3.org/2000/svg"><line x1="14" y1="242.0" x2="666" y2="242.0" stroke="#dcdad4"/><rect class="bar" x="76.7" y="132.7" width="92" height="109.3" rx="2" fill="var(--accent)"><title>Majority: 55.2%</title></rect><text x="122.7" y="124.7" class="bl" text-anchor="middle">55.2%</text><text x="122.7" y="270" class="cat" text-anchor="middle">Majority</text><rect class="bar" x="294" y="107.2" width="92" height="134.8" rx="2" fill="var(--accent)"><title>Best model: 68.1%</title></rect><text x="340.0" y="99.2" class="bl" text-anchor="middle">68.1%</text><text x="340.0" y="270" class="cat" text-anchor="middle">Best model</text><rect class="bar" x="511.3" y="87.6" width="92" height="154.4" rx="2" fill="var(--accent)"><title>Single human: 78.0%</title></rect><text x="557.3" y="79.6" class="bl" text-anchor="middle">78.0%</text><text x="557.3" y="270" class="cat" text-anchor="middle">Single human</text><text x="340" y="310" class="ctitle" text-anchor="middle">Accuracy on PubMedQA</text></svg></div><div class="cnote">Accuracy on the PQA-L test set (reasoning-required setting). Source: <a class="srcref" href="https://aclanthology.org/D19-1259/" target="_blank" rel="noopener">Table 5</a> &amp; abstract.</div></div></section>
     <section class="slide" id="impact"><div class="kick"><span class="n">05</span>Impact</div><h2>A foundational benchmark for medical LLMs</h2><div class="body"><ul class="highlights"><li>Google’s <a class="ref" href="https://www.nature.com/articles/s41586-023-06291-2" target="_blank" rel="noopener">Med-PaLM</a> reports results on it in Nature.</li><li>New LLMs adopt it as a medical benchmark &mdash; <a class="ref" href="https://www-cdn.anthropic.com/de8ba9b01c9ab7cbabf5c33b80b7bbc618857627/Model_Card_Claude_3.pdf" target="_blank" rel="noopener">Claude 3</a>, Microsoft’s <a class="ref" href="https://arxiv.org/abs/2210.10341" target="_blank" rel="noopener">BioGPT</a>, Meta’s <a class="ref" href="https://arxiv.org/abs/2211.09085" target="_blank" rel="noopener">Galactica</a>, <a class="ref" href="https://arxiv.org/abs/2311.16079" target="_blank" rel="noopener">MEDITRON</a>, <a class="ref" href="https://arxiv.org/abs/2304.14454" target="_blank" rel="noopener">PMC-LLaMA</a>, <a class="ref" href="https://arxiv.org/abs/2402.10373" target="_blank" rel="noopener">BioMistral</a> &amp; <a class="ref" href="https://arxiv.org/abs/2403.03640" target="_blank" rel="noopener">Apollo</a>.</li><li>Featured in evaluation reports for <a class="ref" href="https://arxiv.org/abs/2303.13375" target="_blank" rel="noopener">GPT-4</a>, <a class="ref" href="https://arxiv.org/abs/2402.07023" target="_blank" rel="noopener">Gemini</a>, Stanford’s <a class="ref" href="https://crfm.stanford.edu/helm/medhelm/latest/" target="_blank" rel="noopener">MedHELM</a>, and others.</li></ul></div></section>

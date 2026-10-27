@@ -1,0 +1,20 @@
+{
+  "retrieved": "2026-10-27",
+  "deepmind.svg": "https://storage.googleapis.com/gdm-deepmind-com-prod-public/media/images/0xBk-c8kzB5UTrWs/nav__gdm-lockup__light.height-25.svg",
+  "meta.svg": "https://static.xx.fbcdn.net/rsrc.php/y9/r/tL_v571NdZ0.svg",
+  "openai.svg": {
+    "source": "https://cdn.openai.com/brand/OpenAI-Logos-2025.zip",
+    "file": "OpenAI-logos(new)/SVGs/OpenAI-black-wordmark.svg",
+    "adjustment": "ViewBox trimmed; artwork unchanged."
+  },
+  "anthropic.svg": {
+    "source": "https://www.anthropic.com/",
+    "file": "Header inline wordmark SVG"
+  },
+  "microsoft.png": "https://img-prod-cms-rt-microsoft-com.akamaized.net/cms/api/am/imageFileData/RE1Mu3b",
+  "nvidia.svg": {
+    "source": "https://www.nvidia.com/content/nvidiaGDC/us/en_US/about-nvidia/legal-info/logo-brand-usage/_jcr_content/root/responsivegrid/nv_container_392921705/nv_container_412055486/nv_image.coreimg.svg/1776076920317/nvidia-logo-horz.svg",
+    "adjustment": "ViewBox trimmed; artwork unchanged."
+  },
+  "huggingface.svg": "https://huggingface.co/datasets/huggingface/brand-assets/resolve/main/hf-logo.svg"
+}
