@@ -388,7 +388,10 @@
     var top = Math.min.apply(null, bounds.map(function (box) { return box.top; })) - padding;
     var right = Math.max.apply(null, bounds.map(function (box) { return box.right; })) + padding;
     var bottom = Math.max.apply(null, bounds.map(function (box) { return box.bottom; })) + padding;
-    var selected = stage.dataset.highlight;
+    var groupOpacity = {};
+    stage.querySelectorAll('.ib-group').forEach(function (group) {
+      groupOpacity[group.dataset.key] = getComputedStyle(group).opacity;
+    });
     var canvas, clonedFrame;
     try {
       canvas = await window.html2canvas(section, {
@@ -414,7 +417,7 @@
           copy.querySelector('.ib-tools').style.visibility = 'hidden';
           copy.querySelector('.wrap').style.visibility = 'hidden';
           copiedStage.querySelectorAll('.ib-group').forEach(function (group) {
-            group.style.opacity = selected && group.dataset.key !== selected ? '0.34' : '1';
+            group.style.opacity = groupOpacity[group.dataset.key];
           });
           var copiedCovers = [].slice.call(copiedStage.querySelectorAll('img'));
           copiedCovers.forEach(function (image, index) {

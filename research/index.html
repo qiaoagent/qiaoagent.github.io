@@ -567,8 +567,13 @@
     .ib-svg.ib-exp .ib-slice[data-lvl="-1"]{transform:translateY(-8px);}
     .ib-svg.ib-exp .ib-slice[data-lvl="1"]{transform:translateY(8px);}
     .ib-svg.ib-exp .ib-slice[data-lvl="2"]{transform:translateY(17px);}
-    .ib-slice.ib-dim{opacity:.6;}
+    .ib-slice.ib-dim{opacity:.2;}
     .ib-slice text{pointer-events:none;font-weight:600;letter-spacing:.005em;}
+    .ib-active-face{opacity:0;pointer-events:none;fill:#285f87;stroke:#164565;stroke-width:2.5;stroke-linejoin:round;}
+    .ib-slice.on .ib-surface{opacity:0;}
+    .ib-slice.on .ib-active-face{opacity:1;}
+    .ib-slice.on text{fill:#fff;}
+    .ib-slice:focus:not(:focus-visible){outline:none;}
     .ib-panel{position:relative;z-index:3;align-self:center;
       --ib-rule:#829eb3;background:#f8fbfd;border:2px solid var(--ib-rule);border-radius:12px;overflow:hidden;}
     .ib-cell{padding:14px 16px;border-bottom:2px solid var(--ib-rule);}
@@ -586,7 +591,16 @@
     .ib-safety-tail{grid-area:2 / 1 / 3 / 3;padding:14px 16px;pointer-events:auto;}
     .ib-safety-tail .ib-papers{column-gap:0;margin:0 -16px;}
     .ib-safety-tail .ib-paper{padding:0 16px;}
-    .ib-group.ib-gdim{opacity:.34;}
+    .ib-group.ib-gdim{opacity:.22;}
+    .ib-stage:not([data-highlight=""]) .ib-cell,
+    .ib-stage:not([data-highlight=""]) .ib-lower,
+    .ib-stage:not([data-highlight=""]) .ib-process-cell{background:#f5f9fc;}
+    .ib-stage[data-highlight="mcq"] .ib-cell:first-child,
+    .ib-stage[data-highlight="out"] .ib-cell-out,
+    .ib-stage[data-highlight="proc"] .ib-process-cell,
+    .ib-stage[data-highlight="safe"] .ib-lower{background:#dcebf5;}
+    .ib-group.on .ib-glabel{color:#164565;}
+    .ib-group.on .ib-glabel::before{background:#285f87;}
     .ib-glabel{font-size:.7rem;line-height:1.3;font-weight:700;letter-spacing:.045em;text-transform:uppercase;
       color:#285e87;margin:0 0 4px;display:flex;align-items:center;gap:6px;}
     .ib-glabel::before{content:"";width:16px;height:4px;flex-shrink:0;border-radius:1px;background:var(--ib-accent);}
@@ -1601,11 +1615,31 @@
       return [xs[0],xs[xs.length-1]];
     }
 
+    // A closed band gives the selected slice a border along its cut edges too.
+    function slicePath(y0,y1){
+      function clip(points,y,keepBelow){
+        var result=[];
+        points.forEach(function(b,i){
+          var a=points[(i+points.length-1)%points.length];
+          var aInside=keepBelow?a[1]>=y:a[1]<=y;
+          var bInside=keepBelow?b[1]>=y:b[1]<=y;
+          if(aInside!==bInside) result.push([a[0]+(y-a[1])*(b[0]-a[0])/(b[1]-a[1]),y]);
+          if(bInside) result.push(b);
+        });
+        return result;
+      }
+      return 'M'+clip(clip(RING,y0,true),y1,false).map(function(p){
+        return p[0].toFixed(1)+','+p[1].toFixed(1);
+      }).join('L')+'Z';
+    }
+
     var NS='http://www.w3.org/2000/svg', GAP=1.8, out=[];
     out.push('<defs>');
     STRATA.forEach(function(s,i){
       var y0=s.y0+(i?GAP/2:0), y1=s.y1-(i<STRATA.length-1?GAP/2:0);
       out.push('<clipPath id="ibclip'+i+'"><rect x="-60" y="'+y0+'" width="500" height="'+(y1-y0)+'"/></clipPath>');
+      // Bound each interactive group to its band, with room for the active border.
+      out.push('<clipPath id="ibhit'+i+'"><rect x="-60" y="'+(y0-2)+'" width="500" height="'+(y1-y0+4)+'"/></clipPath>');
       out.push('<linearGradient id="ibgrad'+i+'" x1="40" y1="'+s.y0+'" x2="380" y2="'+s.y1+'" gradientUnits="userSpaceOnUse">'+
                '<stop offset="0" stop-color="'+s.c0+'"/><stop offset="1" stop-color="'+s.c1+'"/></linearGradient>');
     });
@@ -1617,11 +1651,13 @@
 
     STRATA.forEach(function(s,i){
       var sp=spanAt(s.labelY), cx=sp?(sp[0]+sp[1])/2:VB_W/2;
-      out.push('<g class="ib-slice" data-key="'+s.key+'" data-lvl="'+s.lvl+'" clip-path="url(#ibclip'+i+')">');
+      out.push('<g class="ib-slice" data-key="'+s.key+'" data-lvl="'+s.lvl+'" clip-path="url(#ibhit'+i+')">');
+      out.push('<g class="ib-surface" clip-path="url(#ibclip'+i+')">');
       out.push('<path d="'+D+'" fill="url(#ibgrad'+i+')" stroke="'+s.stroke+'" stroke-width="1.3" stroke-linejoin="round"/>');
       out.push('<path d="M192,4 L150,512 L-60,512 L-60,4 Z" clip-path="url(#ibberg)" '+
                'fill="rgba(255,255,255,.16)" pointer-events="none"/>');
       if(s.sub) out.push('<path d="'+D+'" fill="url(#ibdepth)" pointer-events="none"/>');
+      out.push('</g><path class="ib-active-face" d="'+slicePath(s.y0+(i?GAP/2:0),s.y1-(i<STRATA.length-1?GAP/2:0))+'"/>');
       (s.lines||[s.name]).forEach(function(line){
         out.push('<text x="'+cx.toFixed(1)+'" y="'+s.labelY+'" text-anchor="middle" '+
                  'font-size="'+s.fs+'" fill="'+s.ink+'">'+line+'</text>');
