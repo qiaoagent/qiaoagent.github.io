@@ -144,6 +144,53 @@
     pre{background:#ffffff;border:1px solid var(--border);border-radius:8px;padding:16px 18px;overflow-x:auto;font-size:0.8rem;line-height:1.5;color:#3a3630;}
     footer{border-top:1px solid var(--border);padding:26px 0 46px;color:var(--faint);font-size:0.82rem;text-align:center;margin-top:10px;}
     @media (max-width:640px){.hero{grid-template-columns:1fr;gap:22px;padding-top:34px;}.hero .cover{width:150px;}h1{font-size:1.6rem;}.slide h2{font-size:1.42rem;}.deck{padding:0 20px;}}
+
+    /* Distinct vertical workflow panels explain the three improvement intervals. */
+    figure.rg-overview{margin:0;text-align:left;}
+    .rg-defs{position:absolute;width:0;height:0;overflow:hidden;}
+    .rg-chart-heading{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin:0 0 4px;}
+    .rg-chart-heading strong{font-size:.88rem;font-weight:600;color:var(--ink);}
+    .rg-chart-heading span{font-size:.76rem;color:var(--muted);}
+    .rg-integrated,.rg-mobile-chart,.rg-mobile-panel{width:100%;height:auto;font-family:"DM Sans",sans-serif;overflow:visible;}
+    .rg-integrated{display:block;}
+    .rg-mobile-chart,.rg-mobile-panel{display:none;}
+    .rg-architecture{--accent:#2f7065;--accent-bg:#deeee8;--rg-surface:#f3f9f7;--rg-outline:#91b9ac;--rg-rule:#d0e3da;--rg-node:#c7dcd3;--rg-connector:#6e9f90;--rg-state:#eaf4ef;}
+    .rg-training{--accent:#2c5a8c;--accent-bg:#e3edf7;--rg-surface:#f7f9fc;--rg-outline:#9eb7d0;--rg-rule:#d2dfeb;--rg-node:#cbdbea;--rg-connector:#7999b8;--rg-state:#edf2f7;}
+    .rg-critic{--accent:#95611f;--accent-bg:#f4e7ce;--rg-surface:#fcf8f1;--rg-outline:#c7ab7c;--rg-rule:#eadcc5;--rg-node:#e5d5b7;--rg-connector:#b29665;--rg-state:#f8f0df;}
+    .rg-card-edge{fill:var(--rg-surface);stroke:var(--rg-outline);stroke-width:1.6;}
+    .rg-card-rule{stroke:var(--rg-rule);stroke-width:1;}
+    .rg-card-title{font-size:16px;font-weight:600;fill:var(--accent);}
+    .rg-card-subtitle{font-size:13px;font-weight:500;fill:var(--accent);}
+    .rg-card-node{fill:#fff;stroke:var(--rg-node);stroke-width:1;}
+    .rg-card-tint{fill:var(--accent-bg);}
+    .rg-card-step{font-size:13.5px;font-weight:600;fill:var(--ink);}
+    .rg-card-note{font-size:11.5px;fill:var(--muted);}
+    .rg-card-tiny{font-size:10.5px;fill:var(--muted);}
+    .rg-card-connector{fill:none;stroke:var(--rg-connector);stroke-width:1.3;stroke-linecap:round;stroke-linejoin:round;}
+    .rg-art-stroke{fill:none;stroke:var(--accent);stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;}
+    .rg-art-wire{fill:none;stroke:var(--rg-outline);stroke-width:1.3;stroke-linecap:round;stroke-linejoin:round;}
+    .rg-art-neutral{fill:none;stroke:#a5acb3;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;}
+    .rg-art-bar{fill:none;stroke:var(--accent);stroke-width:5;stroke-linecap:round;}
+    .rg-art-bar-muted{fill:none;stroke:#aab3bc;stroke-width:5;stroke-linecap:round;}
+    .rg-art-label{font-size:11.5px;font-weight:600;fill:var(--accent);}
+    .rg-state{fill:var(--rg-state);stroke:var(--rg-node);stroke-width:1;}
+    .rg-grid{fill:none;stroke:var(--border);stroke-width:1;}
+    .rg-tick{font-size:12px;fill:var(--muted);}
+    .rg-progress{fill:none;stroke:var(--accent);stroke-width:2.2;stroke-linejoin:round;}
+    .rg-point{fill:#fff;stroke:var(--accent);stroke-width:2;}
+    .rg-fill{fill:var(--accent);}
+    .rg-value{font-size:22px;font-weight:600;fill:var(--ink);}
+    .rg-value-final{fill:var(--accent);}
+    .rg-point-label{font-size:14px;fill:var(--ink);}
+    .rg-increment{font-size:13px;font-weight:600;fill:var(--accent);}
+    figure.rg-overview figcaption{font-size:.71rem;color:var(--muted);line-height:1.45;margin-top:10px;}
+    @media(max-width:760px){
+      #method{justify-content:flex-start;}
+      .rg-chart-heading{flex-wrap:wrap;gap:2px 12px;margin-bottom:12px;}
+      .rg-integrated{display:none;}
+      .rg-mobile-chart{display:block;margin:18px auto;}
+      .rg-mobile-panel{display:block;max-width:310px;margin:18px auto;}
+    }
 </style>
 <link rel="stylesheet" href="../assets/paper-cover.css">
 </head><body>
@@ -158,15 +205,191 @@
         <div class="links"><a class="primary" href="../assets/papers/RAG-Gym.pdf" target="_blank" rel="noopener">PDF</a>
           <a href="https://arxiv.org/abs/2502.13957" target="_blank" rel="noopener">arXiv</a></div></div><div class="hero-disc">These slides were generated with the help of AI and may contain errors.</div></header>
     <section class="slide" id="motivation"><div class="kick"><span class="n">01</span>Motivation</div><h2>Outcome-only rewards produce unreliable information-seeking agents</h2><div class="body"><ul class="highlights"><li>LLMs now act as autonomous agents that iteratively search external knowledge.</li><li>High-quality intermediate search steps are hard to generate and harder to supervise.</li><li>Rewarding only the final answer invites reward hacking and over-reliance on parametric memory.</li><li>A correct answer can hide a flawed search path &mdash; and that path generalizes poorly out of domain.</li></ul></div></section>
-    <section class="slide" id="method"><div class="kick"><span class="n">02</span>Method</div><h2>RAG-Gym formulates agentic search as a Markov decision process</h2><div class="body"><ul class="highlights"><li>Each search query is an <b>action</b>; the accumulated question, queries and documents form the <b>state</b>.</li><li>That framing makes every intermediate step addressable by a reward, not just the final answer.</li></ul><figure class="fig"><img src="../assets/figures/auto/RAGGym_fig1a.png" alt="Knowledge-intensive question answering formulated as an MDP: the agent alternates actions and environment stat"><figcaption>Knowledge-intensive question answering formulated as an MDP: the agent alternates actions and environment states until it answers. <span class="src"><a class="srcref" href="https://arxiv.org/abs/2502.13957" target="_blank" rel="noopener">Fig. 1a</a>.</span></figcaption></figure></div></section>
+    <section class="slide" id="method">
+      <div class="kick"><span class="n">02</span>Workflow &amp; results</div>
+      <h2>RAG-Gym improves search along three axes</h2>
+      <div class="body">
+        <figure class="rg-overview" aria-label="Three RAG-Gym optimization axes and progressive HotpotQA performance">
+          <svg class="rg-defs" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"><defs>
+            <symbol id="rg-art-document" viewBox="0 0 48 48">
+              <rect class="rg-card-node" x="8" y="3" width="32" height="41" rx="4"/>
+              <path class="rg-art-stroke" d="M15 14h18M15 22h18M15 30h11"/>
+            </symbol>
+            <symbol id="rg-art-reflect" viewBox="0 0 48 48">
+              <rect class="rg-card-tint" x="3" y="2" width="33" height="38" rx="3"/>
+              <path class="rg-art-stroke" d="M10 12h19M10 19h12"/>
+              <path class="rg-art-stroke" d="M10 27h10" stroke-dasharray="2 3"/>
+              <circle cx="32" cy="31" r="11" fill="#fff" stroke="var(--accent)" stroke-width="1.6"/>
+              <path class="rg-art-stroke" d="m40 39 6 6M32 25v7M32 36v.5"/>
+            </symbol>
+            <symbol id="rg-art-search" viewBox="0 0 48 48">
+              <rect class="rg-card-node" x="2" y="5" width="43" height="33" rx="5"/>
+              <path class="rg-art-wire" d="M3 13h41"/>
+              <path class="rg-art-stroke" d="M8 9h1M12 9h1M16 9h1M25 22h13M25 28h8"/>
+              <circle class="rg-art-stroke" cx="13" cy="24" r="6"/>
+              <path class="rg-art-stroke" d="m17.5 28.5 5 5"/>
+            </symbol>
+            <symbol id="rg-art-evidence" viewBox="0 0 48 48">
+              <rect class="rg-card-node" x="15" y="2" width="28" height="35" rx="3"/>
+              <rect class="rg-card-node" x="10" y="6" width="28" height="35" rx="3"/>
+              <rect class="rg-card-node" x="5" y="10" width="28" height="35" rx="3"/>
+              <rect class="rg-card-tint" x="9" y="24" width="20" height="7" rx="2"/>
+              <path class="rg-art-stroke" d="M10 18h17M11 27h14M10 36h13"/>
+            </symbol>
+            <symbol id="rg-art-model" viewBox="0 0 40 36">
+              <path class="rg-art-wire" d="m8 8 12 2 12-2M8 8l12 18L32 8M8 26l12-16 12 16M8 26h24"/>
+              <g fill="#fff" stroke="var(--accent)" stroke-width="1.3"><circle cx="8" cy="8" r="3"/><circle cx="8" cy="26" r="3"/><circle cx="20" cy="10" r="3"/><circle cx="20" cy="26" r="3"/><circle cx="32" cy="8" r="3"/><circle cx="32" cy="26" r="3"/></g>
+            </symbol>
+            <symbol id="rg-card-architecture" viewBox="0 0 234 262">
+              <rect class="rg-card-edge" x="1" y="1" width="232" height="260" rx="12"/>
+              <text class="rg-card-title" x="117" y="24" text-anchor="middle">Agent architecture</text>
+              <text class="rg-card-subtitle" x="117" y="44" text-anchor="middle">Re²Search</text>
+              <path class="rg-card-rule" d="M1 55H233"/>
+              <use href="#rg-art-document" x="35" y="68" width="48" height="48"/>
+              <use href="#rg-art-reflect" x="150" y="68" width="48" height="48"/>
+              <path class="rg-card-connector" d="M91 91h49m-4-3 4 3-4 3"/>
+              <text class="rg-card-step" x="59" y="128" text-anchor="middle">Reason</text>
+              <text class="rg-card-note" x="59" y="143" text-anchor="middle">Draft an answer</text>
+              <text class="rg-card-step" x="174" y="128" text-anchor="middle">Reflect</text>
+              <text class="rg-card-note" x="174" y="143" text-anchor="middle">Find the first gap</text>
+              <path class="rg-card-connector" d="M174 148v15m-3-3 3 3 3-3"/>
+              <use href="#rg-art-evidence" x="35" y="167" width="48" height="48"/>
+              <use href="#rg-art-search" x="150" y="167" width="48" height="48"/>
+              <path class="rg-card-connector" d="M142 191H92m4-3-4 3 4 3"/>
+              <text class="rg-card-step" x="59" y="226" text-anchor="middle">Retrieve</text>
+              <text class="rg-card-note" x="59" y="241" text-anchor="middle">Update history</text>
+              <text class="rg-card-step" x="174" y="226" text-anchor="middle">Search</text>
+              <text class="rg-card-note" x="174" y="241" text-anchor="middle">Target the gap</text>
+              <path class="rg-art-wire" d="M35 191H20q-6 0-6-6V97q0-6 6-6h11m-4-3 4 3-4 3"/>
+              <text class="rg-card-tiny" x="117" y="255" text-anchor="middle">Repeat with new evidence</text>
+            </symbol>
+            <symbol id="rg-card-training" viewBox="0 0 234 300">
+              <rect class="rg-card-edge" x="1" y="1" width="232" height="298" rx="12"/>
+              <text class="rg-card-title" x="117" y="24" text-anchor="middle">Parameter optimization</text>
+              <text class="rg-card-subtitle" x="117" y="44" text-anchor="middle">Process-supervised DPO</text>
+              <path class="rg-card-rule" d="M1 55H233"/>
+              <rect class="rg-state" x="15" y="67" width="204" height="23" rx="5"/>
+              <text class="rg-card-note" x="117" y="82" text-anchor="middle">Same question + history</text>
+              <rect class="rg-card-node" x="29" y="102" width="30" height="34" rx="3"/>
+              <rect class="rg-card-node" x="39" y="106" width="30" height="34" rx="3"/>
+              <rect class="rg-card-node" x="49" y="110" width="30" height="34" rx="3"/>
+              <path class="rg-art-stroke" d="M55 119h18M55 126h18M55 133h11"/>
+              <path class="rg-card-connector" d="M90 124h59m-4-3 4 3-4 3"/>
+              <rect class="rg-card-tint" x="156" y="108" width="66" height="32" rx="6"/>
+              <text class="rg-art-label" x="189" y="129" text-anchor="middle">GPT-4o</text>
+              <text class="rg-card-note" x="60" y="158" text-anchor="middle">Sample actions</text>
+              <text class="rg-card-note" x="189" y="158" text-anchor="middle">Rank</text>
+              <text class="rg-card-note" x="117" y="177" text-anchor="middle">Sufficiency · Utility</text>
+              <text class="rg-card-note" x="117" y="191" text-anchor="middle">Non-redundancy</text>
+              <path class="rg-card-connector" d="M76 195v8m-3-3 3 3 3-3"/>
+              <rect class="rg-card-tint" x="15" y="208" width="119" height="26" rx="5"/>
+              <path class="rg-art-stroke" d="m23 221 4 4 7-9"/>
+              <text class="rg-card-note" x="83" y="225" text-anchor="middle" style="fill:var(--accent)">Preferred</text>
+              <rect class="rg-card-node" x="15" y="242" width="119" height="26" rx="5"/>
+              <path class="rg-art-neutral" d="m24 251 8 8m0-8-8 8"/>
+              <text class="rg-card-note" x="83" y="259" text-anchor="middle">Less preferred</text>
+              <path class="rg-card-connector" d="M140 221h3q6 0 6 6v23q0 6-6 6h-3M149 238h20m-4-3 4 3-4 3"/>
+              <rect class="rg-card-tint" x="175" y="213" width="45" height="51" rx="6"/>
+              <use href="#rg-art-model" x="178" y="216" width="39" height="35"/>
+              <text class="rg-art-label" x="197.5" y="260" text-anchor="middle">Actor</text>
+              <text class="rg-card-step" x="117" y="287" text-anchor="middle" style="fill:var(--accent)">Update with preferences</text>
+            </symbol>
+            <symbol id="rg-card-critic" viewBox="0 0 234 340">
+              <rect class="rg-card-edge" x="1" y="1" width="232" height="338" rx="12"/>
+              <text class="rg-card-title" x="117" y="24" text-anchor="middle">Action evaluation</text>
+              <text class="rg-card-subtitle" x="117" y="44" text-anchor="middle">Process reward critic</text>
+              <path class="rg-card-rule" d="M1 55H233"/>
+              <rect class="rg-state" x="15" y="67" width="204" height="23" rx="5"/>
+              <text class="rg-card-note" x="117" y="82" text-anchor="middle">Current question + history</text>
+              <rect class="rg-card-node" x="28" y="102" width="30" height="34" rx="3"/>
+              <rect class="rg-card-node" x="38" y="107" width="30" height="34" rx="3"/>
+              <rect class="rg-card-node" x="48" y="112" width="30" height="34" rx="3"/>
+              <path class="rg-art-stroke" d="M54 121h18M54 128h18M54 135h11"/>
+              <text class="rg-card-step" x="156" y="119" text-anchor="middle">10 candidates</text>
+              <text class="rg-card-note" x="156" y="137" text-anchor="middle">Queries or answers</text>
+              <path class="rg-card-connector" d="M117 151v15m-3-3 3 3 3-3"/>
+              <text class="rg-card-step" x="117" y="185" text-anchor="middle">Critic scores each action</text>
+              <rect class="rg-card-node" x="23" y="195" width="132" height="70" rx="7"/>
+              <rect class="rg-card-tint" x="28" y="201" width="121" height="20" rx="4"/>
+              <path class="rg-art-stroke" d="m35 211 4 4 6-8"/>
+              <path class="rg-art-bar" d="M55 211h84"/>
+              <path class="rg-art-bar-muted" d="M37 234h62M37 252h38"/>
+              <path class="rg-card-connector" d="M161 229h13m-4-3 4 3-4 3"/>
+              <rect class="rg-card-tint" x="181" y="207" width="34" height="40" rx="7"/>
+              <path class="rg-art-stroke" d="m189 227 6 6 12-15"/>
+              <text class="rg-card-note" x="198" y="262" text-anchor="middle">Select</text>
+              <path class="rg-card-connector" d="M198 269v11H117v10H64v9m-3-3 3 3 3-3M117 290h53v9m-3-3 3 3 3-3"/>
+              <text class="rg-card-step" x="64" y="314" text-anchor="middle">Query</text>
+              <text class="rg-card-step" x="170" y="314" text-anchor="middle">Answer</text>
+              <text class="rg-card-tiny" x="64" y="330" text-anchor="middle">Retrieve &amp; repeat</text>
+              <text class="rg-card-tiny" x="170" y="330" text-anchor="middle">Finish</text>
+            </symbol>
+          </defs></svg>
+          <div class="rg-chart-heading"><strong>HotpotQA F1 (%)</strong><span>Llama-3.1-8B-Instruct</span></div>
+          <svg class="rg-integrated" viewBox="0 0 840 448" role="img" aria-labelledby="rg-tall-title rg-tall-desc">
+            <title id="rg-tall-title">Three distinct changes improve agent performance</title>
+            <desc id="rg-tall-desc">HotpotQA F1 improves from ReAct 41.09 to Re-squared Search 44.91, then DPO 55.22, then critic guidance 60.19. Three progressively taller panels fill the space below the rising curve, with their bottom edges aligned. The illustrated architecture loop drafts an answer, finds its first unsupported claim, searches for the missing evidence, and updates history. GPT-4o ranks candidate actions for the same question and history, creating preferences for DPO actor training. At inference, the critic ranks ten candidate queries or answers; the selected query retrieves more evidence, while a selected answer ends the loop. Score bars are schematic relative preferences.</desc>
+            <g transform="translate(0 -160)">
+            <path class="rg-grid" d="M19 302h7"/><text class="rg-tick" x="13" y="306" text-anchor="end">40</text>
+            <path class="rg-grid" d="M19 250h7"/><text class="rg-tick" x="13" y="254" text-anchor="end">50</text>
+            <path class="rg-grid" d="M19 198h7"/><text class="rg-tick" x="13" y="202" text-anchor="end">60</text>
+            <path class="rg-progress rg-architecture" d="M32.000 296.332L290.667 276.468"/>
+            <path class="rg-progress rg-training" d="M290.667 276.468L549.333 222.856"/>
+            <path class="rg-progress rg-critic" d="M549.333 222.856L808.000 197.012"/>
+            <circle class="rg-point rg-architecture" cx="32.000" cy="296.332" r="4.5"/>
+            <text class="rg-value" x="32.000" y="282.332" text-anchor="middle">41.1</text>
+            <text class="rg-point-label" x="32.000" y="320.332" text-anchor="start">ReAct</text>
+            <circle class="rg-point rg-architecture" cx="290.667" cy="276.468" r="4.5"/>
+            <text class="rg-value" x="290.667" y="262.468" text-anchor="middle">44.9</text>
+            <text class="rg-point-label" x="290.667" y="300.468" text-anchor="end">Re²Search</text>
+            <circle class="rg-point rg-training" cx="549.333" cy="222.856" r="4.5"/>
+            <text class="rg-value" x="549.333" y="208.856" text-anchor="middle">55.2</text>
+            <text class="rg-point-label" x="549.333" y="246.856" text-anchor="end">+ DPO</text>
+            <circle class="rg-fill rg-critic" cx="808.000" cy="197.012" r="5.5"/>
+            <text class="rg-value rg-value-final rg-critic" x="808.000" y="183.012" text-anchor="middle">60.2</text>
+            <text class="rg-point-label" x="808.000" y="221.012" text-anchor="end">+ Critic</text>
+            <text class="rg-increment rg-architecture" x="161.333" y="274.400" text-anchor="middle">+3.8 F1</text>
+            <text class="rg-increment rg-training" x="420.000" y="237.662" text-anchor="middle">+10.3 F1</text>
+            <text class="rg-increment rg-critic" x="678.667" y="197.934" text-anchor="middle">+5.0 F1</text>
+            </g>
+            <use class="rg-architecture" href="#rg-card-architecture" x="44.333" y="174" width="234" height="262"/>
+            <use class="rg-training" href="#rg-card-training" x="303" y="136" width="234" height="300"/>
+            <use class="rg-critic" href="#rg-card-critic" x="561.667" y="96" width="234" height="340"/>
+          </svg>
+          <svg class="rg-mobile-chart" viewBox="0 0 350 164" role="img" aria-label="HotpotQA F1: ReAct 41.1, Re-squared Search 44.9, add DPO 55.2, add critic 60.2. Three intervals correspond to architecture, DPO training, and critic guidance.">
+            <path class="rg-grid" d="M30 108H338"/><text class="rg-tick" x="23" y="112" text-anchor="end">40</text>
+            <path class="rg-grid" d="M30 76H338"/><text class="rg-tick" x="23" y="80" text-anchor="end">50</text>
+            <path class="rg-grid" d="M30 44H338"/><text class="rg-tick" x="23" y="48" text-anchor="end">60</text>
+            <path class="rg-progress rg-architecture" d="M38.000 104.512L132.000 92.288"/>
+            <path class="rg-progress rg-training" d="M132.000 92.288L226.000 59.296"/>
+            <path class="rg-progress rg-critic" d="M226.000 59.296L320.000 43.392"/>
+            <circle class="rg-point rg-architecture" cx="38.000" cy="104.512" r="4.5"/><text class="rg-value" x="38.000" y="88.512" text-anchor="middle" style="font-size:19px">41.1</text>
+            <text class="rg-point-label" x="38.000" y="133" text-anchor="middle" style="font-size:13px">ReAct</text>
+            <circle class="rg-point rg-architecture" cx="132.000" cy="92.288" r="4.5"/><text class="rg-value" x="132.000" y="76.288" text-anchor="middle" style="font-size:19px">44.9</text>
+            <text class="rg-point-label" x="132.000" y="133" text-anchor="middle" style="font-size:13px">Re²Search</text>
+            <circle class="rg-point rg-training" cx="226.000" cy="59.296" r="4.5"/><text class="rg-value" x="226.000" y="43.296" text-anchor="middle" style="font-size:19px">55.2</text>
+            <text class="rg-point-label" x="226.000" y="133" text-anchor="middle" style="font-size:13px">+ DPO</text>
+            <circle class="rg-fill rg-critic" cx="320.000" cy="43.392" r="5"/><text class="rg-value rg-value-final rg-critic" x="320.000" y="27.392" text-anchor="middle" style="font-size:19px">60.2</text>
+            <text class="rg-point-label" x="320.000" y="133" text-anchor="middle" style="font-size:13px">+ Critic</text>
+            <text class="rg-increment rg-architecture" x="85.000" y="158.000" text-anchor="middle" style="font-size:12px">① +3.8</text>
+            <text class="rg-increment rg-training" x="179.000" y="158.000" text-anchor="middle" style="font-size:12px">② +10.3</text>
+            <text class="rg-increment rg-critic" x="273.000" y="158.000" text-anchor="middle" style="font-size:12px">③ +5.0</text>
+          </svg>
+          <svg class="rg-mobile-panel" viewBox="0 0 234 262" role="img" aria-label="Agent architecture: Re-squared Search drafts an answer, reflects on its first unsupported claim, forms a targeted query, and retrieves evidence to update history."><use class="rg-architecture" href="#rg-card-architecture" width="234" height="262"/></svg>
+          <svg class="rg-mobile-panel" viewBox="0 0 234 300" role="img" aria-label="Parameter optimization: GPT-4o ranks candidate actions for the same question and history by sufficiency, utility, and non-redundancy, producing preference pairs for DPO actor updates."><use class="rg-training" href="#rg-card-training" width="234" height="300"/></svg>
+          <svg class="rg-mobile-panel" viewBox="0 0 234 340" role="img" aria-label="Action evaluation: the critic scores ten candidate queries or answers for the current question and history and selects the highest-scoring action. Queries retrieve and repeat; answers finish. Score bars are schematic relative preferences."><use class="rg-critic" href="#rg-card-critic" width="234" height="340"/></svg>
+          <figcaption>Same 1,000 evaluation questions. Final stage: Re²Search++ with best-of-10 critic guidance (the default setting). Sources: <a class="srcref" href="https://rag-gym.github.io/" target="_blank" rel="noopener">official project</a> and <a class="srcref" href="../assets/papers/RAG-Gym.pdf" target="_blank" rel="noopener">paper, Figs. 1 &amp; 4d</a>.</figcaption>
+        </figure>
+      </div>
+    </section>
     <section class="slide" id="method-2"><div class="kick"><span class="n">03</span>Method</div><h2>RAG-Gym supervises the search process rather than the final answer alone</h2><div class="body"><ul class="highlights"><li>A wrong intermediate query can still yield the right answer, so outcome reward marks it correct.</li><li>RAG-Gym optimizes three axes: architecture design, parameter tuning, and action evaluation.</li></ul><figure class="fig"><img src="../assets/figures/auto/RAGGym_fig1bc.png" alt="Left: why outcome supervision is insufficient. Right: the three components RAG-Gym optimizes. Fig. 1b&ndash;c."><figcaption>Left: why outcome supervision is insufficient. Right: the three components RAG-Gym optimizes. <span class="src"><a class="srcref" href="https://arxiv.org/abs/2502.13957" target="_blank" rel="noopener">Fig. 1b&ndash;c</a>.</span></figcaption></figure></div></section>
     <section class="slide" id="capability"><div class="kick"><span class="n">04</span>Result</div><h2>Reasoning reflection is the capability search agents most often lack</h2><div class="body"><ul class="highlights"><li>Sweeping architectures and tuning methods isolates which agent capabilities actually matter.</li><li>Re<sup>2</sup>Search is the only design carrying the full capability stack, and it leads on every axis of the radar.</li></ul><figure class="fig"><img src="../assets/figures/auto/RAGGym_fig2d.png" alt="Benchmark coverage by agent architecture under zero-shot, SFT, DPO and PPO training. Fig. 2d."><figcaption>Benchmark coverage by agent architecture under zero-shot, SFT, DPO and PPO training. <span class="src"><a class="srcref" href="https://arxiv.org/abs/2502.13957" target="_blank" rel="noopener">Fig. 2d</a>.</span></figcaption></figure></div></section>
     <section class="slide" id="behaviour"><div class="kick"><span class="n">05</span>Result</div><h2>Process supervision increases the number of search queries agents issue</h2><div class="body"><ul class="highlights"><li>Agents trained with process rewards issue more search queries before committing to an answer.</li><li>The shift is consistent across HotpotQA, 2WikiMultihopQA, Bamboogle and MedQA.</li></ul><figure class="fig"><img src="../assets/figures/auto/RAGGym_fig3c.png" alt="Average number of search queries per question, by training method. Fig. 3c."><figcaption>Average number of search queries per question, by training method. <span class="src"><a class="srcref" href="https://arxiv.org/abs/2502.13957" target="_blank" rel="noopener">Fig. 3c</a>.</span></figcaption></figure></div></section>
-    <section class="slide" id="critic"><div class="kick"><span class="n">06</span>Result</div><h2>A process-reward critic improves accuracy across every agent architecture</h2><div class="body"><ul class="highlights"><li>Scoring candidate actions with a process-reward critic improves accuracy without retraining the actor.</li><li>The gain holds for Direct, CoT and RAG agents, and for ReAct, Search-o1 and Re<sup>2</sup>Search alike.</li></ul><figure class="fig"><img src="../assets/figures/auto/RAGGym_fig4bc.png" alt="F1 with and without critic-guided action selection, across agents and benchmarks. Fig. 4b&ndash;c."><figcaption>F1 with and without critic-guided action selection, across agents and benchmarks. <span class="src"><a class="srcref" href="https://arxiv.org/abs/2502.13957" target="_blank" rel="noopener">Fig. 4b&ndash;c</a>.</span></figcaption></figure></div></section>
+    <section class="slide" id="critic"><div class="kick"><span class="n">06</span>Result</div><h2>Critic guidance benefits multi-step search agents</h2><div class="body"><ul class="highlights"><li>A process-reward critic can improve search without retraining the actor.</li><li>Benefits are clearest for multi-step agents; single-step methods can show little benefit or decline.</li></ul><figure class="fig"><img src="../assets/figures/auto/RAGGym_fig4bc.png" alt="F1 with and without critic-guided action selection, across agents and benchmarks. Fig. 4b&ndash;c."><figcaption>F1 with and without critic-guided action selection, across agents and benchmarks. <span class="src"><a class="srcref" href="https://arxiv.org/abs/2502.13957" target="_blank" rel="noopener">Fig. 4b&ndash;c</a>.</span></figcaption></figure></div></section>
     <section class="slide" id="transfer"><div class="kick"><span class="n">07</span>Result</div><h2>The critic transfers across model backbones, including proprietary actors</h2><div class="body"><ul class="highlights"><li>A Llama-3.1-8B critic improves a <b>proprietary GPT-4o-mini actor</b> &mdash; 2WikiMultihopQA rises from 50.4 to 58.0.</li><li>Bamboogle gains most, from 56.6 to 66.4 F1 on the tuned backbone.</li></ul><figure class="fig"><img src="../assets/figures/auto/RAGGym_fig4d.png" alt="Critic-guided selection on DPO-tuned Llama-3.1-8B and on GPT-4o-mini, against the untuned baseline. Fig. 4d."><figcaption>Critic-guided selection on DPO-tuned Llama-3.1-8B and on GPT-4o-mini, against the untuned baseline. <span class="src"><a class="srcref" href="https://arxiv.org/abs/2502.13957" target="_blank" rel="noopener">Fig. 4d</a>.</span></figcaption></figure></div></section>
-    <section class="slide" id="generalization"><div class="kick"><span class="n">08</span>Result</div><h2>Re<sup>2</sup>Search++ generalises to out-of-domain benchmarks</h2><div class="body"><ul class="highlights"><li>Re<sup>2</sup>Search++ leads every baseline on both Llama-3.1-8B and Qwen-2.5-7B backbones.</li><li>The margin is widest on Bamboogle, the out-of-domain benchmark neither model was tuned for.</li></ul><figure class="fig"><img src="../assets/figures/auto/RAGGym_fig5c.png" alt="F1 by agent and backbone; hatched bars are in-domain, solid bars out-of-domain. Fig. 5c."><figcaption>F1 by agent and backbone; hatched bars are in-domain, solid bars out-of-domain. <span class="src"><a class="srcref" href="https://arxiv.org/abs/2502.13957" target="_blank" rel="noopener">Fig. 5c</a>.</span></figcaption></figure></div></section>
+    <section class="slide" id="generalization"><div class="kick"><span class="n">08</span>Result</div><h2>Re<sup>2</sup>Search++ generalises to out-of-domain benchmarks</h2><div class="body"><ul class="highlights"><li>Re<sup>2</sup>Search++ performs best on Bamboogle with both Llama-3.1-8B and Qwen-2.5-7B.</li><li>Bamboogle is an out-of-domain benchmark; Re<sup>2</sup>Search++ was tuned on HotpotQA.</li></ul><figure class="fig"><img src="../assets/figures/auto/RAGGym_fig5c.png" alt="F1 by agent and backbone; hatched bars are in-domain, solid bars out-of-domain. Fig. 5c."><figcaption>F1 by agent and backbone; hatched bars are in-domain, solid bars out-of-domain. <span class="src"><a class="srcref" href="https://arxiv.org/abs/2502.13957" target="_blank" rel="noopener">Fig. 5c</a>.</span></figcaption></figure></div></section>
     <section class="slide" id="scaling"><div class="kick"><span class="n">09</span>Result</div><h2>Performance scales with both training samples and sampled actions</h2><div class="body"><ul class="highlights"><li>Accuracy rises steadily with the number of training samples, well past the zero-shot baseline.</li><li>It also rises with the number of sampled actions at inference &mdash; more candidates for the critic to choose from.</li></ul><figure class="fig"><img src="../assets/figures/auto/RAGGym_fig6ef.png" alt="Scaling with training samples (left) and with sampled actions per step (right). The dashed line is the zero-sh"><figcaption>Scaling with training samples (left) and with sampled actions per step (right). The dashed line is the zero-shot baseline. <span class="src"><a class="srcref" href="https://arxiv.org/abs/2502.13957" target="_blank" rel="noopener">Fig. 6e&ndash;f</a>.</span></figcaption></figure></div></section>
-    <section class="slide" id="summary"><div class="kick"><span class="n">10</span>Summary</div><h2>RAG-Gym at a glance</h2><div class="body"><div class="tbl-wrap"><table class="stbl"><tbody><tr><td class="slab">Background</td><td class="sval">Agentic RAG interleaves search and reasoning to answer hard questions.</td></tr><tr><td class="slab">Problem</td><td class="sval">Outcome-only rewards cause reward hacking and poor out-of-domain search.</td></tr><tr><td class="slab">Approach</td><td class="sval">Process supervision over an MDP &mdash; a critic scores every search step.</td></tr><tr><td class="slab">Results</td><td class="sval">Re<sup>2</sup>Search++ beats outcome-supervised baselines; critics transfer to proprietary LLMs.</td></tr><tr><td class="slab">Conclusion</td><td class="sval">A principled blueprint for training reliable, generalizable search agents.</td></tr></tbody></table></div></div></section>
+    <section class="slide" id="summary"><div class="kick"><span class="n">10</span>Summary</div><h2>RAG-Gym at a glance</h2><div class="body"><div class="tbl-wrap"><table class="stbl"><tbody><tr><td class="slab">Background</td><td class="sval">Agentic RAG interleaves search and reasoning to answer hard questions.</td></tr><tr><td class="slab">Problem</td><td class="sval">Outcome-only rewards cause reward hacking and poor out-of-domain search.</td></tr><tr><td class="slab">Approach</td><td class="sval">Architecture design, process-supervised training, and critic-guided action selection.</td></tr><tr><td class="slab">Results</td><td class="sval">Re<sup>2</sup>Search++ beats outcome-supervised baselines; critics transfer to proprietary LLMs.</td></tr><tr><td class="slab">Conclusion</td><td class="sval">A principled blueprint for training reliable, generalizable search agents.</td></tr></tbody></table></div></div></section>
   </main>
   <footer>Qiao Jin, MD &middot; National Library of Medicine, NIH</footer>
   <nav class="dots" aria-hidden="true"></nav>
