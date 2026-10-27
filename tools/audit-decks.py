@@ -43,8 +43,8 @@ def audit(path):
     if links:
         labels = [strip(x) for x in re.findall(r'<a[^>]*>(.*?)</a>', links.group(1))]
         if len(labels) != 2 and name not in ACCEPTED_EXTRA_HERO_LINKS:
-            issues.append(('hero-links', f'{len(labels)} hero links {labels}, expected PDF + Journal/arXiv'))
-        elif labels[0] != 'PDF' or (labels[1] not in ('Journal', 'arXiv', 'Proceedings')
+            issues.append(('hero-links', f'{len(labels)} hero links {labels}, expected PDF + Journal/arXiv/Proceedings/Conference'))
+        elif labels[0] != 'PDF' or (labels[1] not in ('Journal', 'arXiv', 'Proceedings', 'Conference')
                                     and name not in ACCEPTED_EXTRA_HERO_LINKS):
             issues.append(('hero-links', f'hero links are {labels}'))
     if re.search(r'\b(cited|citations?)\s+\d{2,}|\d{2,}\s+citations\b', h, re.I):

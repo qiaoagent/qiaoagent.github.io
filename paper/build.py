@@ -10,6 +10,7 @@ from urllib.parse import unquote, urlsplit
 HERE = Path(__file__).resolve().parent
 TEMPLATE = HERE.parent / 'bio' / 'index.html'
 DISPLAY_NAMES = {
+    'Agents-Last-Exam': 'Agents’ Last Exam',
     'AIScientist': 'Risks of AI Scientists',
     'HiddenFlaws': 'Hidden Flaws',
     'PubMed-and-Beyond': 'PubMed and Beyond',

@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Agents’ Last Exam | Qiao Jin</title>
+<meta name="description" content="Agents’ Last Exam evaluates AI agents on realistic professional workflows with verifiable deliverables. Summary of the October 2026 paper, NeurIPS E&amp;D 2026.">
+<link rel="canonical" href="https://qiaojin.info/paper/Agents-Last-Exam.html">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<style>
+    :root{--bg:#fff;--panel:#f7f7f5;--ink:#222;--muted:#6a655d;--faint:#918b81;--border:#e6e5e1;
+      --gen:#2f6d5b;--gen-bg:#e3efe9;--util:#2c5a8c;--util-bg:#e4ecf5;--eval:#6b3f8c;--eval-bg:#ede4f4;
+      --accent:var(--eval);--accent-bg:var(--eval-bg);}
+    *{box-sizing:border-box;} html{scroll-snap-type:y mandatory;scroll-padding-top:56px;}
+    body{margin:0;background:var(--bg);color:var(--ink);font-family:"DM Sans",-apple-system,BlinkMacSystemFont,sans-serif;line-height:1.65;-webkit-font-smoothing:antialiased;}
+    a{color:inherit;}
+    .nav{position:sticky;top:0;z-index:10;background:rgba(255,255,255,0.9);backdrop-filter:blur(8px);border-bottom:1px solid var(--border);}
+    .nav .wrap{max-width:900px;margin:0 auto;padding:0 30px;display:flex;align-items:center;justify-content:space-between;height:56px;}
+    .nav .brand{font-family:"DM Serif Display",Georgia,serif;font-size:1.05rem;text-decoration:none;}
+    .nav .back{font-size:0.86rem;color:var(--muted);text-decoration:none;} .nav .back:hover{color:var(--accent);}
+    .deck{max-width:900px;margin:0 auto;padding:0 30px;}
+    .hero{position:relative;display:grid;grid-template-columns:210px 1fr;gap:40px;align-content:center;min-height:calc(100vh - 56px);padding:20px 0;scroll-snap-align:start;}
+    .hero-disc{position:absolute;left:0;right:0;bottom:16px;text-align:center;font-size:0.74rem;color:var(--faint);font-style:italic;}
+    .hero .cover{width:210px;border:1px solid var(--border);border-radius:6px;box-shadow:0 10px 30px rgba(0,0,0,0.13);display:block;transform-origin:center;transition:transform 0.32s cubic-bezier(0.34,1.45,0.64,1),box-shadow 0.32s ease;will-change:transform;}
+    .hero .cover:hover{box-shadow:0 22px 44px rgba(0,0,0,0.22);}
+    .eyebrow{font-size:0.72rem;font-weight:600;letter-spacing:0.11em;text-transform:uppercase;color:var(--accent);margin-bottom:12px;}
+    h1{font-family:"DM Serif Display",Georgia,serif;font-weight:400;font-size:2rem;line-height:1.14;margin:0 0 16px;}
+    .authors{font-size:0.95rem;margin-bottom:6px;} .authors b{font-weight:600;}
+    .eqc{font-size:0.78rem;color:var(--faint);margin:-2px 0 8px;}
+    .venue{font-size:0.9rem;color:var(--muted);font-style:italic;margin-bottom:20px;}
+    .venue .badge{font-style:normal;font-weight:600;color:var(--accent);background:var(--accent-bg);padding:2px 9px;border-radius:5px;margin-right:4px;}
+    .links{display:flex;flex-wrap:wrap;gap:10px;}
+    .links a{font-size:0.85rem;font-weight:500;text-decoration:none;border:1px solid var(--border);background:var(--panel);border-radius:7px;padding:7px 14px;transition:border-color .15s,color .15s;}
+    .links a:hover{border-color:var(--accent);color:var(--accent);}
+    .links a.primary{background:var(--accent);border-color:var(--accent);color:#fff;} .links a.primary:hover{opacity:.9;}
+    .slide{display:flex;flex-direction:column;justify-content:safe center;min-height:calc(100vh - 56px);padding:28px 0;border-top:1px solid var(--border);scroll-snap-align:start;}
+    .dots{position:fixed;right:15px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:9px;z-index:20;}
+    .dots button{width:9px;height:9px;border-radius:50%;border:none;background:var(--border);cursor:pointer;padding:0;transition:background .15s,transform .15s;}
+    .dots button:hover{background:var(--faint);}
+    .dots button.on{background:var(--accent);transform:scale(1.35);}
+    @media (max-width:760px){html{scroll-snap-type:y proximity;}.dots{display:none;}.hero,.slide{min-height:calc(100svh - 56px);justify-content:safe center;}.hero-disc{position:static;margin-top:18px;}figure.fig img{max-height:calc(100svh - 300px);}.slide{padding:20px 0;}.highlights li{font-size:0.94rem;margin-bottom:8px;}.slide h2{margin-bottom:14px;}figure.fig{margin:12px auto 6px;}.stat{padding:1px 18px;}}
+    .kick{font-size:0.72rem;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--accent);margin:0 0 9px;}
+    .kick .n{font-variant-numeric:tabular-nums;color:var(--faint);font-weight:700;margin-right:9px;}
+    .slide h2{font-family:"DM Serif Display",Georgia,serif;font-weight:400;font-size:1.72rem;line-height:1.18;margin:0 0 20px;letter-spacing:-0.01em;}
+    .slide .body{font-size:1rem;color:#33302b;}
+    .slide .body>p{margin:0 0 12px;} .slide .body>p:last-child{margin-bottom:0;}
+    .lead{font-size:1.08rem;color:var(--muted);margin:-6px 0 20px;line-height:1.5;}
+    .highlights{list-style:none;margin:0;padding:0;}
+    .highlights li{position:relative;padding-left:22px;margin-bottom:10px;font-size:0.98rem;}
+    .highlights li::before{content:'';position:absolute;left:2px;top:9px;width:7px;height:7px;border-radius:50%;background:var(--accent);}
+    .highlights ul{list-style:none;margin:6px 0 3px;padding:0 0 0 20px;}
+    .highlights ul li{padding-left:18px;margin-bottom:4px;font-size:0.9rem;color:var(--muted);}
+    .highlights ul li::before{width:8px;height:1.5px;border-radius:0;background:var(--faint);top:9px;}
+    ul.highlights>li.nobul, ul.gb>li.nobul{padding-left:0;}
+    ul.highlights>li.nobul::before, ul.gb>li.nobul::before{content:none;}
+    figure.fig{margin:18px auto 8px;text-align:center;}
+    figure.fig img{display:inline-block;max-width:100%;width:auto;height:auto;max-height:calc(100vh - 400px);background:#fff;}
+    figure.fig.m{max-width:620px;}
+    figure.fig.s{max-width:440px;}
+    figure.fig figcaption{font-size:0.8rem;color:var(--muted);margin-top:11px;line-height:1.5;text-align:left;}
+    figure.fig figcaption .src{color:var(--faint);font-style:italic;}
+    .stats{display:flex;flex-wrap:wrap;margin:22px 0 2px;}
+    .stat{padding:1px 30px;border-left:1px solid var(--border);}
+    .stat:first-child{padding-left:0;border-left:none;}
+    .stat .num{font-family:"DM Serif Display",Georgia,serif;font-size:1.75rem;color:var(--accent);line-height:1.05;}
+    .stat .lbl{font-size:0.8rem;color:var(--muted);margin-top:6px;line-height:1.4;}
+    .stats + .highlights{margin-top:20px;}
+    .stats + .cnote{margin-top:16px;}
+    .utbl.wrap td{white-space:normal;}
+    a.ref{color:var(--accent);text-decoration:none;border-bottom:1px solid color-mix(in srgb,var(--accent) 32%,#ffffff);white-space:nowrap;font-weight:500;}
+    a.ref.own{color:#b8860b;border-bottom-color:color-mix(in srgb,#b8860b 42%,#ffffff);}
+    a.ref:hover{border-bottom-color:var(--accent);}
+    .tbl-wrap{overflow-x:auto;margin:4px 0 2px;}
+    .utbl{border-collapse:collapse;width:100%;font-size:0.9rem;font-variant-numeric:tabular-nums;}
+    .utbl th{font-size:0.68rem;text-transform:uppercase;letter-spacing:0.05em;color:var(--muted);font-weight:600;padding:0 14px 8px;border-bottom:1.5px solid var(--ink);white-space:nowrap;}
+    .utbl td{padding:8px 14px;border-bottom:1px solid var(--border);white-space:nowrap;}
+    .utbl tbody tr:last-child td{border-bottom:none;}
+    .utbl tr.best td{background:var(--accent-bg);font-weight:600;color:var(--ink);}
+    .utbl tr.best td:first-child{border-radius:6px 0 0 6px;}.utbl tr.best td:last-child{border-radius:0 6px 6px 0;}
+    .tnote,.cnote{font-size:0.78rem;color:var(--faint);margin-top:10px;font-style:italic;line-height:1.5;}
+    a.srcref{color:inherit;text-decoration:none;border-bottom:1px dotted var(--faint);}
+    a.srcref:hover{color:var(--accent);border-bottom-color:var(--accent);}
+    .stbl{border-collapse:collapse;width:100%;}
+    .stbl td{padding:12px 0;border-top:1px solid var(--border);vertical-align:baseline;font-size:1rem;line-height:1.5;color:#33302b;}
+    .stbl tr:first-child td{border-top:none;}
+    .stbl td.slab{color:var(--accent);font-weight:600;width:132px;padding-right:22px;white-space:nowrap;}
+    footer{border-top:1px solid var(--border);padding:26px 0 46px;color:var(--faint);font-size:0.82rem;text-align:center;margin-top:10px;}
+    @media (max-width:640px){.hero{grid-template-columns:1fr;gap:22px;padding-top:34px;}.hero .cover{width:150px;}h1{font-size:1.6rem;}.slide h2{font-size:1.42rem;}.deck{padding:0 20px;}}
+    #summary .stbl td{border-top:0;}
+    .results-table th,.results-table td{text-align:right;}
+    .results-table th:first-child,.results-table td:first-child{text-align:left;}
+    .results-table th small{display:block;font-size:0.64rem;font-weight:400;letter-spacing:0;text-transform:none;margin-top:2px;}
+    .results-table td strong{color:var(--accent);font-weight:600;}
+    .authors a{color:var(--muted);text-decoration:none;border-bottom:1px dotted var(--faint);}
+    .authors a:hover{color:var(--accent);}
+    @media(max-width:640px){.stats{gap:16px 0;}.stat{padding:1px 16px;}.stat .num{font-size:1.55rem;}.stat .lbl{font-size:0.73rem;}.results-table{min-width:520px;}.results-table th,.results-table td{padding-left:9px;padding-right:9px;}.stbl td{font-size:0.9rem;}.stbl td.slab{width:104px;padding-right:12px;}}
+</style>
+<link rel="stylesheet" href="../assets/paper-cover.css">
+</head><body>
+  <nav class="nav"><div class="wrap"><a class="brand" href="../index.html">Qiao Jin</a><a class="back" href="../research/">&larr; Research</a></div></nav>
+  <main class="deck">
+    <header class="hero">
+      <div class="paper-cover"><img class="cover" src="../assets/covers/Agents-Last-Exam.png" alt="First page of Agents’ Last Exam">
+        <a class="cover-download" href="../assets/covers/Agents-Last-Exam.png" download="Agents-Last-Exam-cover.png" title="Download cover as PNG" aria-label="Download paper cover as PNG"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 3v12m-4-4 4 4 4-4M5 16v4h14v-4"/></svg></a>
+      </div>
+      <div><div class="eyebrow">Medical AI Evaluation &middot; Realistic Outcomes</div>
+        <h1>Agents’ Last Exam</h1>
+        <div class="authors">Yiyou Sun et al., including <b>Qiao Jin</b><br><a href="https://arxiv.org/abs/2606.05405" target="_blank" rel="noopener">Full author list</a></div>
+        <div class="venue"><span class="badge">NeurIPS E&amp;D</span> 2026</div>
+        <div class="links"><a class="primary" href="../assets/papers/Agents-Last-Exam.pdf" target="_blank" rel="noopener">PDF</a><a href="https://neurips.cc/virtual/2026/poster/139517" target="_blank" rel="noopener">Conference</a></div>
+      </div>
+      <div class="hero-disc">These slides were generated with the help of AI and may contain errors.</div>
+    </header>
+
+    <section class="slide" id="motivation">
+      <div class="kick"><span class="n">01</span>Motivation</div>
+      <h2>Evaluate agents on completed professional workflows</h2>
+      <div class="body"><ul class="highlights">
+        <li>The <a class="ref own" href="https://agents-last-exam.org/" target="_blank" rel="noopener">ALE benchmark</a> evaluates sustained tool use and deliverables with verifiable quality.</li>
+        <li>Experts contribute completed projects with input files, required software and reference outputs.</li>
+        <li>Medical tasks include clinical diagnostics, clinical informatics and clinical trial operations.</li>
+      </ul>
+      <div class="stats"><div class="stat"><div class="num">1,490</div><div class="lbl">task instances in the pool</div></div><div class="stat"><div class="num">55</div><div class="lbl">professional subdomains</div></div><div class="stat"><div class="num">155</div><div class="lbl">health &amp; medicine instances</div></div></div>
+      <div class="cnote">October 2026 task-pool snapshot, including 323 instances awaiting quality control. <a class="srcref" href="../assets/papers/Agents-Last-Exam.pdf#page=3" target="_blank" rel="noopener">Fig. 2</a> and <a class="srcref" href="../assets/papers/Agents-Last-Exam.pdf#page=5" target="_blank" rel="noopener">Fig. 5</a>.</div>
+      </div></section>
+
+    <section class="slide" id="method">
+      <div class="kick"><span class="n">02</span>Method</div>
+      <h2>Task specifications turn generated artifacts into verifiable scores</h2>
+      <div class="body"><ul class="highlights">
+        <li>Agents use graphical tools and shell commands in a virtual machine.</li>
+        <li>Task-specific checks compare generated artifacts with hidden references or explicit rubrics.</li>
+      </ul>
+      <figure class="fig"><img src="../assets/figures/auto/Agents-Last-Exam_fig6.png" alt="ALE evaluation architecture: a task specification initializes a virtual machine, an agent performs the workflow, and an evaluator compares output artifacts with hidden reference assets."><figcaption>The task specification initializes the environment and evaluates the final artifacts. Scores range from 0 to 1; a full pass requires full credit. <span class="src"><a class="srcref" href="../assets/papers/Agents-Last-Exam.pdf#page=6" target="_blank" rel="noopener">Fig. 6</a>.</span></figcaption></figure>
+      </div></section>
+
+    <section class="slide" id="result">
+      <div class="kick"><span class="n">03</span>Result</div>
+      <h2>The best tested agent fully passes 24.0% of tasks</h2>
+      <div class="body"><ul class="highlights">
+        <li>All rows use GPT-5.5 with graphical tools; the agent harness varies.</li>
+        <li>Full-pass rates on the hardest tier range from 0.0% to 2.6%.</li>
+      </ul>
+      <div class="tbl-wrap"><table class="utbl results-table"><thead><tr><th>Agent harness</th><th>Near-Term<small>67 tasks</small></th><th>Full-Spectrum<small>55 tasks</small></th><th>Last-Exam<small>38 tasks</small></th><th>Overall</th></tr></thead><tbody>
+        <tr class="best"><td>Codex</td><td><strong>38.1%</strong></td><td>22.7%</td><td>0.0%</td><td><strong>24.0%</strong></td></tr>
+        <tr><td>ALE-Claw</td><td>32.8%</td><td><strong>23.6%</strong></td><td><strong>2.6%</strong></td><td>23.0%</td></tr>
+        <tr><td>OpenClaw</td><td>35.8%</td><td>18.2%</td><td>0.0%</td><td>21.1%</td></tr>
+        <tr><td>Cursor</td><td>32.1%</td><td>20.0%</td><td><strong>2.6%</strong></td><td>20.7%</td></tr>
+        <tr><td>Droid</td><td>29.9%</td><td>16.4%</td><td><strong>2.6%</strong></td><td>19.1%</td></tr>
+      </tbody></table></div>
+      <div class="tnote">Full-pass rate is the proportion of tasks receiving full credit, distinct from mean task score. Tiers overlap; overall rates use distinct tasks. Highlighted row: highest overall rate. Results are from the October 2026 paper. <a class="srcref" href="../assets/papers/Agents-Last-Exam.pdf#page=8" target="_blank" rel="noopener">Table 1</a>.</div>
+      </div></section>
+
+    <section class="slide" id="interpretation">
+      <div class="kick"><span class="n">04</span>Interpretation</div>
+      <h2>Verifiable task completion is a step toward reliable professional AI</h2>
+      <div class="body"><ul class="highlights">
+        <li>Scores measure completion of professional computer tasks, not improvements in patient outcomes.</li>
+        <li>Deterministic checks are preferred; some visual tasks require structured LLM judgments.</li>
+        <li>The private task pool and rolling releases are designed to reduce benchmark contamination.</li>
+        <li>Failure analysis identifies missing domain knowledge and unsuitable strategies as major challenges.</li>
+      </ul>
+      <div class="cnote">The failure analysis uses model-assisted review of Claude Code + Opus 4.7 runs. <a class="srcref" href="../assets/papers/Agents-Last-Exam.pdf#page=7" target="_blank" rel="noopener">Section 3.3</a>, <a class="srcref" href="../assets/papers/Agents-Last-Exam.pdf#page=5" target="_blank" rel="noopener">Section 2.3</a> and <a class="srcref" href="../assets/papers/Agents-Last-Exam.pdf#page=35" target="_blank" rel="noopener">Appendix D.3</a>.</div>
+      </div></section>
+
+    <section class="slide" id="summary">
+      <div class="kick"><span class="n">05</span>Summary</div>
+      <h2>Agents’ Last Exam at a glance</h2>
+      <div class="body"><div class="tbl-wrap"><table class="stbl"><tbody>
+        <tr><td class="slab">Background</td><td>Professional AI needs evaluation on realistic workflows.</td></tr>
+        <tr><td class="slab">Problem</td><td>Complex deliverables need reliable, task-specific verification.</td></tr>
+        <tr><td class="slab">Approach</td><td>Expert projects, computer environments and artifact-based scoring.</td></tr>
+        <tr><td class="slab">Results</td><td>Best overall full-pass rate: <b>24.0%</b> in the reported evaluation.</td></tr>
+        <tr><td class="slab">Conclusion</td><td>Long professional workflows remain challenging for current agents.</td></tr>
+      </tbody></table></div></div>
+    </section>
+  </main>
+  <footer>Qiao Jin, MD, ACHIP &middot; National Library of Medicine, NIH</footer>
+  <nav class="dots" aria-hidden="true"></nav>
+  <script>
+  (function(){
+    var pages=[].slice.call(document.querySelectorAll('.deck > .hero, .deck > .slide'));
+    var dots=document.querySelector('.dots');
+    pages.forEach(function(p,i){var b=document.createElement('button');b.title='Slide '+(i+1);b.addEventListener('click',function(){go(i);});dots.appendChild(b);});
+    var dd=[].slice.call(dots.children);
+    function cur(){var b=0;for(var i=0;i<pages.length;i++){if(pages[i].getBoundingClientRect().top<=90)b=i;}return b;}
+    function upd(){var c=cur();dd.forEach(function(d,i){d.classList.toggle('on',i===c);});}
+    function go(i){i=Math.max(0,Math.min(pages.length-1,i));var s=window.scrollY,e=pages[i].getBoundingClientRect().top+window.scrollY-56,t0=performance.now();
+      var de=document.documentElement;de.style.scrollSnapType='none';
+      function step(t){var k=Math.min(1,(t-t0)/380),z=1-Math.pow(1-k,3);window.scrollTo(0,s+(e-s)*z);if(k<1)requestAnimationFrame(step);else de.style.scrollSnapType='';}requestAnimationFrame(step);}
+    window.addEventListener('scroll',upd,{passive:true});upd();
+    document.addEventListener('keydown',function(ev){var tn=ev.target.tagName;if(tn==='INPUT'||tn==='TEXTAREA')return;
+      if(ev.key==='ArrowDown'||ev.key==='ArrowRight'||ev.key==='PageDown'||ev.key===' '){ev.preventDefault();go(cur()+1);}
+      else if(ev.key==='ArrowUp'||ev.key==='ArrowLeft'||ev.key==='PageUp'){ev.preventDefault();go(cur()-1);}
+      else if(ev.key==='Home'){ev.preventDefault();go(0);}else if(ev.key==='End'){ev.preventDefault();go(pages.length-1);}});
+    [].slice.call(document.querySelectorAll('a[href^="#"]')).forEach(function(a){
+      a.addEventListener('click',function(ev){var el=document.getElementById(a.getAttribute('href').slice(1));if(!el)return;ev.preventDefault();var idx=pages.indexOf(el);if(idx>=0)go(idx);else window.scrollTo(0,el.getBoundingClientRect().top+window.scrollY-56);if(history.replaceState)history.replaceState(null,'','#'+el.id);});
+    });
+    var cover=document.querySelector('.hero .cover');
+    if(cover){
+      cover.addEventListener('mousemove',function(e){var r=cover.getBoundingClientRect();var dx=(e.clientX-r.left)/r.width-0.5,dy=(e.clientY-r.top)/r.height-0.5;cover.style.transform='perspective(700px) rotateX('+(-dy*18).toFixed(2)+'deg) rotateY('+(dx*18).toFixed(2)+'deg) scale(1.05)';});
+      cover.addEventListener('mouseleave',function(){cover.style.transform='';});
+    }
+  })();
+  </script>
+<!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "7e881bced2fd414ca3b32881bd2ea36e"}'></script><!-- End Cloudflare Web Analytics -->
+</body></html>
