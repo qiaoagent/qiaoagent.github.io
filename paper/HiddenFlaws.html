@@ -144,6 +144,77 @@
     pre{background:#ffffff;border:1px solid var(--border);border-radius:8px;padding:16px 18px;overflow-x:auto;font-size:0.8rem;line-height:1.5;color:#3a3630;}
     footer{border-top:1px solid var(--border);padding:26px 0 46px;color:var(--faint);font-size:0.82rem;text-align:center;margin-top:10px;}
     @media (max-width:640px){.hero{grid-template-columns:1fr;gap:22px;padding-top:34px;}.hero .cover{width:150px;}h1{font-size:1.6rem;}.slide h2{font-size:1.42rem;}.deck{padding:0 20px;}}
+
+    /* Native overview follows the GeneAgent and AgentMD schematic style. */
+    .hf-overview{--flow-line:#bcb7bf;--node-bg:#f7f7f5;--node-tint:#ede4f4;--paper:#fff;--icon-muted:#b4adb9;}
+    figure.hf-overview{margin:8px 0 0;text-align:left;}
+    .hf-flow{display:grid;grid-template-columns:1.1fr .75fr 1.8fr 1.05fr;gap:30px;list-style:none;margin:0;padding:0;}
+    .hf-stage{position:relative;min-width:0;text-align:center;}
+    .hf-stage::before,.hf-stage::after{content:none;position:absolute;}
+    .hf-stage+.hf-stage::before{content:'';left:-24px;top:78px;width:18px;height:1.5px;background:var(--flow-line);}
+    .hf-stage+.hf-stage::after{content:'';left:-11px;top:75.75px;width:5px;height:5px;border-top:1.5px solid var(--flow-line);border-right:1.5px solid var(--flow-line);transform:rotate(45deg);}
+    .hf-stage strong{display:block;font-size:1.02rem;font-weight:600;line-height:1.3;margin-top:7px;color:var(--ink);}
+    .hf-stage span{display:block;font-size:.86rem;line-height:1.5;color:var(--muted);margin-top:2px;}
+    .hf-symbol{display:block;width:100%;height:152px;color:var(--accent);overflow:visible;}
+    .hf-symbol .ink{fill:currentColor;}
+    .hf-symbol .tint{fill:var(--node-tint);}
+    .hf-symbol .paper{fill:var(--paper);stroke:var(--border);stroke-width:1.5;}
+    .hf-symbol .muted{fill:var(--icon-muted);}
+    .hf-symbol .line{fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+    .hf-symbol .connector{fill:none;stroke:var(--flow-line);stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;}
+    .hf-symbol text{font-family:"DM Sans",sans-serif;font-size:15px;fill:var(--ink);}
+    .hf-response{position:relative;display:grid;grid-template-rows:repeat(4,minmax(38px,auto));min-height:152px;text-align:left;padding-left:18px;}
+    .hf-response::before{content:'';position:absolute;left:6px;top:19px;bottom:19px;border-left:1.5px solid var(--flow-line);}
+    .hf-response-row{position:relative;display:flex;gap:9px;align-items:center;}
+    .hf-response-row::before{content:'';position:absolute;left:-12px;top:50%;width:9px;border-top:1.5px solid var(--flow-line);}
+    .hf-response-row .hf-symbol{width:30px;height:28px;flex-shrink:0;}
+    .hf-response-row span{font-size:.93rem;line-height:1.2;color:var(--ink);margin:0;}
+    .hf-findings{display:grid;grid-template-columns:.8fr 1.2fr;gap:36px;margin-top:28px;padding-top:20px;border-top:1px solid var(--border);}
+    .hf-finding h3{font-size:1.12rem;font-weight:600;margin:0 0 8px;line-height:1.4;color:var(--ink);}
+    .hf-accuracy{display:block;width:100%;height:auto;max-width:370px;font-family:"DM Sans",sans-serif;}
+    .hf-accuracy .value{font-size:22px;font-weight:600;fill:var(--ink);font-variant-numeric:tabular-nums;}
+    .hf-accuracy .label{font-size:16px;fill:var(--muted);}
+    .hf-accuracy .baseline{stroke:var(--border);stroke-width:1;}
+    .hf-accuracy .model-bar{fill:var(--accent);}
+    .hf-accuracy .physician-bar{fill:#b6b3b0;}
+    .hf-comparison{font-size:.82rem;color:var(--muted);line-height:1.5;margin:3px 0 0;}
+    .hf-flaws{display:grid;grid-template-columns:140px minmax(0,1fr);gap:20px;align-items:center;min-height:164px;}
+    .hf-overall{text-align:center;}
+    .hf-donut{display:block;width:140px;height:140px;overflow:visible;}
+    .hf-donut .track{fill:none;stroke:var(--node-tint);stroke-width:18;}
+    .hf-donut .segment{fill:none;stroke:var(--accent);stroke-width:18;}
+    .hf-donut .value{fill:var(--accent);font-family:"DM Serif Display",Georgia,serif;font-size:31px;}
+    .hf-outcome{font-size:.84rem;line-height:1.4;color:var(--ink);margin:0;}
+    .hf-capabilities{display:grid;gap:15px;}
+    .hf-capability-label{display:flex;justify-content:space-between;gap:12px;font-size:.93rem;line-height:1.3;color:var(--ink);margin-bottom:6px;}
+    .hf-capability-label b{font-weight:600;font-variant-numeric:tabular-nums;flex-shrink:0;}
+    .hf-capability-bar{display:block;width:100%;height:8px;overflow:hidden;border-radius:4px;background:var(--node-tint);}
+    .hf-capability-bar span{display:block;height:100%;background:var(--accent);border-radius:4px;}
+    .hf-overlap{font-size:.76rem;color:var(--muted);margin:8px 0 0;line-height:1.4;}
+    figure.hf-overview figcaption{font-size:.73rem;color:var(--faint);line-height:1.5;margin-top:17px;font-style:italic;}
+    [data-theme="dark"] .hf-overview{--ink:#eee9e4;--muted:#bcb6b0;--faint:#a59e99;--border:#4a454d;--accent:#c4a4db;--flow-line:#8e8893;--node-bg:#292725;--node-tint:#463250;--paper:#292725;--icon-muted:#8e8893;}
+    [data-theme="dark"] .hf-accuracy .physician-bar{fill:#8d8883;}
+    @media(max-width:760px){
+      .hf-flow{grid-template-columns:1fr 1fr;gap:24px 26px;}
+      .hf-stage:nth-child(3){grid-column:2;grid-row:2;}
+      .hf-stage:nth-child(4){grid-column:1;grid-row:2;}
+      .hf-stage:nth-child(3)::before{left:50%;top:-20px;width:1.5px;height:14px;}
+      .hf-stage:nth-child(3)::after{left:calc(50% - 2.25px);top:-12px;transform:rotate(135deg);}
+      .hf-stage:nth-child(4)::before{left:auto;right:-21px;}
+      .hf-stage:nth-child(4)::after{left:auto;right:-12px;transform:rotate(225deg);}
+      .hf-findings{gap:26px;}
+      .hf-findings{grid-template-columns:1fr;}
+      #method{justify-content:flex-start;}
+    }
+    @media(max-width:600px){
+      .hf-findings{grid-template-columns:1fr;gap:24px;}
+      .hf-stage strong{font-size:.96rem;}
+      .hf-stage span{font-size:.82rem;}
+      .hf-accuracy{max-width:360px;}
+      .hf-flaws{grid-template-columns:130px minmax(0,1fr);gap:16px;}
+      .hf-donut{width:130px;height:130px;}
+      .hf-capability-label{font-size:.88rem;gap:8px;}
+    }
 </style>
 <link rel="stylesheet" href="../assets/paper-cover.css">
 </head><body>
@@ -158,7 +229,97 @@
         <div class="links"><a class="primary" href="../assets/papers/HiddenFlaws.pdf" target="_blank" rel="noopener">PDF</a>
           <a href="https://www.nature.com/articles/s41746-024-01185-7" target="_blank" rel="noopener">Journal</a></div></div><div class="hero-disc">These slides were generated with the help of AI and may contain errors.</div></header>
     <section class="slide" id="motivation"><div class="kick"><span class="n">01</span>Motivation</div><h2>High accuracy can hide broken reasoning</h2><div class="body"><ul class="highlights"><li>GPT-4V scores at expert level on medical image quizzes.</li><li>But a multiple-choice score says nothing about <i>how</i> it reached the answer.</li><li>A model can be right for the wrong reasons &mdash; dangerous in medicine.</li></ul></div></section>
-    <section class="slide" id="method"><div class="kick"><span class="n">02</span>Method</div><h2>Grading the rationale, not just the answer</h2><div class="body"><ul class="highlights"><li>We evaluated GPT-4V on <b>207</b> New England Journal of Medicine Image Challenges.</li><li>Physicians graded each rationale for image comprehension, knowledge recall &amp; reasoning.</li></ul><figure class="fig m"><img src="../assets/figures/auto/HiddenFlaws_fig1.png" alt="Each GPT-4V response is split into image comprehension, knowledge recall &amp; reasoning, and graded"><figcaption>Each GPT-4V response is split into image comprehension, knowledge recall &amp; reasoning, and graded by nine specialty physicians against the ground truth. <span class="src"><a class="srcref" href="https://www.nature.com/articles/s41746-024-01185-7" target="_blank" rel="noopener">Fig. 1</a>.</span></figcaption></figure></div></section>
+    <section class="slide" id="method">
+      <div class="kick"><span class="n">02</span>Study overview</div>
+      <h2>Correct answers can hide flawed rationales</h2>
+      <div class="body">
+        <figure class="fig hf-overview" aria-label="Hidden Flaws study workflow and main findings">
+          <ol class="hf-flow" aria-label="Evaluation workflow">
+            <li class="hf-stage">
+              <svg class="hf-symbol" viewBox="0 0 180 152" role="img" aria-label="Clinical image, vignette, and multiple-choice options">
+                <rect class="tint" x="32" y="9" width="106" height="130" rx="7" transform="rotate(-7 85 74)"/>
+                <rect class="paper" x="44" y="14" width="106" height="130" rx="7"/>
+                <rect class="tint" x="55" y="25" width="84" height="56" rx="4"/>
+                <path class="ink" opacity=".6" d="M93 35c-8 0-23 17-23 30 0 9 13 8 22 2l1-32Zm8 0c8 0 23 17 23 30 0 9-13 8-22 2l-1-32Z"/>
+                <path class="line" d="M97 31v18m0-5-8 9m8-9 8 9"/>
+                <rect class="muted" x="56" y="91" width="71" height="4" rx="2"/>
+                <rect class="muted" x="56" y="102" width="58" height="4" rx="2"/>
+                <g fill="none" stroke="var(--icon-muted)" stroke-width="1.5"><circle cx="62" cy="124" r="4"/><circle cx="78" cy="124" r="4"/><circle cx="94" cy="124" r="4"/><circle cx="110" cy="124" r="4"/><circle cx="126" cy="124" r="4"/></g>
+              </svg>
+              <strong>207 NEJM challenges</strong>
+            </li>
+            <li class="hf-stage">
+              <svg class="hf-symbol" viewBox="0 0 150 152" aria-hidden="true" focusable="false">
+                <rect class="tint" x="27" y="30" width="96" height="96" rx="18"/>
+                <rect class="ink" x="41" y="44" width="68" height="68" rx="12"/>
+                <path class="line" d="M53 21v9m22-9v9m22-9v9M53 126v9m22-9v9m22-9v9M18 56h9m-9 22h9m-9 22h9m96-44h9m-9 22h9m-9 22h9"/>
+                <g fill="none" stroke="var(--paper)" stroke-width="2"><path d="m58 62 34 8-31 25m-3-33 3 33m31-25-10 29"/></g>
+                <g fill="var(--paper)"><circle cx="58" cy="62" r="5"/><circle cx="92" cy="70" r="5"/><circle cx="61" cy="95" r="5"/><circle cx="82" cy="99" r="5"/></g>
+              </svg>
+              <strong>GPT-4V</strong>
+            </li>
+            <li class="hf-stage">
+              <div class="hf-response" role="group" aria-label="Structured response">
+                <div class="hf-response-row"><svg class="hf-symbol" viewBox="0 0 30 28" aria-hidden="true"><rect class="tint" width="30" height="28" rx="6"/><path class="line" d="M5 14s4-7 10-7 10 7 10 7-4 7-10 7S5 14 5 14Z"/><circle class="ink" cx="15" cy="14" r="3"/></svg><span>Image comprehension</span></div>
+                <div class="hf-response-row"><svg class="hf-symbol" viewBox="0 0 30 28" aria-hidden="true"><rect class="tint" width="30" height="28" rx="6"/><path class="line" d="M15 7c-3-2-6-2-10-1v15c4-1 7-1 10 1 3-2 6-2 10-1V6c-4-1-7-1-10 1Zm0 0v15"/></svg><span>Recall of medical knowledge</span></div>
+                <div class="hf-response-row"><svg class="hf-symbol" viewBox="0 0 30 28" aria-hidden="true"><rect class="tint" width="30" height="28" rx="6"/><path class="line" d="m8 8 14 6-14 7"/><g class="ink"><circle cx="8" cy="8" r="3"/><circle cx="22" cy="14" r="3"/><circle cx="8" cy="21" r="3"/></g></svg><span>Step-by-step reasoning</span></div>
+                <div class="hf-response-row"><svg class="hf-symbol" viewBox="0 0 30 28" aria-hidden="true"><rect class="tint" width="30" height="28" rx="6"/><circle class="line" cx="15" cy="14" r="8"/><circle class="ink" cx="15" cy="14" r="4"/></svg><span>Final choice</span></div>
+              </div>
+              <strong>Structured response</strong>
+            </li>
+            <li class="hf-stage">
+              <svg class="hf-symbol" viewBox="0 0 180 152" aria-hidden="true" focusable="false">
+                <circle class="tint" cx="90" cy="77" r="63"/>
+                <circle class="ink" cx="63" cy="48" r="17"/>
+                <path class="ink" d="M30 114V96c0-18 14-30 33-30 18 0 32 12 32 30v18Z"/>
+                <path d="M50 72v14c0 14 25 14 25 0V72m-12 24v11" fill="none" stroke="var(--paper)" stroke-width="3" stroke-linecap="round"/>
+                <rect class="paper" x="91" y="60" width="58" height="71" rx="6"/>
+                <rect class="ink" x="106" y="55" width="28" height="12" rx="4"/>
+                <path class="line" d="m100 80 3 3 5-6m-8 21h8m-8 13 7 7m-7 0 7-7"/>
+                <path class="connector" d="M115 81h23m-23 17h23m-23 16h23"/>
+              </svg>
+              <strong>Physician review</strong><span>9 physicians</span>
+            </li>
+          </ol>
+          <div class="hf-findings">
+            <div class="hf-finding">
+              <h3>Answer accuracy</h3>
+              <svg class="hf-accuracy" viewBox="0 0 370 164" role="img" aria-labelledby="hf-accuracy-title hf-accuracy-desc">
+                <title id="hf-accuracy-title">Closed-book answer accuracy</title>
+                <desc id="hf-accuracy-desc">GPT-4V correctly answers 81.6% of 207 questions and physicians 77.8%. The difference is not statistically significant.</desc>
+                <line class="baseline" x1="12" y1="125" x2="358" y2="125"/>
+                <rect class="model-bar" x="68" y="27.08" width="72" height="97.92" rx="3"/>
+                <rect class="physician-bar" x="230" y="31.64" width="72" height="93.36" rx="3"/>
+                <text class="value" x="104" y="18" text-anchor="middle">81.6%</text>
+                <text class="value" x="266" y="22.56" text-anchor="middle">77.8%</text>
+                <text class="label" x="104" y="151" text-anchor="middle">GPT-4V</text>
+                <text class="label" x="266" y="151" text-anchor="middle">Physicians</text>
+              </svg>
+              <p class="hf-comparison">Closed-book; difference not significant.</p>
+            </div>
+            <div class="hf-finding">
+              <h3>Among 169 correct GPT-4V answers</h3>
+              <div class="hf-flaws">
+                <div class="hf-overall">
+                  <svg class="hf-donut" viewBox="0 0 164 164" role="img" aria-label="35.5 percent of the 169 correct GPT-4V answers had at least one partially correct or incorrect rationale component">
+                    <circle class="track" cx="82" cy="82" r="62"/>
+                    <circle class="segment" cx="82" cy="82" r="62" pathLength="100" stroke-dasharray="35.5 64.5" transform="rotate(-90 82 82)"/>
+                    <text class="value" x="82" y="92" text-anchor="middle">35.5%</text>
+                  </svg>
+                  <p class="hf-outcome">Any rationale flaw</p>
+                </div>
+                <div class="hf-capabilities" role="img" aria-label="Capability flaw rates among the same 169 correct answers: image comprehension 27.2 percent, medical knowledge recall 8.9 percent, and step-by-step reasoning 12.4 percent. Each bar uses a zero to 100 percent scale. Capabilities can overlap.">
+                  <div><div class="hf-capability-label"><span>Image comprehension</span><b>27.2%</b></div><div class="hf-capability-bar" aria-hidden="true"><span style="width:27.2%"></span></div></div>
+                  <div><div class="hf-capability-label"><span>Recall of medical knowledge</span><b>8.9%</b></div><div class="hf-capability-bar" aria-hidden="true"><span style="width:8.9%"></span></div></div>
+                  <div><div class="hf-capability-label"><span>Step-by-step reasoning</span><b>12.4%</b></div><div class="hf-capability-bar" aria-hidden="true"><span style="width:12.4%"></span></div></div>
+                </div>
+              </div>
+              <p class="hf-overlap">Capability flaws can overlap.</p>
+            </div>
+          </div>
+          <figcaption>One physician per case, using NEJM references. Flaws include partially correct or incorrect rationale components. <a class="srcref" href="../assets/papers/HiddenFlaws.pdf#page=2" target="_blank" rel="noopener">Fig. 1</a>, <a class="srcref" href="../assets/papers/HiddenFlaws.pdf#page=3" target="_blank" rel="noopener">Fig. 2c</a>, <a class="srcref" href="../assets/papers/HiddenFlaws.pdf#page=4" target="_blank" rel="noopener">results</a> and <a class="srcref" href="../assets/papers/HiddenFlaws.pdf#page=1" target="_blank" rel="noopener">abstract</a>.</figcaption>
+        </figure>
+      </div></section>
     <section class="slide" id="result"><div class="kick"><span class="n">03</span>Result</div><h2>Right answers, wrong reasons</h2><div class="body"><ul class="highlights"><li>GPT-4V matches physicians on accuracy &mdash; <b>81.6%</b> vs. 77.8%.</li><li>But even when its answer is <b>correct</b>, image comprehension is right only 72.8% of the time.</li><li>Knowledge recall is most reliable (91.1%); reasoning collapses when the answer is wrong (10.5%).</li></ul><figure class="fig w"><img src="../assets/figures/auto/HiddenFlaws_fig2c.png" alt="Share of GPT-4V rationales rated correct / partially / incorrect, by capability &mdash; split by dif"><figcaption>Share of GPT-4V rationales rated correct / partially / incorrect, by capability &mdash; split by difficulty and by whether its final answer was right. <span class="src"><a class="srcref" href="https://www.nature.com/articles/s41746-024-01185-7" target="_blank" rel="noopener">Fig. 2c</a>.</span></figcaption></figure></div></section>
     <section class="slide" id="recognition"><div class="kick"><span class="n">04</span>Recognition</div><h2>Reported by NIH</h2><div class="body"><ul class="highlights"><li class="nobul">Featured in an <a class="ref" href="https://www.nih.gov/news-events/news-releases/nih-findings-shed-light-risks-benefits-integrating-ai-into-medical-decision-making" target="_blank" rel="noopener">NIH News release</a> &mdash; the National Library of Medicine highlighted the study&rsquo;s findings on integrating AI into medical decision-making.</li></ul><figure class="fig w"><img src="../assets/figures/auto/HiddenFlaws_nih.png" alt="nih.gov News Releases &middot; July 23, 2024."><figcaption>nih.gov News Releases &middot; July 23, 2024.</figcaption></figure></div></section>
     <section class="slide" id="summary"><div class="kick"><span class="n">05</span>Summary</div><h2>Hidden Flaws at a glance</h2><div class="body"><div class="tbl-wrap"><table class="stbl"><tbody><tr><td class="slab">Background</td><td class="sval">GPT-4V reaches expert-level scores on medical image quizzes.</td></tr><tr><td class="slab">Problem</td><td class="sval">But a multiple-choice score can&rsquo;t reveal whether the reasoning is sound.</td></tr><tr><td class="slab">Approach</td><td class="sval">Nine physicians graded GPT-4V rationales on <b>207</b> NEJM Image Challenges &mdash; image comprehension, knowledge recall &amp; reasoning.</td></tr><tr><td class="slab">Results</td><td class="sval">Accuracy matches physicians (<b>81.6%</b> vs. 77.8%), yet <b>35.5%</b> of correct answers rest on flawed rationales &mdash; mostly image misreading.</td></tr><tr><td class="slab">Conclusion</td><td class="sval">Evaluate the <b>reasoning</b>, not just the answer, before deploying multimodal AI in medicine.</td></tr></tbody></table></div></div></section>
