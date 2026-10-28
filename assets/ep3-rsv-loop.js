@@ -111,7 +111,7 @@
           paper('/paper/MedRAG.html', '/assets/covers/MedRAG.png', 'MedRAG', 'Benchmarking medical RAG', 'MedRAG', 'ACL Findings, 2024') +
           paper('/paper/i-MedRAG.html', '/assets/covers/i-MedRAG.png', 'i-MedRAG', 'Iterative follow-up RAG', 'i-MedRAG', 'PSB, 2025') +
           paper('/paper/MedReview.html', '/assets/covers/MedReview.png', 'MedReview', 'Summarizing systematic reviews', 'MedReview', 'npj Digit Med, 2025') +
-          paper('/paper/RAG-Gym.html', '/assets/covers/RAG-Gym.png', 'RAG-Gym', 'Process&#8209;supervised agentic RAG', 'RAG-Gym', 'Nat Commun, in press') +
+          paper('/paper/RAG-Gym.html', '/assets/covers/RAG-Gym.png', 'RAG-Gym', 'Process&#8209;supervised agentic RAG', 'RAG-Gym', 'Nat Commun, 2026') +
         '</div>' +
         '<div class="ep3-pgroup" data-stage="verify"><div class="glabel">Verify</div>' +
           paper('/paper/MedCite.html', '/assets/covers/MedCite.png', 'MedCite', 'Verifiable answer citations', 'MedCite', 'ACL Findings, 2025') +
