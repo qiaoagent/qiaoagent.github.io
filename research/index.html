@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Qiao Jin — Research</title>
   <link rel="canonical" href="https://qiaojin.info/research/">
+  <link rel="stylesheet" href="/assets/evaluation-limits.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
@@ -790,10 +791,76 @@
       <p class="ep2-hint" id="ib-hint"></p>
       <p class="ep2-export-status" id="ib-export-status" role="status"></p>
     </div>
+    <div class="mcq-limits" id="evaluation-limits" role="region" aria-labelledby="mcq-limits-heading" hidden>
+    <div class="wrap">
+      <div class="eyebrow">Medical AI Evaluation</div>
+      <h2 id="mcq-limits-heading">MCQ accuracy leaves two evaluation gaps</h2>
+    </div>
+    <div class="mcq-limit-stage">
+      <svg class="mcq-limit-links" aria-hidden="true"></svg>
+      <article class="mcq-limit-card">
+        <div class="mcq-limit-head"><span class="mcq-limit-num">1</span><h3>Unrealistic targets</h3></div>
+        <p>Choosing from supplied options differs from producing an answer in clinical practice.</p>
+        <svg class="mcq-limit-demo" viewBox="0 0 330 270" role="img" aria-labelledby="mcq-target-title">
+          <title id="mcq-target-title">A supplied A to D answer list contrasts with an open clinical task that requires generating an answer or action.</title>
+          <text x="165" y="19" text-anchor="middle" fill="#68615c" font-size="14">Supplied answer choices</text>
+          <rect x="43" y="32" width="244" height="91" rx="10" fill="#fff" stroke="#d9dfe4" stroke-width="1.5"/>
+          <rect x="61" y="49" width="154" height="5" rx="2.5" fill="#c5cfd6"/>
+          <rect x="61" y="61" width="110" height="4" rx="2" fill="#e3e8ec"/>
+          <g font-size="16" text-anchor="middle" fill="#8a939a">
+            <rect x="61" y="79" width="40" height="29" rx="6" fill="#f1f4f6"/><text x="81" y="99">A</text>
+            <rect x="117" y="79" width="40" height="29" rx="6" fill="#dce9f4"/><text x="137" y="99" fill="#315e83" font-weight="700">B</text>
+            <rect x="173" y="79" width="40" height="29" rx="6" fill="#f1f4f6"/><text x="193" y="99">C</text>
+            <rect x="229" y="79" width="40" height="29" rx="6" fill="#f1f4f6"/><text x="249" y="99">D</text>
+          </g>
+          <path d="M165 135V153m-5-5 5 5 5-5" fill="none" stroke="#b6c1ca" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          <text x="165" y="177" text-anchor="middle" fill="#68615c" font-size="14">Open clinical task</text>
+          <rect x="27" y="193" width="53" height="68" rx="7" fill="#e8eef3"/>
+          <rect x="42" y="187" width="23" height="10" rx="4" fill="#9fb5c7"/>
+          <circle cx="53" cy="213" r="7" fill="#91a8ba"/><path d="M40 235v-3a13 13 0 0 1 26 0v3Z" fill="#91a8ba"/>
+          <path d="M40 245h27M40 252h18" stroke="#c1ced8" stroke-width="3" stroke-linecap="round"/>
+          <path d="M87 224h19m-5-5 5 5-5 5" fill="none" stroke="#a8b9c7" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+          <rect x="114" y="194" width="190" height="65" rx="9" fill="#fff" stroke="#afbfcc" stroke-width="1.5" stroke-dasharray="4 4"/>
+          <text x="209" y="221" text-anchor="middle" fill="#42627a" font-size="14">Generate an answer</text>
+          <text x="209" y="242" text-anchor="middle" fill="#42627a" font-size="14">or decide an action</text>
+        </svg>
+        <div class="mcq-limit-takeaway">Evaluate realistic outputs</div>
+      </article>
+      <div class="mcq-limit-berg"></div>
+      <article class="mcq-limit-card">
+        <div class="mcq-limit-head"><span class="mcq-limit-num">2</span><h3>Unassessed process</h3></div>
+        <p>Even a correct result on a realistic task can hide a flawed process.</p>
+        <svg class="mcq-limit-demo" viewBox="0 0 330 270" role="img" aria-labelledby="mcq-process-title">
+          <title id="mcq-process-title">Sound reasoning and flawed reasoning can lead to the same correct outcome. Evaluating only the outcome cannot distinguish these paths.</title>
+          <text x="122" y="32" text-anchor="middle" fill="#507d70" font-size="14">Sound reasoning</text>
+          <text x="122" y="243" text-anchor="middle" fill="#b15c58" font-size="14">Flawed reasoning</text>
+          <g fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M32 136V83Q32 72 43 72H169Q188 72 205 95L230 126" stroke="#a4c6b9"/>
+            <path d="M32 136V191Q32 202 43 202H169Q188 202 205 179L230 148" stroke="#d6a19c"/>
+          </g>
+          <rect x="12" y="119" width="40" height="36" rx="8" fill="#e8eef3"/>
+          <path d="M23 130h17M23 137h17M23 144h11" stroke="#a4b7c6" stroke-width="2.5" stroke-linecap="round"/>
+          <g fill="#e2efe9"><circle cx="88" cy="72" r="17"/><circle cx="153" cy="72" r="17"/><circle cx="88" cy="202" r="17"/></g>
+          <g stroke="#558c77" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <path d="m81 72 5 5 9-11M146 72l5 5 9-11M81 202l5 5 9-11"/>
+          </g>
+          <circle cx="153" cy="202" r="17" fill="#f5e0dd"/><path d="m147 196 12 12m0-12-12 12" stroke="#b85c57" stroke-width="2.2" stroke-linecap="round"/>
+          <rect x="228" y="109" width="82" height="57" rx="10" fill="#e1eee8" stroke="#9dbdac" stroke-width="1.4"/>
+          <path d="m258 131 8 8 15-18" stroke="#477b65" stroke-width="2.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+          <text x="269" y="189" text-anchor="middle" fill="#477b65" font-size="13.5">Same correct</text>
+          <text x="269" y="207" text-anchor="middle" fill="#477b65" font-size="13.5">outcome</text>
+        </svg>
+        <div class="mcq-limit-takeaway">Correct outcome ≠ trustworthy process</div>
+      </article>
+    </div>
+    <p class="mcq-limit-note">Realistic targets address the first gap. Process evaluation addresses the second.</p>
+    <div class="mcq-limit-tools" data-html2canvas-ignore="true">
+      <button class="mcq-limit-back" id="mcq-limit-export" type="button" title="Download the iceberg and both evaluation gaps as a PNG"><span aria-hidden="true">↓</span> <span>Export PNG</span></button>
+      <button class="mcq-limit-back" id="mcq-limit-back" type="button">&larr; Back to evaluation</button>
+    </div>
+    <p class="ep2-export-status" id="mcq-limit-export-status" role="status" data-html2canvas-ignore="true"></p>
+    </div>
   </section>
-
-
-
 
   </main>
 
@@ -1239,7 +1306,7 @@
 
   <script src="/assets/direction-figures.js?v=1"></script>
   <script src="/assets/vendor/html2canvas-1.4.1.min.js"></script>
-  <script src="/assets/overview-png-export.js?v=3"></script>
+  <script src="/assets/overview-png-export.js?v=4"></script>
   <script src="/assets/generation-png-export.js?v=1"></script>
   <script src="/assets/ep3-rsv-loop.js?v=15"></script>
 
@@ -1737,7 +1804,8 @@
       stage.dataset.highlight=i===null?'':STRATA[i].key;
       stage.dataset.pinned=pinnedSlice===null?'':STRATA[pinnedSlice].key;
       resetButton.disabled=exporting||i===null;
-      hint.textContent=pinnedSlice!==null ? STRATA[pinnedSlice].title+(touchMode?' pinned · Tap again to release':' pinned · Click again to release') :
+      hint.textContent=pinnedSlice===0 ? 'Multiple-choice questions pinned · '+(touchMode?'Tap':'Click')+' MCQ again to see the two evaluation gaps' :
+        pinnedSlice!==null ? STRATA[pinnedSlice].title+(touchMode?' pinned · Tap again to release':' pinned · Click again to release') :
         (touchMode?'Tap a layer or paper to highlight':'Hover to highlight · Click to keep');
       svg.classList.toggle('ib-exp', i!==null);
       slices.forEach(function(el,j){
@@ -1755,7 +1823,15 @@
     }
     function previewSlice(i){ if(!exporting&&pinnedSlice===null) setActive(i); }
     function clearSlice(){ if(!exporting&&pinnedSlice===null) setActive(null); }
-    function selectSlice(i){ if(exporting) return; pinnedSlice=pinnedSlice===i?null:i; setActive(pinnedSlice); }
+    function selectSlice(i){
+      if(exporting) return;
+      if(i===0 && pinnedSlice===0 && window.EvaluationLimits){
+        window.EvaluationLimits.open();
+        return;
+      }
+      pinnedSlice=pinnedSlice===i?null:i;
+      setActive(pinnedSlice);
+    }
     function bindSlice(element,i,keyboardTarget){
       if(!touchMode){
         element.addEventListener('mouseenter',function(){ previewSlice(i); });
@@ -1770,6 +1846,11 @@
       target.setAttribute('tabindex','0');
       target.setAttribute('aria-label','Highlight '+STRATA[i].title);
       target.setAttribute('aria-pressed','false');
+      if(i===0){
+        target.setAttribute('aria-controls','evaluation-limits');
+        target.setAttribute('aria-expanded','false');
+        target.setAttribute('aria-describedby','ib-hint');
+      }
       sliceControls.push({element:target,index:i});
       target.addEventListener('focus',function(){ previewSlice(i); });
       target.addEventListener('blur',clearSlice);
@@ -1806,6 +1887,9 @@
       });
     }
     slices.forEach(function(slice,i){ bindSlice(slice,i); });
+    document.getElementById('evaluation').addEventListener('evaluation:mcq-issues',function(){
+      pinnedSlice=0; setActive(0);
+    });
     document.getElementById('evaluation').addEventListener('keydown',function(event){
       if(event.key==='Escape'&&!exporting){ event.stopPropagation(); pinnedSlice=null; setActive(null); }
     });
@@ -1844,6 +1928,7 @@
         w1=berg.querySelector('.ib-w1'), w2=berg.querySelector('.ib-w2'),
         mark=svg.querySelector('#ib-wl'), sect=document.getElementById('evaluation');
     function fitWater(){
+      if(!berg.getClientRects().length) return;
       var b=berg.getBoundingClientRect(), m=mark.getBoundingClientRect();
       var top=m.top+m.height/2-b.top;
       water.style.top=top+'px';
@@ -1854,6 +1939,7 @@
     fitWater();
     window.addEventListener('resize',fitWater);
     if(document.fonts&&document.fonts.ready) document.fonts.ready.then(fitWater);
+    sect.addEventListener('evaluation:restore',function(){ centerLabels(); fitWater(); });
   })();
   </script>
   <script>
@@ -1884,6 +1970,7 @@
       if(!id) return false;
       var t=document.getElementById(id);
       if(!t) return false;
+      if(id==='evaluation-limits') t=document.getElementById('evaluation');
       goto(t,smooth);
       return true;
     }
@@ -1912,5 +1999,6 @@
   })();
   </script>
 <!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "7e881bced2fd414ca3b32881bd2ea36e"}'></script><!-- End Cloudflare Web Analytics -->
+  <script src="/assets/evaluation-limits.js"></script>
 </body>
 </html>

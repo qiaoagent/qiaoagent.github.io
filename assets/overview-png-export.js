@@ -453,4 +453,89 @@
     }
     await downloadCanvas(canvas, filename || 'medical-ai-evaluation-overview.png');
   };
+  window.exportEvaluationLimitsPng = async function (root, filename) {
+    if (!root || !root.getClientRects().length) throw new Error('The evaluation gaps must be visible before exporting.');
+    if (typeof window.html2canvas !== 'function') throw new Error('The PNG renderer is unavailable.');
+    if (document.fonts) await document.fonts.ready;
+    var svgs = [].slice.call(root.querySelectorAll('svg')).filter(function (svg) {
+      return svg.getClientRects().length && getComputedStyle(svg).display !== 'none';
+    });
+    var svgBounds = svgs.map(function (svg) { return svg.getBoundingClientRect(); });
+    var viewBoxes = svgs.map(function (svg) {
+      return { width: svg.viewBox.baseVal.width, height: svg.viewBox.baseVal.height };
+    });
+    var svgPadding = svgs.map(function (svg) { return svg.closest('.mcq-limit-berg') ? 16 : 0; });
+    var diagrams = await Promise.all(svgs.map(function (svg, index) {
+      return renderSvg(svg, { transparent: true, freezeTransforms: true, padding: svgPadding[index] });
+    }));
+    var rootBounds = root.getBoundingClientRect();
+    var stage = root.querySelector('.mcq-limit-stage');
+    var columns = getComputedStyle(stage).gridTemplateColumns;
+    var parts = [root.querySelector('.wrap'), stage, root.querySelector('.mcq-limit-note')];
+    var bounds = parts.map(function (part) { return part.getBoundingClientRect(); });
+    var padding = 24;
+    var left = Math.min.apply(null, bounds.map(function (box) { return box.left; })) - padding;
+    var top = Math.min.apply(null, bounds.map(function (box) { return box.top; })) - padding;
+    var right = Math.max.apply(null, bounds.map(function (box) { return box.right; })) + padding;
+    var bottom = Math.max.apply(null, bounds.map(function (box) { return box.bottom; })) + padding;
+    var canvas, clonedFrame;
+    try {
+      canvas = await window.html2canvas(root, {
+        backgroundColor: '#ffffff', scale: 4,
+        x: left - rootBounds.left, y: top - rootBounds.top,
+        width: Math.ceil(right - left), height: Math.ceil(bottom - top),
+        windowWidth: window.innerWidth, windowHeight: window.innerHeight,
+        scrollX: window.scrollX, scrollY: window.scrollY,
+        foreignObjectRendering: false, allowTaint: false, logging: false,
+        imageTimeout: 15000, removeContainer: true,
+        onclone: async function (clonedDocument, copy) {
+          clonedFrame = clonedDocument.defaultView.frameElement;
+          copy.style.width = rootBounds.width + 'px';
+          copy.style.height = rootBounds.height + 'px';
+          copy.querySelector('.mcq-limit-stage').style.gridTemplateColumns = columns;
+          [copy].concat([].slice.call(copy.querySelectorAll('*'))).forEach(function (element) {
+            element.style.transition = 'none';
+            element.style.animation = 'none';
+            element.style.outline = 'none';
+          });
+          var replacements = [];
+          // Keep each SVG's layout box and its centered aspect ratio, including
+          // the absolute connector overlay. html2canvas does not honor object-fit.
+          svgs.forEach(function (svg, index) {
+            var copiedSvg = copy.querySelectorAll('svg')[[].indexOf.call(root.querySelectorAll('svg'), svg)];
+            // Resolve all targets before replacing any SVG changes their indexes.
+            replacements.push({ target: copiedSvg, index: index });
+          });
+          var images = replacements.map(function (entry) {
+            var index = entry.index, target = entry.target, box = svgBounds[index], viewBox = viewBoxes[index], margin = svgPadding[index];
+            var frame = clonedDocument.createElement('div');
+            frame.setAttribute('class', target.getAttribute('class') || '');
+            frame.style.cssText = target.style.cssText;
+            frame.style.width = box.width + 'px';
+            frame.style.height = box.height + 'px';
+            if (getComputedStyle(svgs[index]).position === 'static') frame.style.position = 'relative';
+            var unit = Math.min(box.width / viewBox.width, box.height / viewBox.height);
+            var image = clonedDocument.createElement('img');
+            image.src = diagrams[index].toDataURL('image/png');
+            image.style.cssText = 'position:absolute;display:block;max-width:none;margin:0;left:' + ((box.width - viewBox.width * unit) / 2 - margin * unit) +
+              'px;top:' + ((box.height - viewBox.height * unit) / 2 - margin * unit) + 'px;width:' + ((viewBox.width + margin * 2) * unit) +
+              'px;height:' + ((viewBox.height + margin * 2) * unit) + 'px;';
+            frame.appendChild(image);
+            target.replaceWith(frame);
+            return image;
+          });
+          for (var ancestor = copy; ancestor; ancestor = ancestor.parentElement) {
+            ancestor.style.overflow = 'visible';
+            ancestor.style.clipPath = 'none';
+            ancestor.style.contain = 'none';
+          }
+          await Promise.all(images.map(readyImage));
+          if (clonedDocument.fonts) await clonedDocument.fonts.ready;
+        }
+      });
+    } finally {
+      if (clonedFrame) clonedFrame.remove();
+    }
+    await downloadCanvas(canvas, filename || 'medical-ai-evaluation-mcq-gaps.png');
+  };
 })();
