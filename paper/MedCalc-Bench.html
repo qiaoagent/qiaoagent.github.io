@@ -145,12 +145,12 @@
     footer{border-top:1px solid var(--border);padding:26px 0 46px;color:var(--faint);font-size:0.82rem;text-align:center;margin-top:10px;}
     @media (max-width:640px){.hero{grid-template-columns:1fr;gap:22px;padding-top:34px;}.hero .cover{width:150px;}h1{font-size:1.6rem;}.slide h2{font-size:1.42rem;}.deck{padding:0 20px;}}
 
-    /* Three rows: benchmark curation, equation tasks, and rule-based tasks. */
-    #method{padding-top:18px;padding-bottom:18px;}
-    #method h2{margin-bottom:14px;}
+    /* Benchmark curation, two task families, and the input-to-output task. */
+    #method{padding-top:12px;padding-bottom:12px;}
+    #method h2{margin-bottom:10px;}
     .mc-overview{margin:0;width:100%;}
     .mc-curation,.mc-family-row{width:100%;}
-    .mc-curation{padding:0 0 6px;}
+    .mc-curation{padding:0 0 10px;}
     .mc-curation h3{font-size:.92rem;line-height:1.3;margin:0 0 5px;font-weight:600;}
     .mc-flow{display:grid;grid-template-columns:1fr 25px 1fr 25px 1fr;gap:14px;align-items:center;}
     .mc-flow-step{display:flex;gap:10px;align-items:center;min-width:0;}
@@ -161,76 +161,95 @@
     .mc-flow-note{font-size:.7rem;line-height:1.5;color:var(--muted);margin:2px 0 0;}
     .mc-flow-final{font-size:1.2rem;color:var(--accent);font-weight:600;line-height:1.25;}
     .mc-arrow{width:100%;height:16px;fill:none;stroke:#a7adb3;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;}
-    .mc-provenance{font-size:.65rem;color:var(--faint);line-height:1.4;margin:4px 0 0;}
-    .mc-family-row{display:grid;grid-template-columns:210px minmax(0,1fr);gap:26px;border-top:1px solid #e2e5e3;padding:7px 0;--family:#376c5f;--tint:#e7f0ec;}
+    .mc-family-row{display:grid;grid-template-columns:154px minmax(0,1fr);gap:16px;border-top:1px solid #e2e5e3;padding:6px 0;--family:#376c5f;--tint:#e7f0ec;}
     .mc-family-row.rule{--family:#72578e;--tint:#eee8f5;}
-    .mc-distribution h3{font-size:1.05rem;line-height:1.3;font-weight:600;color:var(--family);margin:0 0 4px;}
-    .mc-count{font-size:.76rem;color:var(--muted);margin-bottom:11px;}
+    .mc-distribution h3{font-size:.98rem;line-height:1.3;font-weight:600;color:var(--family);margin:0 0 4px;}
+    .mc-count{font-size:.74rem;color:var(--muted);margin-bottom:9px;}
     .mc-count strong{font-weight:600;color:var(--ink);}
-    .mc-dist-detail{display:flex;gap:13px;align-items:center;}
-    .mc-waffle{display:grid;grid-template-columns:repeat(6,9px);gap:3px;flex-shrink:0;}
-    .mc-waffle i{width:9px;height:9px;border-radius:1px;background:var(--family);}
+    .mc-dist-detail{display:flex;flex-direction:column;gap:10px;align-items:stretch;}
+    .mc-waffle{display:grid;grid-template-columns:repeat(6,14px);gap:3px;align-self:center;flex-shrink:0;}
+    .mc-waffle i{width:14px;height:14px;border-radius:2px;background:var(--family);}
     .mc-waffle i.tone-2{opacity:.72;}.mc-waffle i.tone-3{opacity:.48;}.mc-waffle i.tone-4{opacity:.28;}
-    .mc-types{list-style:none;padding:0;margin:0;flex:1;font-size:.72rem;color:var(--muted);line-height:1.7;}
-    .mc-types li{display:flex;justify-content:space-between;gap:5px;}
+    .mc-types{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:3px 10px;list-style:none;padding:0;margin:0;font-size:.72rem;color:var(--muted);line-height:1.7;}
+    .mc-types li{display:flex;justify-content:space-between;gap:4px;}
     .mc-types b{font-weight:500;color:var(--family);}
-    .mc-types span{display:flex;align-items:center;gap:6px;}
-    .mc-types span::before{content:'';width:6px;height:6px;border-radius:1px;background:var(--family);}
+    .mc-types span{display:flex;align-items:center;gap:4px;}
+    .mc-types span::before{content:'';width:5px;height:5px;flex-shrink:0;border-radius:1px;background:var(--family);}
     .mc-types li:nth-child(2) span::before{opacity:.72;}.mc-types li:nth-child(3) span::before{opacity:.48;}.mc-types li:nth-child(4) span::before{opacity:.28;}
-    .mc-unit-note{font-size:.63rem;color:var(--faint);margin:8px 0 0;}
-    .mc-example{border-left:1px solid #e6e5e1;padding-left:24px;min-width:0;}
-    .mc-example h4{display:flex;justify-content:space-between;align-items:baseline;gap:10px;font-size:.92rem;font-weight:600;line-height:1.35;margin:0 0 5px;}
-    .mc-example h4 span{font-size:.68rem;font-weight:400;color:var(--faint);white-space:nowrap;}
-    .mc-source{display:flex;align-items:center;gap:9px;min-height:24px;margin:0 0 6px;font-size:.72rem;line-height:1.35;color:var(--muted);}
+    .mc-example{border-left:1px solid #e6e5e1;padding-left:14px;min-width:0;}
+    .mc-example h4{display:flex;justify-content:space-between;align-items:baseline;gap:10px;font-size:.92rem;font-weight:600;line-height:1.35;margin:0 0 7px;}
+    .mc-example-columns{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1.9fr) minmax(92px,.6fr);gap:12px;align-items:stretch;}
+    .mc-example-column{min-width:0;display:flex;flex-direction:column;}
+    .mc-example-column+.mc-example-column{border-left:1px solid #e2e5e3;padding-left:12px;}
+    .mc-stage-label{display:block;font-size:.78rem;line-height:1.3;font-weight:600;color:var(--family);margin:0 0 8px;}
+    .mc-note{border:1px solid #e2e3df;border-radius:5px;background:#fafaf8;padding:9px 10px;flex:1;}
+    .mc-source{display:flex;align-items:center;gap:7px;margin:0 0 6px;font-size:.73rem;line-height:1.4;color:var(--muted);}
     .mc-source-document{flex:0 0 22px;width:22px;height:24px;fill:none;stroke:var(--family);stroke-width:1.2;stroke-linecap:round;stroke-linejoin:round;}
     .mc-source-document .context{stroke:#b9bebc;}
-    .mc-source-arrow{flex:0 0 26px;width:26px;height:14px;fill:none;stroke:#a7adb3;stroke-width:1.2;stroke-linecap:round;stroke-linejoin:round;margin-left:auto;}
-    .mc-source-action{color:var(--family);font-weight:500;}
-    .mc-labs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:7px;margin:6px 0 6px;}
-    .mc-lab{padding:4px 9px;border-left:2px solid #b8d0c6;background:#f4f8f6;font-size:.67rem;line-height:1.4;color:var(--muted);}
-    .mc-lab b{font-size:.87rem;font-weight:500;color:var(--family);}
-    .mc-lab small{font-size:.62rem;}
-    .mc-equation{display:grid;grid-template-columns:minmax(0,1fr) 15px 90px;align-items:center;gap:12px;color:var(--family);font-size:.94rem;line-height:1.3;}
-    .mc-formulas{margin:0 0 6px;color:var(--family);font-size:.9rem;line-height:1.45;}
+    .mc-note blockquote{margin:0;font-size:.75rem;line-height:1.5;color:#55544f;}
+    .mc-note mark{background:#e1e1de;color:#42423e;padding:0 1px;}
+    .mc-reason-step{display:flex;align-items:center;gap:6px;font-size:.72rem;line-height:1.3;font-weight:500;color:var(--family);margin:0 0 6px;}
+    .mc-reason-step b{display:inline-flex;justify-content:center;align-items:center;width:17px;height:17px;border-radius:50%;background:var(--tint);font-size:.64rem;font-weight:600;}
+    .mc-labs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:5px;margin:0 0 10px;}
+    .mc-lab{padding:4px 5px;background:var(--tint);border-radius:4px;font-size:.69rem;line-height:1.35;color:var(--family);}
+    .mc-lab b{font-size:.9rem;font-weight:600;}
+    .mc-lab small{font-size:.62rem;color:var(--muted);}
+    .mc-reasoning-content{margin:0;}
+    .mc-formulas{margin:0 0 8px;color:var(--family);font-size:.85rem;line-height:1.45;}
+    .mc-formulas .mc-formula-line{display:block;}
     .mc-formulas sub,.mc-formulas sup{font-size:.7em;line-height:0;}
-    .mc-calculation{font-size:.87rem;white-space:nowrap;}
-    .mc-answer{display:flex;flex-direction:column;align-items:flex-end;min-width:0;}
-    .mc-answer strong{font-size:1.75rem;font-weight:600;line-height:1.1;color:var(--family);}
-    .mc-answer small{font-size:.69rem;font-weight:400;color:var(--muted);margin-top:5px;}
-    .mc-example-note{font-size:.65rem;color:var(--muted);margin:6px 0 0;line-height:1.4;}
-    .mc-score{display:grid;grid-template-columns:minmax(0,1fr) 15px 70px;align-items:center;gap:12px;margin-top:6px;}
-    .mc-criteria{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px 8px;list-style:none;padding:0;margin:0;}
-    .mc-criterion{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:4px 8px;border-radius:4px;background:var(--tint);color:var(--family);font-size:.68rem;line-height:1.3;}
-    .mc-criterion b{font-size:.92rem;font-weight:600;white-space:nowrap;}
+    .mc-calculation{font-size:.85rem;line-height:1.45;color:var(--family);}
+    .mc-output .mc-stage-label{white-space:normal;}
+    .mc-answer{display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1;min-width:0;}
+    .mc-answer strong{font-size:1.9rem;font-weight:600;line-height:1.1;color:var(--family);}
+    .mc-answer small{font-size:.75rem;font-weight:400;color:var(--muted);margin-top:5px;}
+    .mc-check{display:block;color:var(--family);margin-top:12px;}
+    .mc-check svg{width:21px;height:21px;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;}
+    .mc-criteria{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px 6px;list-style:none;padding:0;margin:0;}
+    .mc-criterion{display:flex;align-items:center;justify-content:space-between;gap:5px;padding:4px 6px;border-radius:4px;background:var(--tint);color:var(--family);font-size:.68rem;line-height:1.3;}
+    .mc-criterion b{font-size:.82rem;font-weight:600;white-space:nowrap;}
+    .mc-criterion span{min-width:0;overflow-wrap:anywhere;}
     .mc-criterion.zero{background:#f2f2f1;color:#858582;}
     .mc-criterion sub{font-size:.72em;line-height:0;}
-    .mc-operator{color:#a39ba9;font-size:1.1rem;}
+    .mc-features{display:grid;grid-template-columns:1fr 1fr;width:100%;margin:2px 0 7px;padding:8px 12px;border:1px solid #dce4e5;border-radius:7px;background:#f7f9f9;}
+    .mc-feature{display:flex;align-items:flex-start;gap:11px;min-width:0;--feature:#38647c;}
+    .mc-feature+.mc-feature{--feature:#376c5f;border-left:1px solid #dce4e5;padding-left:16px;}
+    .mc-feature-icon{flex:0 0 29px;width:29px;height:34px;margin-top:3px;fill:none;stroke:var(--feature);stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;}
+    .mc-feature h3{font-size:.85rem;line-height:1.25;color:var(--feature);font-weight:600;margin:0 0 3px;}
+    .mc-feature p{font-size:.71rem;line-height:1.4;color:var(--muted);margin:0;}
+    .mc-feature strong{font-weight:600;color:var(--feature);}
     .mc-findings{border-top:1px solid var(--border);padding-top:8px;margin:0;font-size:.75rem;line-height:1.5;color:var(--muted);}
     .mc-findings strong{font-weight:600;color:var(--ink);}
-    .mc-overview figcaption{font-size:.65rem;line-height:1.45;color:var(--faint);margin:5px 0 0;}
     @media(max-width:760px){
       #method{justify-content:flex-start;}
       .mc-flow{grid-template-columns:1fr;gap:8px;}
       .mc-flow-step:last-child{justify-self:start;}
       .mc-flow>.mc-arrow{width:22px;justify-self:start;margin-left:7px;transform:rotate(90deg);}
       .mc-flow-title{font-size:.9rem;}.mc-flow-note{font-size:.8rem;}
-      .mc-provenance{font-size:.72rem;margin:14px 0 4px;}
       .mc-family-row{grid-template-columns:1fr;gap:16px;padding:22px 0;}
       .mc-dist-detail{max-width:265px;}
       .mc-types{font-size:.8rem;}
       .mc-example{border-left:0;border-top:1px solid #eee;padding:16px 0 0;}
       .mc-example h4{font-size:1rem;}
-      .mc-source{font-size:.75rem;gap:7px;}
-      .mc-source-arrow{flex-basis:20px;width:20px;}
-      .mc-equation{gap:8px;font-size:.86rem;grid-template-columns:minmax(0,1fr) 12px 75px;}
+      .mc-example-columns{grid-template-columns:1fr;gap:16px;}
+      .mc-example-column+.mc-example-column{border-left:0;border-top:1px solid #e2e5e3;padding:12px 0 0;}
+      .mc-source{font-size:.8rem;}
+      .mc-note blockquote{font-size:.85rem;}
+      .mc-labs{grid-template-columns:repeat(2,minmax(0,1fr));}
+      .mc-lab{font-size:.75rem;padding:7px;}.mc-lab b{font-size:.9rem;}.mc-lab small{font-size:.7rem;}
+      .mc-reason-step{font-size:.8rem;}
+      .mc-reasoning-content{margin:0;}
       .mc-formulas{font-size:.9rem;}
-      .mc-calculation{font-size:.82rem;white-space:normal;}
-      .mc-score{gap:8px;grid-template-columns:minmax(0,1fr) 10px 45px;}
+      .mc-calculation{font-size:.9rem;}
       .mc-criteria{grid-template-columns:1fr;}
       .mc-criterion{font-size:.78rem;padding:6px 9px;}
+      .mc-stage-label,.mc-output .mc-stage-label{font-size:.85rem;min-height:0;}
+      .mc-answer{align-items:flex-start;}
+      .mc-features{grid-template-columns:1fr;gap:12px;padding:14px;margin:0 0 12px;}
+      .mc-feature+.mc-feature{border-left:0;border-top:1px solid #dce4e5;padding:12px 0 0;}
+      .mc-feature h3{font-size:.9rem;}.mc-feature p{font-size:.8rem;}
       .mc-findings{font-size:.8rem;}
     }
-    @media(max-width:420px){.mc-labs{grid-template-columns:repeat(2,minmax(0,1fr));}.mc-equation{font-size:.8rem;gap:5px;grid-template-columns:minmax(0,1fr) 10px 65px;}.mc-answer strong{font-size:1.5rem;}}
 </style>
 <link rel="stylesheet" href="../assets/paper-cover.css">
 </head><body>
@@ -248,7 +267,7 @@
     <section class="slide" id="method">
       <div class="kick"><span class="n">02</span>Task &amp; dataset</div>
       <h2>MedCalc-Bench defines the medical calculation task</h2>
-      <figure class="mc-overview" aria-label="Benchmark curation and two calculator families, with the patient cases illustrated in Figure 1">
+      <figure class="mc-overview" aria-label="Benchmark curation, two calculator families, and a realistic calculation task with verifiable final outputs">
         <div class="mc-curation">
           <h3>Curating the benchmark</h3>
           <div class="mc-flow">
@@ -267,39 +286,49 @@
               <div><div class="mc-flow-final">1,047 cases</div><p class="mc-flow-note">Template-computed answers<br>+ step-by-step explanations</p></div>
             </div>
           </div>
-          <p class="mc-provenance">Eligible notes cover 34 calculators; template-generated or medically authored notes complete the remaining 21.</p>
         </div>
 
         <div class="mc-family-row equation">
           <div class="mc-distribution">
             <h3>Equation-based</h3>
-            <div class="mc-count"><strong>36 calculators</strong> · 667 cases</div>
+            <div class="mc-count"><strong>36 calculators</strong><br>667 cases</div>
             <div class="mc-dist-detail">
               <div class="mc-waffle" role="img" aria-label="36 calculators: 19 lab, 12 physical, 3 date, 2 dosage"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i class="tone-2"></i><i class="tone-2"></i><i class="tone-2"></i><i class="tone-2"></i><i class="tone-2"></i><i class="tone-2"></i><i class="tone-2"></i><i class="tone-2"></i><i class="tone-2"></i><i class="tone-2"></i><i class="tone-2"></i><i class="tone-2"></i><i class="tone-3"></i><i class="tone-3"></i><i class="tone-3"></i><i class="tone-4"></i><i class="tone-4"></i></div>
               <ul class="mc-types"><li><span>Lab</span><b>19</b></li><li><span>Physical</span><b>12</b></li><li><span>Date</span><b>3</b></li><li><span>Dosage</span><b>2</b></li></ul>
             </div>
-            <p class="mc-unit-note">One tile = one calculator</p>
           </div>
           <div class="mc-example">
-            <h4>Albumin-corrected anion gap <span>Figure 1 case</span></h4>
-            <div class="mc-source" aria-label="Inputs are extracted from the full patient summary of the case report, rather than from a one-sentence vignette.">
-              <svg class="mc-source-document" viewBox="0 0 22 26" aria-hidden="true"><path class="context" d="M4 2h11l4 4v18H4Z M15 2v5h4M7 10h9m-9 6h9m-9 6h5"/><path d="M7 13h7m-7 6h9"/></svg>
-              <span>Full case-report patient summary</span>
-              <svg class="mc-source-arrow" viewBox="0 0 26 14" aria-hidden="true"><path d="M1 7h23m-5-4 5 4-5 4"/></svg>
-              <span class="mc-source-action">Extract calculator inputs</span>
-            </div>
-            <div class="mc-labs">
-              <div class="mc-lab">Sodium<br><b>174</b> <small>mEq/L</small></div>
-              <div class="mc-lab">Chloride<br><b>135</b> <small>mEq/L</small></div>
-              <div class="mc-lab">Bicarbonate<br><b>18.5</b> <small>mEq/L</small></div>
-              <div class="mc-lab">Albumin<br><b>4.5</b> <small>g/dL</small></div>
-            </div>
-            <div class="mc-formulas" aria-label="Albumin-corrected anion gap equals sodium minus the sum of chloride and bicarbonate, plus 2.5 times the difference of 4 and albumin in grams per deciliter.">
-              AG<sub>corrected</sub> = Na<sup>+</sup> − (Cl<sup>−</sup> + HCO<sub>3</sub><sup>−</sup>) + 2.5 × (4 − albumin)
-            </div>
-            <div class="mc-equation" aria-label="174 minus the sum of 135 and 18.5, plus 2.5 times the difference of 4 and 4.5, equals 19.25 milliequivalents per liter.">
-              <div class="mc-calculation">174 − (135 + 18.5) + 2.5 × (4 − 4.5)</div>
-              <span class="mc-operator">=</span><span class="mc-answer"><strong>19.25</strong><small>mEq/L</small></span>
+            <h4>Albumin-corrected anion gap</h4>
+            <div class="mc-example-columns">
+              <div class="mc-example-column mc-input">
+                <h5 class="mc-stage-label">Input</h5>
+                <div class="mc-note"><div class="mc-source"><svg class="mc-source-document" viewBox="0 0 22 26" aria-hidden="true"><path class="context" d="M4 2h11l4 4v18H4Z M15 2v5h4M7 10h9m-9 6h9m-9 6h5"/><path d="M7 13h7m-7 6h9"/></svg><span>Patient note</span></div><blockquote>The patient was a 20-year-old previously healthy woman. … <mark>albumin 4.5 g/dL</mark>, … Serum sodium, potassium and chloride were <mark>174 mEq/L</mark>, 3.6 mEq/L and <mark>135 mEq/L</mark> respectively. … <mark>bicarbonate 18.5 mEq/L</mark>, …</blockquote></div>
+              </div>
+              <div class="mc-example-column mc-reasoning">
+                <h5 class="mc-stage-label">Reasoning</h5>
+                <div class="mc-reasoning-content">
+                  <div class="mc-reason-step"><b>1</b> Extract values</div>
+                  <div class="mc-labs">
+                    <div class="mc-lab">Na⁺<br><b>174</b> <small>mEq/L</small></div>
+                    <div class="mc-lab">Cl⁻<br><b>135</b> <small>mEq/L</small></div>
+                    <div class="mc-lab">HCO₃⁻<br><b>18.5</b> <small>mEq/L</small></div>
+                    <div class="mc-lab">Albumin<br><b>4.5</b> <small>g/dL</small></div>
+                  </div>
+                  <div class="mc-reason-step"><b>2</b> Apply equation</div>
+                  <div class="mc-formulas" aria-label="Albumin-corrected anion gap equals sodium minus chloride and bicarbonate, plus 2.5 times the difference of 4 and albumin in grams per deciliter.">
+                    <span class="mc-formula-line">AG<sub>corrected</sub> = Na<sup>+</sup> − (Cl<sup>−</sup> + HCO<sub>3</sub><sup>−</sup>)</span>
+                    <span class="mc-formula-line">+ 2.5 × (4 − albumin)</span>
+                  </div>
+                  <div class="mc-calculation" aria-label="174 minus 135 and 18.5, plus 2.5 times 4 minus 4.5, equals 19.25 milliequivalents per liter.">
+                    <span class="mc-formula-line">= 174 − (135 + 18.5)</span>
+                    <span class="mc-formula-line">+ 2.5 × (4 − 4.5)</span>
+                  </div>
+                </div>
+              </div>
+              <div class="mc-example-column mc-output">
+                <h5 class="mc-stage-label">Verifiable<br>output</h5>
+                <div class="mc-answer"><strong>19.25</strong><small>mEq/L</small><span class="mc-check" role="img" aria-label="Checked against the reference answer, with 5% tolerance"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.5"/><path d="m4.5 8 2.3 2.4 4.7-5"/></svg></span></div>
+              </div>
             </div>
           </div>
         </div>
@@ -307,23 +336,24 @@
         <div class="mc-family-row rule">
           <div class="mc-distribution">
             <h3>Rule-based</h3>
-            <div class="mc-count"><strong>19 calculators</strong> · 380 cases</div>
+            <div class="mc-count"><strong>19 calculators</strong><br>380 cases</div>
             <div class="mc-dist-detail">
               <div class="mc-waffle" role="img" aria-label="19 calculators: 12 risk, 4 severity, 3 diagnosis"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i class="tone-2"></i><i class="tone-2"></i><i class="tone-2"></i><i class="tone-2"></i><i class="tone-3"></i><i class="tone-3"></i><i class="tone-3"></i></div>
               <ul class="mc-types"><li><span>Risk</span><b>12</b></li><li><span>Severity</span><b>4</b></li><li><span>Diagnosis</span><b>3</b></li></ul>
             </div>
-            <p class="mc-unit-note">One tile = one calculator</p>
           </div>
           <div class="mc-example">
-            <h4>CHA₂DS₂-VASc score <span>Figure 1 case</span></h4>
-            <div class="mc-source" aria-label="Scoring attributes are extracted from the full patient summary of the case report and medically reviewed, rather than from a one-sentence vignette.">
-              <svg class="mc-source-document" viewBox="0 0 22 26" aria-hidden="true"><path class="context" d="M4 2h11l4 4v18H4Z M15 2v5h4M7 10h9m-9 6h9m-9 6h5"/><path d="M7 13h7m-7 6h9"/></svg>
-              <span>Full case-report patient summary</span>
-              <svg class="mc-source-arrow" viewBox="0 0 26 14" aria-hidden="true"><path d="M1 7h23m-5-4 5 4-5 4"/></svg>
-              <span class="mc-source-action">Extract calculator inputs</span>
-            </div>
-            <div class="mc-score" aria-label="All eight scoring criteria. Purple entries contribute points; gray entries contribute zero, following the released benchmark attributes. Total: 4 points.">
-              <ul class="mc-criteria">
+            <h4>CHA₂DS₂-VASc score</h4>
+            <div class="mc-example-columns">
+              <div class="mc-example-column mc-input">
+                <h5 class="mc-stage-label">Input</h5>
+                <div class="mc-note"><div class="mc-source"><svg class="mc-source-document" viewBox="0 0 22 26" aria-hidden="true"><path class="context" d="M4 2h11l4 4v18H4Z M15 2v5h4M7 10h9m-9 6h9m-9 6h5"/><path d="M7 13h7m-7 6h9"/></svg><span>Patient note</span></div><blockquote>A <mark>68-year-old man</mark> … His medical history included <mark>hypertension</mark> … examination of the heart revealed atrial fibrillation (AF). … A magnetic resonance imaging (MRI) … showed <mark>right corona radiate infarction</mark> …</blockquote></div>
+              </div>
+              <div class="mc-example-column mc-reasoning">
+                <h5 class="mc-stage-label">Reasoning</h5>
+                <div class="mc-reasoning-content" aria-label="All eight scoring criteria. Purple entries contribute points; gray entries contribute zero, Total: 4 points.">
+                  <div class="mc-reason-step">Extract &amp; score</div>
+                  <ul class="mc-criteria">
                 <li class="mc-criterion zero"><span>Congestive heart failure</span><b>+0</b></li>
                 <li class="mc-criterion"><span>Hypertension</span><b>+1</b></li>
                 <li class="mc-criterion zero"><span>Age ≥75 years</span><b>+0</b></li>
@@ -332,15 +362,34 @@
                 <li class="mc-criterion zero"><span>Vascular disease</span><b>+0</b></li>
                 <li class="mc-criterion"><span>Age 65–74 years</span><b>+1</b></li>
                 <li class="mc-criterion zero"><span>Female sex</span><b>+0</b></li>
-              </ul>
-              <span class="mc-operator">=</span>
-              <div class="mc-answer"><strong>4</strong><small>points</small></div>
+                </ul>
+                </div>
+              </div>
+              <div class="mc-example-column mc-output">
+                <h5 class="mc-stage-label">Verifiable<br>output</h5>
+                <div class="mc-answer"><strong>4</strong><small>points</small><span class="mc-check" role="img" aria-label="Checked against the exact reference score"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.5"/><path d="m4.5 8 2.3 2.4 4.7-5"/></svg></span></div>
+              </div>
             </div>
-            <p class="mc-example-note">Scoring follows the released benchmark attributes: 4 points; Figure 1 prints 7.</p>
+          </div>
+        </div>
+        <div class="mc-features" role="group" aria-label="Two benchmark features: realistic tasks and verifiable outputs">
+          <div class="mc-feature">
+            <svg class="mc-feature-icon" viewBox="0 0 30 34" aria-hidden="true"><path d="M4 3h16l6 6v22H4Z M20 3v7h6M9 14h12m-12 4h8M9 25h12m-5-3 5 3-5 3"/></svg>
+            <div><h3>Realistic</h3><p>Compute clinical values with <strong>no answer choices</strong>.</p></div>
+          </div>
+          <div class="mc-feature">
+            <svg class="mc-feature-icon" viewBox="0 0 30 34" aria-hidden="true"><rect x="3" y="3" width="24" height="28" rx="4"/><path d="M8 10h14m-14 4h8m-8 9 4 4 10-10"/></svg>
+            <div><h3>Verifiable</h3><p><strong>Automatically check</strong> final outputs against reference answers.</p></div>
           </div>
         </div>
         <p class="mc-findings"><strong>Original result:</strong> GPT-4 with one-shot chain-of-thought achieved <strong>50.9% accuracy</strong>.</p>
-        <figcaption>Distributions: <a class="srcref" href="../assets/papers/MedCalc-Bench.pdf#page=4" target="_blank" rel="noopener">Table 1</a>. Patient cases: <a class="srcref" href="../assets/papers/MedCalc-Bench.pdf#page=2" target="_blank" rel="noopener">Figure 1</a>, with inputs and calculations from the <a class="srcref" href="https://github.com/ncbi-nlp/MedCalc-Bench/blob/5951c83510a378ab1764662c9edfc45402d2b1db/test_data.csv" target="_blank" rel="noopener">original test set</a>. Open-Patients includes our <a class="ref own" href="PMC-Patients.html" target="_blank" rel="noopener">PMC-Patients</a> collection.</figcaption>
+        <!-- Sources: MedCalc-Bench, NeurIPS 2024, Table 1 and Figure 1.
+             Patient notes and answers: original test_data.csv, commit 5951c83510a378ab1764662c9edfc45402d2b1db,
+             row 769 (pmc-3950226-1) and row 44 (pmc-7294161-1).
+             The rule example uses the released answer of 4, correcting the figure's printed 7.
+             Display excerpts omit text with ellipses; unit spacing and the source typo mEql/L are normalized.
+             Evaluation: exact rule-based scores/dates; within 5% for other equation outputs (section 3.1).
+        -->
       </figure>
     </section>
     <section class="slide" id="result"><div class="kick"><span class="n">03</span>Result</div><h2>GPT-4 reaches 50.9% in the original evaluation</h2><div class="body"><ul class="highlights"><li>The original evaluation compares 8 LLMs under 3 prompting settings.</li><li>The best model &mdash; GPT-4 with one-shot chain-of-thought &mdash; scores just <b>50.9%</b>.</li><li>Error analysis: models lack calculator knowledge and make computation mistakes.</li></ul><div class="stats"><div class="stat"><div class="num">50.9%</div><div class="lbl">best accuracy &mdash; GPT-4, one-shot CoT</div></div></div></div></section>
