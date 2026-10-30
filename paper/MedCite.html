@@ -144,6 +144,62 @@
     pre{background:#ffffff;border:1px solid var(--border);border-radius:8px;padding:16px 18px;overflow-x:auto;font-size:0.8rem;line-height:1.5;color:#3a3630;}
     footer{border-top:1px solid var(--border);padding:26px 0 46px;color:var(--faint);font-size:0.82rem;text-align:center;margin-top:10px;}
     @media (max-width:640px){.hero{grid-template-columns:1fr;gap:22px;padding-top:34px;}.hero .cover{width:150px;}h1{font-size:1.6rem;}.slide h2{font-size:1.42rem;}.deck{padding:0 20px;}}
+
+    /* Citation generation and support evaluation share one illustrated overview. */
+    .mc-overview{margin:0;--mc-blue:#35658b;--mc-blue-bg:#eaf1f7;--mc-violet:#735187;--mc-violet-bg:#f1ebf5;--mc-green:#3d7764;--mc-green-bg:#edf5f0;}
+    .mc-stages{display:grid;grid-template-columns:1fr 26px 1fr 26px 1fr;gap:10px;align-items:start;}
+    .mc-stage{min-width:0;text-align:center;}
+    .mc-stage>svg{display:block;width:100%;height:138px;font-family:'DM Sans',sans-serif;}
+    .mc-stage h3{font-size:.95rem;font-weight:600;line-height:1.3;margin:8px 0 5px;}
+    .mc-stage p{font-size:.78rem;line-height:1.45;color:var(--muted);margin:0;}
+    .mc-arrow{width:26px;height:16px;margin-top:68px;fill:none;stroke:#a4adb4;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;}
+    .mc-arrow.eval path:first-child{stroke-dasharray:3 3;}
+    .mc-overview svg .sheet{fill:#fff;stroke:#cbd4dc;stroke-width:1.3;}
+    .mc-overview svg .blue{fill:var(--mc-blue-bg);stroke:#c5d4e2;stroke-width:1;}
+    .mc-overview svg .violet{fill:var(--mc-violet-bg);stroke:#d7c8e0;stroke-width:1;}
+    .mc-overview svg .flow{fill:none;stroke:#b1bdc6;stroke-width:1.3;stroke-linecap:round;stroke-linejoin:round;}
+    .mc-overview svg .rule{stroke:#b5c3cf;stroke-width:2;stroke-linecap:round;}
+    .mc-overview svg text{fill:var(--mc-blue);font-size:12px;font-weight:500;}
+    .mc-overview svg .quiet{fill:#7d858b;font-size:11px;font-weight:400;}
+    .mc-example{margin-top:23px;padding-top:14px;border-top:1px solid var(--border);}
+    .mc-context{font-size:.75rem;line-height:1.5;color:var(--muted);margin:0 0 12px;}
+    .mc-context strong{font-weight:600;color:var(--ink);}
+    .mc-pair{display:grid;grid-template-columns:1fr 42px 1.18fr;align-items:center;gap:10px;}
+    .mc-statement,.mc-evidence{min-width:0;}
+    .mc-pair h4{font-size:.74rem;font-weight:600;line-height:1.3;color:var(--mc-violet);margin:0 0 7px;}
+    .mc-pair p{font-size:.87rem;line-height:1.55;margin:0;}
+    .mc-statement p{padding-left:12px;border-left:3px solid #bfd0df;}
+    .mc-evidence{border:1px solid #cfdcd5;border-radius:7px;padding:12px 15px;background:#fbfdfb;}
+    .mc-evidence h4{color:var(--mc-green);display:flex;justify-content:space-between;gap:10px;}
+    .mc-evidence p{color:#404943;}
+    .mc-pair mark{color:inherit;background:#eaf2ed;border-radius:2px;padding:0 2px;}
+    .mc-cite{color:var(--mc-blue);font-weight:600;white-space:nowrap;}
+    .mc-pair .mc-support{color:var(--mc-green);font-size:.7rem;white-space:nowrap;}
+    .mc-support svg{width:12px;height:12px;vertical-align:-2px;margin-right:3px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;}
+    .mc-connection{width:42px;height:30px;fill:none;stroke:#a5baae;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;}
+    .mc-example-note{font-size:.67rem;line-height:1.4;color:var(--faint);margin:7px 0 0;}
+    .mc-results{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin-top:17px;padding-top:12px;border-top:1px solid var(--border);}
+    .mc-result-label{font-size:.74rem;line-height:1.3;color:var(--muted);margin-bottom:5px;}
+    .mc-result-values{font-size:1.17rem;line-height:1.2;font-variant-numeric:tabular-nums;white-space:nowrap;}
+    .mc-result-values .before{color:#8b8b85;font-weight:400;}
+    .mc-result-values .to{color:#b2b6b8;font-size:.86rem;padding:0 8px;}
+    .mc-result-values strong{font-weight:600;color:var(--mc-blue);}
+    .mc-result-help{font-size:.65rem;line-height:1.4;color:var(--faint);margin-top:4px;}
+    .mc-overview figcaption{font-size:.66rem;color:var(--faint);line-height:1.45;margin-top:12px;}
+    #result .utbl td.mc-best{font-weight:600;text-decoration:underline;text-underline-offset:4px;color:var(--accent);}
+    @media(max-width:760px){
+      .mc-stages{grid-template-columns:1fr;gap:22px;}
+      .mc-stage>svg{max-width:270px;height:145px;margin:0 auto;}
+      .mc-arrow{display:none;}
+      .mc-pair{grid-template-columns:1fr;gap:12px;}
+      .mc-connection{display:none;}
+      .mc-results{gap:12px;}
+      .mc-result-values{font-size:1rem;}
+      .mc-result-values .to{padding:0 3px;}
+      .mc-context{font-size:.8rem;}
+    }
+    @media(max-width:420px){.mc-results{grid-template-columns:1fr;gap:14px;}}
+
 </style>
 <link rel="stylesheet" href="../assets/paper-cover.css">
 </head><body>
@@ -158,11 +214,65 @@
         <div class="links"><a class="primary" href="../assets/papers/MedCite.pdf" target="_blank" rel="noopener">PDF</a>
           <a href="https://aclanthology.org/2025.findings-acl.967/" target="_blank" rel="noopener">Proceedings</a></div></div><div class="hero-disc">These slides were generated with the help of AI and may contain errors.</div></header>
     <section class="slide" id="motivation"><div class="kick"><span class="n">01</span>Motivation</div><h2>AI medical citations: can we trust them?</h2><div class="body"><ul class="highlights"><li>When a medical AI cites, one question decides trust: does the cited article really support the statement?</li><li>Existing systems answer without citations, or attach references that may not back the claim.</li></ul><figure class="fig s"><img src="../assets/figures/auto/MedCite_fig1.png" alt="Without verifiable citations a clinician cannot check whether each statement is supported."><figcaption>Without verifiable citations a clinician cannot check whether each statement is supported. <span class="src"><a class="srcref" href="https://aclanthology.org/2025.findings-acl.967/" target="_blank" rel="noopener">Fig. 1</a>.</span></figcaption></figure></div></section>
-    <section class="slide" id="method"><div class="kick"><span class="n">02</span>Method</div><h2>End-to-end citation generation and evaluation</h2><div class="body"><ul class="highlights"><li>A <b>citation seeker</b> re-retrieves and reranks the sources behind each generated statement.</li><li>An <b>attribution judge</b> then checks whether each cited article actually supports its claim.</li></ul><figure class="fig m"><img style="max-height:calc(100vh - 345px)" src="../assets/figures/auto/MedCite_fig2.png" alt="The end-to-end MedCite pipeline."><figcaption>The end-to-end MedCite pipeline. <span class="src"><a class="srcref" href="https://aclanthology.org/2025.findings-acl.967/" target="_blank" rel="noopener">Fig. 2</a>.</span></figcaption></figure></div></section>
-    <section class="slide" id="result"><div class="kick"><span class="n">03</span>Result</div><h2>Grounding the answer lifts citation quality</h2><div class="body"><div class="tbl-wrap"><table class="utbl"><thead><tr><th style="text-align:left">Method</th><th style="text-align:right">Accuracy</th><th style="text-align:right">MAUVE</th><th style="text-align:right">ROUGE-L</th><th style="text-align:right">Cite recall</th><th style="text-align:right">Cite prec.</th></tr></thead><tbody><tr><td style="text-align:left">Non-RAG</td><td style="text-align:right">71.4</td><td style="text-align:right">53.2</td><td style="text-align:right">18.1</td><td style="text-align:right">59.1</td><td style="text-align:right">52.9</td></tr><tr><td style="text-align:left">RAG</td><td style="text-align:right">82.9</td><td style="text-align:right">52.2</td><td style="text-align:right">14.8</td><td style="text-align:right">49.0</td><td style="text-align:right">42.8</td></tr><tr class="best"><td style="text-align:left">RAG w. Oracle</td><td style="text-align:right">94.3</td><td style="text-align:right">63.5</td><td style="text-align:right">20.6</td><td style="text-align:right">57.5</td><td style="text-align:right">43.2</td></tr></tbody></table></div><div class="tnote">Grounding the answer in retrieved evidence (and an oracle upper bound) raises answer quality. Source: <a class="srcref" href="https://aclanthology.org/2025.findings-acl.967/" target="_blank" rel="noopener">Table 2</a>.</div></div></section>
-    <section class="slide" id="result-2"><div class="kick"><span class="n">04</span>Result</div><h2>Re-retrieval with LLM reranking wins</h2><div class="body"><div class="tbl-wrap"><table class="utbl"><thead><tr><th style="text-align:left">Citation-seeking strategy</th><th style="text-align:right">Cite recall</th><th style="text-align:right">Cite prec.</th></tr></thead><tbody><tr><td style="text-align:left">Pre-gen shortlist + LLM rerank</td><td style="text-align:right">54.7</td><td style="text-align:right">41.4</td></tr><tr><td style="text-align:left">Retriever-only re-retrieval</td><td style="text-align:right">65.7</td><td style="text-align:right">47.7</td></tr><tr><td style="text-align:left">Re-retrieval + NLI rerank</td><td style="text-align:right">65.4</td><td style="text-align:right">55.1</td></tr><tr class="best"><td style="text-align:left">Re-retrieval + LLM rerank</td><td style="text-align:right">65.8</td><td style="text-align:right">61.0</td></tr></tbody></table></div><div class="tnote">Citation quality by attribution strategy (answer accuracy 83.3 for all). Re-retrieval + LLM reranking gives the best precision. Source: <a class="srcref" href="https://aclanthology.org/2025.findings-acl.967/" target="_blank" rel="noopener">Table 3</a>.</div></div></section>
-    <section class="slide" id="result-3"><div class="kick"><span class="n">05</span>Result</div><h2>The multi-pass method beats single-pass</h2><div class="body"><div class="tbl-wrap"><table class="utbl"><thead><tr><th style="text-align:left">Configuration</th><th style="text-align:right">Accuracy</th><th style="text-align:right">MAUVE</th><th style="text-align:right">ROUGE-L</th><th style="text-align:right">Cite recall</th><th style="text-align:right">Cite prec.</th></tr></thead><tbody><tr><td style="text-align:left">Non-parametric (single-pass)</td><td style="text-align:right">82.9</td><td style="text-align:right">52.2</td><td style="text-align:right">14.8</td><td style="text-align:right">49.0</td><td style="text-align:right">42.8</td></tr><tr class="best"><td style="text-align:left">Hybrid (multi-pass)</td><td style="text-align:right">83.3</td><td style="text-align:right">59.2</td><td style="text-align:right">16.8</td><td style="text-align:right">65.7</td><td style="text-align:right">47.7</td></tr></tbody></table></div><div class="tnote">The multi-pass hybrid design lifts citation recall and precision at comparable answer quality. Source: <a class="srcref" href="https://aclanthology.org/2025.findings-acl.967/" target="_blank" rel="noopener">Table 4</a>.</div></div></section>
-    <section class="slide" id="summary"><div class="kick"><span class="n">06</span>Summary</div><h2>MedCite at a glance</h2><div class="body"><div class="tbl-wrap"><table class="stbl"><tbody><tr><td class="slab">Background</td><td class="sval">Medical AI answers increasingly arrive with supporting citations.</td></tr><tr><td class="slab">Problem</td><td class="sval">But can we trust them &mdash; do the citations actually support the claim?</td></tr><tr><td class="slab">Approach</td><td class="sval">End-to-end citation generation plus an automatic attribution judge.</td></tr><tr><td class="slab">Results</td><td class="sval">Re-retrieval with LLM reranking gives the best citation precision; the judge matches expert annotators.</td></tr><tr><td class="slab">Conclusion</td><td class="sval">A benchmark + metric for the &ldquo;verify&rdquo; step of trustworthy medical AI.</td></tr></tbody></table></div></div></section>
+    <section class="slide" id="workflow">
+      <div class="kick"><span class="n">02</span>Workflow &amp; results</div>
+      <h2>MedCite retrieves citations and evaluates their support</h2>
+      <figure class="mc-overview" aria-label="MedCite generates an answer, seeks citations for each statement, and evaluates citation support. A worked example and results follow.">
+        <div class="mc-stages">
+          <div class="mc-stage"><svg viewBox="0 0 240 145" aria-hidden="true">
+<path class="blue" d="M12 8h105v29H60l-9 7v-7H12Z"/><text x="64" y="27" text-anchor="middle">Medical question</text>
+<rect class="sheet" x="158" y="8" width="45" height="34" rx="3"/><rect class="sheet" x="151" y="14" width="45" height="34" rx="3"/><path class="rule" d="M160 24h26m-26 7h26m-26 7h18"/>
+<path class="flow" d="M65 46v14h55v8m54-16v8h-54"/>
+<rect class="sheet" x="37" y="72" width="166" height="65" rx="5"/><text class="quiet" x="49" y="87">Draft answer</text>
+<rect x="48" y="95" width="113" height="9" rx="2" fill="#e4edf5"/><text x="169" y="104">[1]</text>
+<path class="rule" d="M49 114h99m-99 13h111"/><text x="157" y="118">[2]</text><text x="169" y="131">[3]</text>
+</svg><h3>Generate an answer</h3><p>Question-level retrieval<br>Answer with initial citations</p></div>
+          <svg class="mc-arrow" viewBox="0 0 26 16" aria-hidden="true"><path d="M1 8h23m-5-4 5 4-5 4"/></svg>
+          <div class="mc-stage"><svg viewBox="0 0 240 145" aria-hidden="true">
+<rect class="blue" x="20" y="7" width="124" height="25" rx="4"/><text x="82" y="24" text-anchor="middle">Each statement</text>
+<circle cx="170" cy="20" r="11" fill="none" stroke="#35658b" stroke-width="1.6"/><path d="m178 28 10 10" fill="none" stroke="#35658b" stroke-width="1.6"/>
+<path class="flow" d="M82 36v14h38v9m-4-4 4 4 4-4"/>
+<rect class="sheet" x="28" y="62" width="50" height="38" rx="3"/><rect class="blue" x="95" y="62" width="50" height="38" rx="3"/><rect class="sheet" x="162" y="62" width="50" height="38" rx="3"/>
+<text x="53" y="79" text-anchor="middle">[1]</text><text x="120" y="79" text-anchor="middle">[4]</text><text x="187" y="79" text-anchor="middle">[5]</text>
+<path class="rule" d="M38 88h30m37 0h30m37 0h30"/>
+<path class="flow" d="M53 103v9h134v-9m-67 9v9m-4-4 4 4 4-4"/>
+<text x="120" y="138" text-anchor="middle">Retrieve · rerank · merge</text>
+</svg><h3>Seek citations</h3><p>Retrieve evidence per statement<br>Rerank and merge citations</p></div>
+          <svg class="mc-arrow eval" viewBox="0 0 26 16" aria-hidden="true"><path d="M1 8h23"/><path d="m19 4 5 4-5 4"/></svg>
+          <div class="mc-stage"><svg viewBox="0 0 240 145" aria-hidden="true">
+<rect class="blue" x="17" y="8" width="86" height="28" rx="4"/><text x="60" y="26" text-anchor="middle">Statement</text>
+<rect class="sheet" x="136" y="8" width="86" height="28" rx="4"/><text x="179" y="26" text-anchor="middle">Cited source</text>
+<path class="flow" d="M60 39v13h60v8m59-21v13h-59"/>
+<rect class="violet" x="52" y="64" width="136" height="28" rx="5"/><text x="120" y="82" text-anchor="middle" style="fill:#735187">Attribution judge</text>
+<path class="flow" d="M120 95v10m-72 0h144m-144 0v8m72-8v8m72-8v8"/>
+<circle cx="48" cy="126" r="10" fill="#edf5f0"/><path d="m43 126 3 3 6-7" fill="none" stroke="#3d7764" stroke-width="1.5"/>
+<circle cx="120" cy="126" r="10" fill="#f7f1e4"/><path d="M115 126h10" fill="none" stroke="#a18449" stroke-width="1.5"/>
+<circle cx="192" cy="126" r="10" fill="#f8edeb"/><path d="m188 122 8 8m0-8-8 8" fill="none" stroke="#9e625b" stroke-width="1.5"/>
+<text class="quiet" x="48" y="143" text-anchor="middle">Full</text><text class="quiet" x="120" y="143" text-anchor="middle">Partial</text><text class="quiet" x="192" y="143" text-anchor="middle">None</text>
+</svg><h3>Evaluate support</h3><p>Check cited evidence<br>Full, partial, or no support</p></div>
+        </div>
+        <div class="mc-example">
+          <p class="mc-context"><strong>JAVELIN Bladder 100</strong> · Advanced urothelial cancer without progression after platinum chemotherapy.</p>
+          <div class="mc-pair">
+            <div class="mc-statement"><h4>Generated statement</h4><p>Avelumab maintenance plus supportive care <mark>prolongs overall survival</mark> compared with supportive care alone. <span class="mc-cite">[4]</span></p></div>
+            <svg class="mc-connection" viewBox="0 0 42 30" aria-hidden="true"><path d="M1 15h39m-6-4 6 4-6 4"/></svg>
+            <div class="mc-evidence"><h4><span>Cited evidence [4]</span><span class="mc-support"><svg viewBox="0 0 14 14" aria-hidden="true"><path d="m2 7 3 3 7-7"/></svg>Fully supported</span></h4><p>Avelumab first-line maintenance + best supportive care <mark>prolonged overall survival</mark> compared with best supportive care alone.</p></div>
+          </div>
+          <p class="mc-example-note">Statement and evidence simplified from the paper, <a class="srcref" href="../assets/papers/MedCite.pdf#page=21" target="_blank" rel="noopener">Tables 11 &amp; 13</a>. Cited source: <a class="srcref" href="https://pubmed.ncbi.nlm.nih.gov/35654659/" target="_blank" rel="noopener">PMID 35654659</a>.</p>
+        </div>
+        <div class="mc-results">
+          <div><div class="mc-result-label">Answer accuracy (%)</div><div class="mc-result-values"><span class="before">82.9</span><span class="to">→</span><strong>83.3</strong></div><div class="mc-result-help">Exact-match answer accuracy</div></div>
+          <div><div class="mc-result-label">Citation recall (%)</div><div class="mc-result-values"><span class="before">49.0</span><span class="to">→</span><strong>65.7</strong></div><div class="mc-result-help">Statements fully supported</div></div>
+          <div><div class="mc-result-label">Citation precision (%)</div><div class="mc-result-values"><span class="before">42.8</span><span class="to">→</span><strong>47.7</strong></div><div class="mc-result-help">Citations offering full or partial support</div></div>
+        </div>
+        <figcaption>Single-pass RAG → multi-pass hybrid with citation seeking (<a class="srcref" href="../assets/papers/MedCite.pdf#page=7" target="_blank" rel="noopener">Table 4</a>). Workflow: <a class="srcref" href="../assets/papers/MedCite.pdf#page=2" target="_blank" rel="noopener">Fig. 2</a>; support evaluation: <a class="srcref" href="../assets/papers/MedCite.pdf#page=4" target="_blank" rel="noopener">§3.3</a>.</figcaption>
+      </figure>
+    </section>
+    <section class="slide" id="method"><div class="kick"><span class="n">03</span>Method</div><h2>End-to-end citation generation and evaluation</h2><div class="body"><ul class="highlights"><li>A <b>citation seeker</b> re-retrieves and reranks the sources behind each generated statement.</li><li>An <b>attribution judge</b> then checks whether each cited article actually supports its claim.</li></ul><figure class="fig m"><img style="max-height:calc(100vh - 345px)" src="../assets/figures/auto/MedCite_fig2.png" alt="The end-to-end MedCite pipeline."><figcaption>The end-to-end MedCite pipeline. <span class="src"><a class="srcref" href="https://aclanthology.org/2025.findings-acl.967/" target="_blank" rel="noopener">Fig. 2</a>.</span></figcaption></figure></div></section>
+    <section class="slide" id="result"><div class="kick"><span class="n">04</span>Result</div><h2>RAG improves answer accuracy, but citation quality declines</h2><div class="body"><div class="tbl-wrap"><table class="utbl"><thead><tr><th style="text-align:left">Method</th><th style="text-align:right">Accuracy</th><th style="text-align:right">MAUVE</th><th style="text-align:right">ROUGE-L</th><th style="text-align:right">Cite recall</th><th style="text-align:right">Cite prec.</th></tr></thead><tbody><tr><td style="text-align:left">Non-RAG</td><td style="text-align:right">71.4</td><td style="text-align:right">53.2</td><td style="text-align:right">18.1</td><td class="mc-best" style="text-align:right">59.1</td><td class="mc-best" style="text-align:right">52.9</td></tr><tr><td style="text-align:left">RAG</td><td style="text-align:right">82.9</td><td style="text-align:right">52.2</td><td style="text-align:right">14.8</td><td style="text-align:right">49.0</td><td style="text-align:right">42.8</td></tr><tr><td style="text-align:left">RAG w. Oracle</td><td class="mc-best" style="text-align:right">94.3</td><td class="mc-best" style="text-align:right">63.5</td><td class="mc-best" style="text-align:right">20.6</td><td style="text-align:right">57.5</td><td style="text-align:right">43.2</td></tr></tbody></table></div><div class="tnote">Compared with Non-RAG, RAG increases answer accuracy from 71.4 to 82.9, while citation recall and precision decrease. Underlined values are best in each column. Source: <a class="srcref" href="https://aclanthology.org/2025.findings-acl.967/" target="_blank" rel="noopener">Table 2</a>.</div></div></section>
+    <section class="slide" id="result-2"><div class="kick"><span class="n">05</span>Result</div><h2>Re-retrieval with LLM reranking wins</h2><div class="body"><div class="tbl-wrap"><table class="utbl"><thead><tr><th style="text-align:left">Citation-seeking strategy</th><th style="text-align:right">Cite recall</th><th style="text-align:right">Cite prec.</th></tr></thead><tbody><tr><td style="text-align:left">Pre-gen shortlist + LLM rerank</td><td style="text-align:right">54.7</td><td style="text-align:right">41.4</td></tr><tr><td style="text-align:left">Retriever-only re-retrieval</td><td style="text-align:right">65.7</td><td style="text-align:right">47.7</td></tr><tr><td style="text-align:left">Re-retrieval + NLI rerank</td><td style="text-align:right">65.4</td><td style="text-align:right">55.1</td></tr><tr class="best"><td style="text-align:left">Re-retrieval + LLM rerank</td><td style="text-align:right">65.8</td><td style="text-align:right">61.0</td></tr></tbody></table></div><div class="tnote">Citation quality by attribution strategy (answer accuracy 83.3 for all). Re-retrieval + LLM reranking gives the best precision. Source: <a class="srcref" href="https://aclanthology.org/2025.findings-acl.967/" target="_blank" rel="noopener">Table 3</a>.</div></div></section>
+    <section class="slide" id="result-3"><div class="kick"><span class="n">06</span>Result</div><h2>The multi-pass method beats single-pass</h2><div class="body"><div class="tbl-wrap"><table class="utbl"><thead><tr><th style="text-align:left">Configuration</th><th style="text-align:right">Accuracy</th><th style="text-align:right">MAUVE</th><th style="text-align:right">ROUGE-L</th><th style="text-align:right">Cite recall</th><th style="text-align:right">Cite prec.</th></tr></thead><tbody><tr><td style="text-align:left">Non-parametric (single-pass)</td><td style="text-align:right">82.9</td><td style="text-align:right">52.2</td><td style="text-align:right">14.8</td><td style="text-align:right">49.0</td><td style="text-align:right">42.8</td></tr><tr class="best"><td style="text-align:left">Hybrid (multi-pass)</td><td style="text-align:right">83.3</td><td style="text-align:right">59.2</td><td style="text-align:right">16.8</td><td style="text-align:right">65.7</td><td style="text-align:right">47.7</td></tr></tbody></table></div><div class="tnote">The multi-pass hybrid design lifts citation recall and precision at comparable answer quality. Source: <a class="srcref" href="https://aclanthology.org/2025.findings-acl.967/" target="_blank" rel="noopener">Table 4</a>.</div></div></section>
+    <section class="slide" id="summary"><div class="kick"><span class="n">07</span>Summary</div><h2>MedCite at a glance</h2><div class="body"><div class="tbl-wrap"><table class="stbl"><tbody><tr><td class="slab">Background</td><td class="sval">Medical AI answers increasingly arrive with supporting citations.</td></tr><tr><td class="slab">Problem</td><td class="sval">But can we trust them &mdash; do the citations actually support the claim?</td></tr><tr><td class="slab">Approach</td><td class="sval">End-to-end citation generation plus an automatic attribution judge.</td></tr><tr><td class="slab">Results</td><td class="sval">Re-retrieval with LLM reranking gives the best citation precision; the judge matches expert annotators.</td></tr><tr><td class="slab">Conclusion</td><td class="sval">A benchmark + metric for the &ldquo;verify&rdquo; step of trustworthy medical AI.</td></tr></tbody></table></div></div></section>
   </main>
   <footer>Qiao Jin, MD &middot; National Library of Medicine, NIH</footer>
   <nav class="dots" aria-hidden="true"></nav>
