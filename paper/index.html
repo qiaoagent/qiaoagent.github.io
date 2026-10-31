@@ -26,7 +26,9 @@
     .links { margin-top: 8px; font-size: 0.85rem; }
     .links a { margin-right: 16px; }
     li { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; align-items: baseline; gap: 16px; padding: 12px 0; }
-    .name { font-weight: 400; margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .name { display: grid; grid-template-columns: 16px minmax(0, 1fr); align-items: center; gap: 8px; min-width: 0; font-weight: 400; margin: 0; }
+    .name-text { grid-column: 2; grid-row: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .publisher-icon { grid-column: 1; grid-row: 1; width: 16px; height: 16px; }
     .meta { margin: 0; white-space: nowrap; }
     .links { display: flex; gap: 16px; margin: 0; white-space: nowrap; }
     .links a { margin-right: 0; }
@@ -44,147 +46,147 @@
     <p class="lead">29 papers, with HTML summaries and PDFs.</p>
     <ul aria-label="Paper directory">
       <li>
-        <h2 class="name" title="Adversarial Prompt and Fine-Tuning Attacks Threaten Medical Large Language Models">Adversarial</h2>
+        <h2 class="name" title="Adversarial Prompt and Fine-Tuning Attacks Threaten Medical Large Language Models"><img class="publisher-icon" src="../assets/icons/nature-portfolio.png" width="16" height="16" alt="Nature Portfolio" title="Nature Portfolio"><span class="name-text">Adversarial</span></h2>
         <div class="meta">Nature Communications 2025</div>
         <div class="links"><a href="Adversarial.html" aria-label="Adversarial: HTML summary">HTML</a><a href="../assets/papers/Adversarial.pdf" target="_blank" rel="noopener" aria-label="Adversarial: PDF">PDF</a></div>
       </li>
       <li>
-        <h2 class="name" title="AgentMD: Empowering Language Agents for Risk Prediction with Large-Scale Clinical Tool Learning">AgentMD</h2>
+        <h2 class="name" title="AgentMD: Empowering Language Agents for Risk Prediction with Large-Scale Clinical Tool Learning"><img class="publisher-icon" src="../assets/icons/nature-portfolio.png" width="16" height="16" alt="Nature Portfolio" title="Nature Portfolio"><span class="name-text">AgentMD</span></h2>
         <div class="meta">Nature Communications 2025</div>
         <div class="links"><a href="AgentMD.html" aria-label="AgentMD: HTML summary">HTML</a><a href="../assets/papers/AgentMD.pdf" target="_blank" rel="noopener" aria-label="AgentMD: PDF">PDF</a></div>
       </li>
       <li>
-        <h2 class="name" title="Agents’ Last Exam">Agents’ Last Exam</h2>
+        <h2 class="name" title="Agents’ Last Exam"><span class="name-text">Agents’ Last Exam</span></h2>
         <div class="meta">NeurIPS E&amp;D 2026</div>
         <div class="links"><a href="Agents-Last-Exam.html" aria-label="Agents’ Last Exam: HTML summary">HTML</a><a href="../assets/papers/Agents-Last-Exam.pdf" target="_blank" rel="noopener" aria-label="Agents’ Last Exam: PDF">PDF</a></div>
       </li>
       <li>
-        <h2 class="name" title="Benchmarking Large Language Models for Biomedical Natural Language Processing">BioNLP</h2>
+        <h2 class="name" title="Benchmarking Large Language Models for Biomedical Natural Language Processing"><img class="publisher-icon" src="../assets/icons/nature-portfolio.png" width="16" height="16" alt="Nature Portfolio" title="Nature Portfolio"><span class="name-text">BioNLP</span></h2>
         <div class="meta">Nature Communications 2025</div>
         <div class="links"><a href="BioNLP.html" aria-label="BioNLP: HTML summary">HTML</a><a href="../assets/papers/BioNLP.pdf" target="_blank" rel="noopener" aria-label="BioNLP: PDF">PDF</a></div>
       </li>
       <li>
-        <h2 class="name" title="Leveraging Long Context in Retrieval Augmented Language Models for Medical Question Answering">BriefContext</h2>
+        <h2 class="name" title="Leveraging Long Context in Retrieval Augmented Language Models for Medical Question Answering"><img class="publisher-icon" src="../assets/icons/nature-portfolio.png" width="16" height="16" alt="Nature Portfolio" title="Nature Portfolio"><span class="name-text">BriefContext</span></h2>
         <div class="meta">npj Digital Medicine 2025</div>
         <div class="links"><a href="BriefContext.html" aria-label="BriefContext: HTML summary">HTML</a><a href="../assets/papers/BriefContext.pdf" target="_blank" rel="noopener" aria-label="BriefContext: PDF">PDF</a></div>
       </li>
       <li>
-        <h2 class="name" title="Impact of Lab Results on Large Language Model Generated Differential Diagnoses">DDx</h2>
+        <h2 class="name" title="Impact of Lab Results on Large Language Model Generated Differential Diagnoses"><img class="publisher-icon" src="../assets/icons/nature-portfolio.png" width="16" height="16" alt="Nature Portfolio" title="Nature Portfolio"><span class="name-text">DDx</span></h2>
         <div class="meta">npj Digital Medicine 2025</div>
         <div class="links"><a href="DDx.html" aria-label="DDx: HTML summary">HTML</a><a href="../assets/papers/ddx.pdf" target="_blank" rel="noopener" aria-label="DDx: PDF">PDF</a></div>
       </li>
       <li>
-        <h2 class="name" title="Predicting Clinical Trial Results by Implicit Evidence Integration">EBM-Net</h2>
+        <h2 class="name" title="Predicting Clinical Trial Results by Implicit Evidence Integration"><span class="name-text">EBM-Net</span></h2>
         <div class="meta">EMNLP 2020</div>
         <div class="links"><a href="EBM-Net.html" aria-label="EBM-Net: HTML summary">HTML</a><a href="../assets/papers/EBM-Net.pdf" target="_blank" rel="noopener" aria-label="EBM-Net: PDF">PDF</a></div>
       </li>
       <li>
-        <h2 class="name" title="GeneAgent: self-verification language agent for gene-set analysis using domain databases">GeneAgent</h2>
+        <h2 class="name" title="GeneAgent: self-verification language agent for gene-set analysis using domain databases"><img class="publisher-icon" src="../assets/icons/nature-portfolio.png" width="16" height="16" alt="Nature Portfolio" title="Nature Portfolio"><span class="name-text">GeneAgent</span></h2>
         <div class="meta">Nature Methods 2025</div>
         <div class="links"><a href="GeneAgent.html" aria-label="GeneAgent: HTML summary">HTML</a><a href="../assets/papers/GeneAgent.pdf" target="_blank" rel="noopener" aria-label="GeneAgent: PDF">PDF</a></div>
       </li>
       <li>
-        <h2 class="name" title="Hidden Flaws Behind Expert-Level Accuracy of Multimodal GPT-4 Vision in Medicine">Hidden Flaws</h2>
+        <h2 class="name" title="Hidden Flaws Behind Expert-Level Accuracy of Multimodal GPT-4 Vision in Medicine"><img class="publisher-icon" src="../assets/icons/nature-portfolio.png" width="16" height="16" alt="Nature Portfolio" title="Nature Portfolio"><span class="name-text">Hidden Flaws</span></h2>
         <div class="meta">npj Digit. Med. 2024</div>
         <div class="links"><a href="HiddenFlaws.html" aria-label="Hidden Flaws: HTML summary">HTML</a><a href="../assets/papers/HiddenFlaws.pdf" target="_blank" rel="noopener" aria-label="Hidden Flaws: PDF">PDF</a></div>
       </li>
       <li>
-        <h2 class="name" title="Improving Retrieval-Augmented Generation in Medicine with Iterative Follow-up Questions">i-MedRAG</h2>
+        <h2 class="name" title="Improving Retrieval-Augmented Generation in Medicine with Iterative Follow-up Questions"><span class="name-text">i-MedRAG</span></h2>
         <div class="meta">PSB 2025</div>
         <div class="links"><a href="i-MedRAG.html" aria-label="i-MedRAG: HTML summary">HTML</a><a href="../assets/papers/i-MedRAG.pdf" target="_blank" rel="noopener" aria-label="i-MedRAG: PDF">PDF</a></div>
       </li>
       <li>
-        <h2 class="name" title="LADER: Log-Augmented DEnse Retrieval for Biomedical Literature Search">LADER</h2>
+        <h2 class="name" title="LADER: Log-Augmented DEnse Retrieval for Biomedical Literature Search"><span class="name-text">LADER</span></h2>
         <div class="meta">SIGIR 2023</div>
         <div class="links"><a href="LADER.html" aria-label="LADER: HTML summary">HTML</a><a href="../assets/papers/LADER.pdf" target="_blank" rel="noopener" aria-label="LADER: PDF">PDF</a></div>
       </li>
       <li>
-        <h2 class="name" title="LEADS: A Foundation Model for Human–AI Collaboration in Medical Literature Mining">LEADS</h2>
+        <h2 class="name" title="LEADS: A Foundation Model for Human–AI Collaboration in Medical Literature Mining"><img class="publisher-icon" src="../assets/icons/nature-portfolio.png" width="16" height="16" alt="Nature Portfolio" title="Nature Portfolio"><span class="name-text">LEADS</span></h2>
         <div class="meta">Nature Communications 2025</div>
         <div class="links"><a href="LEADS.html" aria-label="LEADS: HTML summary">HTML</a><a href="../assets/papers/leads.pdf" target="_blank" rel="noopener" aria-label="LEADS: PDF">PDF</a></div>
       </li>
       <li>
-        <h2 class="name" title="Med-V1: Small Language Models for Zero-shot and Scalable Biomedical Evidence Attribution">Med-V1</h2>
+        <h2 class="name" title="Med-V1: Small Language Models for Zero-shot and Scalable Biomedical Evidence Attribution"><span class="name-text">Med-V1</span></h2>
         <div class="meta">arXiv 2026</div>
         <div class="links"><a href="Med-V1.html" aria-label="Med-V1: HTML summary">HTML</a><a href="../assets/papers/Med-V1.pdf" target="_blank" rel="noopener" aria-label="Med-V1: PDF">PDF</a></div>
       </li>
       <li>
-        <h2 class="name" title="MedCalc-Bench: Evaluating Large Language Models for Medical Calculations">MedCalc-Bench</h2>
+        <h2 class="name" title="MedCalc-Bench: Evaluating Large Language Models for Medical Calculations"><span class="name-text">MedCalc-Bench</span></h2>
         <div class="meta">NeurIPS D&amp;B 2024</div>
         <div class="links"><a href="MedCalc-Bench.html" aria-label="MedCalc-Bench: HTML summary">HTML</a><a href="../assets/papers/MedCalc-Bench.pdf" target="_blank" rel="noopener" aria-label="MedCalc-Bench: PDF">PDF</a></div>
       </li>
       <li>
-        <h2 class="name" title="MedCite: Can Language Models Generate Verifiable Text for Medicine?">MedCite</h2>
+        <h2 class="name" title="MedCite: Can Language Models Generate Verifiable Text for Medicine?"><span class="name-text">MedCite</span></h2>
         <div class="meta">ACL Findings 2025</div>
         <div class="links"><a href="MedCite.html" aria-label="MedCite: HTML summary">HTML</a><a href="../assets/papers/MedCite.pdf" target="_blank" rel="noopener" aria-label="MedCite: PDF">PDF</a></div>
       </li>
       <li>
-        <h2 class="name" title="MedCPT: Contrastive Pre-trained Transformers with Large-scale PubMed Search Logs">MedCPT</h2>
+        <h2 class="name" title="MedCPT: Contrastive Pre-trained Transformers with Large-scale PubMed Search Logs"><span class="name-text">MedCPT</span></h2>
         <div class="meta">Bioinformatics 2023</div>
         <div class="links"><a href="MedCPT.html" aria-label="MedCPT: HTML summary">HTML</a><a href="../assets/papers/MedCPT.pdf" target="_blank" rel="noopener" aria-label="MedCPT: PDF">PDF</a></div>
       </li>
       <li>
-        <h2 class="name" title="Assessing safety and trustworthiness of large language models in medicine">MedGuard-Bench</h2>
+        <h2 class="name" title="Assessing safety and trustworthiness of large language models in medicine"><img class="publisher-icon" src="../assets/icons/nature-portfolio.png" width="16" height="16" alt="Nature Portfolio" title="Nature Portfolio"><span class="name-text">MedGuard-Bench</span></h2>
         <div class="meta">Communications Medicine 2026</div>
         <div class="links"><a href="MedGuard-Bench.html" aria-label="MedGuard-Bench: HTML summary">HTML</a><a href="../assets/papers/MedGuard-Bench.pdf" target="_blank" rel="noopener" aria-label="MedGuard-Bench: PDF">PDF</a></div>
       </li>
       <li>
-        <h2 class="name" title="Benchmarking Retrieval-Augmented Generation for Medicine">MedRAG</h2>
+        <h2 class="name" title="Benchmarking Retrieval-Augmented Generation for Medicine"><span class="name-text">MedRAG</span></h2>
         <div class="meta">ACL Findings 2024</div>
         <div class="links"><a href="MedRAG.html" aria-label="MedRAG: HTML summary">HTML</a><a href="../assets/papers/MedRAG.pdf" target="_blank" rel="noopener" aria-label="MedRAG: PDF">PDF</a></div>
       </li>
       <li>
-        <h2 class="name" title="Closing the Gap Between Open-Source and Commercial LLMs for Medical Evidence Summarization">MedReview</h2>
+        <h2 class="name" title="Closing the Gap Between Open-Source and Commercial LLMs for Medical Evidence Summarization"><img class="publisher-icon" src="../assets/icons/nature-portfolio.png" width="16" height="16" alt="Nature Portfolio" title="Nature Portfolio"><span class="name-text">MedReview</span></h2>
         <div class="meta">npj Digit. Med. 2024</div>
         <div class="links"><a href="MedReview.html" aria-label="MedReview: HTML summary">HTML</a><a href="../assets/papers/MedReview.pdf" target="_blank" rel="noopener" aria-label="MedReview: PDF">PDF</a></div>
       </li>
       <li>
-        <h2 class="name" title="A Large-scale Dataset of Patient Summaries for Retrieval-based Clinical Decision Support">PMC-Patients</h2>
+        <h2 class="name" title="A Large-scale Dataset of Patient Summaries for Retrieval-based Clinical Decision Support"><img class="publisher-icon" src="../assets/icons/nature-portfolio.png" width="16" height="16" alt="Nature Portfolio" title="Nature Portfolio"><span class="name-text">PMC-Patients</span></h2>
         <div class="meta">Scientific Data 2023</div>
         <div class="links"><a href="PMC-Patients.html" aria-label="PMC-Patients: HTML summary">HTML</a><a href="../assets/papers/PMC-Patients.pdf" target="_blank" rel="noopener" aria-label="PMC-Patients: PDF">PDF</a></div>
       </li>
       <li>
-        <h2 class="name" title="PubMed and beyond: biomedical literature search in the age of artificial intelligence">PubMed and Beyond</h2>
+        <h2 class="name" title="PubMed and beyond: biomedical literature search in the age of artificial intelligence"><span class="name-text">PubMed and Beyond</span></h2>
         <div class="meta">eBioMedicine 2024</div>
         <div class="links"><a href="PubMed-and-Beyond.html" aria-label="PubMed and Beyond: HTML summary">HTML</a><a href="../assets/papers/PubMed-and-Beyond.pdf" target="_blank" rel="noopener" aria-label="PubMed and Beyond: PDF">PDF</a></div>
       </li>
       <li>
-        <h2 class="name" title="PubMedQA: A Dataset for Biomedical Research Question Answering">PubMedQA</h2>
+        <h2 class="name" title="PubMedQA: A Dataset for Biomedical Research Question Answering"><span class="name-text">PubMedQA</span></h2>
         <div class="meta">EMNLP 2019</div>
         <div class="links"><a href="PubMedQA.html" aria-label="PubMedQA: HTML summary">HTML</a><a href="../assets/papers/PubMedQA.pdf" target="_blank" rel="noopener" aria-label="PubMedQA: PDF">PDF</a></div>
       </li>
       <li>
-        <h2 class="name" title="PubTator 3.0: an AI-powered literature resource for unlocking biomedical knowledge">PubTator 3.0</h2>
+        <h2 class="name" title="PubTator 3.0: an AI-powered literature resource for unlocking biomedical knowledge"><span class="name-text">PubTator 3.0</span></h2>
         <div class="meta">Nucleic Acids Research 2024</div>
         <div class="links"><a href="PubTator-3.html" aria-label="PubTator 3.0: HTML summary">HTML</a><a href="../assets/papers/PubTator-3.pdf" target="_blank" rel="noopener" aria-label="PubTator 3.0: PDF">PDF</a></div>
       </li>
       <li>
-        <h2 class="name" title="Supervising the search process produces reliable and generalizable information-seeking agents">RAG-Gym</h2>
+        <h2 class="name" title="Supervising the search process produces reliable and generalizable information-seeking agents"><img class="publisher-icon" src="../assets/icons/nature-portfolio.png" width="16" height="16" alt="Nature Portfolio" title="Nature Portfolio"><span class="name-text">RAG-Gym</span></h2>
         <div class="meta">Nature Communications 2026</div>
         <div class="links"><a href="RAG-Gym.html" aria-label="RAG-Gym: HTML summary">HTML</a><a href="../assets/papers/RAG-Gym.pdf" target="_blank" rel="noopener" aria-label="RAG-Gym: PDF">PDF</a></div>
       </li>
       <li>
-        <h2 class="name" title="Retrieve, Summarize, and Verify: How Will ChatGPT Affect Information Seeking from the Medical Literature?">Retrieve, Summarize, and Verify</h2>
+        <h2 class="name" title="Retrieve, Summarize, and Verify: How Will ChatGPT Affect Information Seeking from the Medical Literature?"><span class="name-text">Retrieve, Summarize, and Verify</span></h2>
         <div class="meta">JASN 2023</div>
         <div class="links"><a href="Retrieve-Summarize-Verify.html" aria-label="Retrieve, Summarize, and Verify: HTML summary">HTML</a><a href="../assets/papers/Retrieve-Summarize-Verify.pdf" target="_blank" rel="noopener" aria-label="Retrieve, Summarize, and Verify: PDF">PDF</a></div>
       </li>
       <li>
-        <h2 class="name" title="Risks of AI Scientists: Prioritizing Safeguarding Over Autonomy">Risks of AI Scientists</h2>
+        <h2 class="name" title="Risks of AI Scientists: Prioritizing Safeguarding Over Autonomy"><img class="publisher-icon" src="../assets/icons/nature-portfolio.png" width="16" height="16" alt="Nature Portfolio" title="Nature Portfolio"><span class="name-text">Risks of AI Scientists</span></h2>
         <div class="meta">Nature Communications 2025</div>
         <div class="links"><a href="AIScientist.html" aria-label="Risks of AI Scientists: HTML summary">HTML</a><a href="../assets/papers/AIScientist.pdf" target="_blank" rel="noopener" aria-label="Risks of AI Scientists: PDF">PDF</a></div>
       </li>
       <li>
-        <h2 class="name" title="Matching Patients to Clinical Trials with Large Language Models">TrialGPT</h2>
+        <h2 class="name" title="Matching Patients to Clinical Trials with Large Language Models"><img class="publisher-icon" src="../assets/icons/nature-portfolio.png" width="16" height="16" alt="Nature Portfolio" title="Nature Portfolio"><span class="name-text">TrialGPT</span></h2>
         <div class="meta">Nature Communications 2024</div>
         <div class="links"><a href="TrialGPT.html" aria-label="TrialGPT: HTML summary">HTML</a><a href="../assets/papers/TrialGPT.pdf" target="_blank" rel="noopener" aria-label="TrialGPT: PDF">PDF</a></div>
       </li>
       <li>
-        <h2 class="name" title="Towards AI-Assisted Clinical Trial Matching: Practical Considerations, Multicenter Evaluation, and Real-World Deployment">TrialGPT 2.0</h2>
+        <h2 class="name" title="Towards AI-Assisted Clinical Trial Matching: Practical Considerations, Multicenter Evaluation, and Real-World Deployment"><span class="name-text">TrialGPT 2.0</span></h2>
         <div class="meta">arXiv preprint September 2026</div>
         <div class="links"><a href="TrialGPT-2.html" aria-label="TrialGPT 2.0: HTML summary">HTML</a><a href="../assets/papers/TrialGPT-2.pdf" target="_blank" rel="noopener" aria-label="TrialGPT 2.0: PDF">PDF</a></div>
       </li>
       <li>
-        <h2 class="name" title="Accelerating Clinical Evidence Synthesis with Large Language Models">TrialMind</h2>
+        <h2 class="name" title="Accelerating Clinical Evidence Synthesis with Large Language Models"><img class="publisher-icon" src="../assets/icons/nature-portfolio.png" width="16" height="16" alt="Nature Portfolio" title="Nature Portfolio"><span class="name-text">TrialMind</span></h2>
         <div class="meta">npj Digit. Med. 2025</div>
         <div class="links"><a href="TrialMind.html" aria-label="TrialMind: HTML summary">HTML</a><a href="../assets/papers/TrialMind.pdf" target="_blank" rel="noopener" aria-label="TrialMind: PDF">PDF</a></div>
       </li>
