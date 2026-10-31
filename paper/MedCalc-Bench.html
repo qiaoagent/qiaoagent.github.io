@@ -220,6 +220,27 @@
     .mc-feature strong{font-weight:600;color:var(--feature);}
     .mc-findings{border-top:1px solid var(--border);padding-top:8px;margin:0;font-size:.75rem;line-height:1.5;color:var(--muted);}
     .mc-findings strong{font-weight:600;color:var(--ink);}
+    /* Widen this overview by 40% while preserving its vertical composition. */
+    @media (min-width:941px){
+      #method{width:min(1176px,calc(100vw - 80px));margin-left:50%;transform:translateX(-50%);}
+      .mc-curation{min-height:94px;}
+      .mc-flow{grid-template-columns:max-content minmax(36px,1fr) max-content minmax(36px,1fr) max-content;}
+      .mc-flow-step:last-child{justify-self:start;}
+      .mc-flow>.mc-arrow{width:72px;justify-self:center;}
+      .mc-flow-title{font-size:.95rem;}.mc-flow-note{font-size:.78rem;}
+      .mc-family-row.equation{min-height:239px;}
+      .mc-family-row.rule{min-height:233px;}
+      .mc-example{display:flex;flex-direction:column;}
+      .mc-example-columns{flex:1;grid-template-columns:minmax(0,1.5fr) minmax(0,1.7fr) 92px;}
+      .mc-note{display:flex;flex-direction:column;justify-content:center;}
+      .mc-note blockquote{font-size:.85rem;}
+      .mc-reason-step{font-size:.78rem;}
+      .mc-lab{font-size:.72rem;}.mc-lab b{font-size:.95rem;}.mc-lab small{font-size:.65rem;}
+      .mc-formulas,.mc-calculation{font-size:.9rem;}
+      .rule .mc-reasoning-content{display:flex;flex-direction:column;flex:1;}
+      .mc-criteria{flex:1;}
+      .mc-criterion{font-size:.75rem;}
+    }
     @media(max-width:760px){
       #method{justify-content:flex-start;}
       .mc-flow{grid-template-columns:1fr;gap:8px;}
@@ -275,12 +296,12 @@
               <svg class="mc-step-icon" viewBox="0 0 36 40" aria-hidden="true"><rect class="wash" x="0" y="2" width="36" height="36" rx="8"/><path d="M13 11V8h15v20h-3M8 12h15v20H8ZM12 18h7m-7 5h7m-7 4h4"/></svg>
               <div><div class="mc-flow-title">Collect &amp; extract</div><p class="mc-flow-note">180k+ notes · Open-Patients<br>55 calculators · MDCalc</p></div>
             </div>
-            <svg class="mc-arrow" viewBox="0 0 34 16" aria-hidden="true"><path d="M1 8h30m-6-5 6 5-6 5"/></svg>
+            <svg class="mc-arrow" viewBox="0 0 72 16" aria-hidden="true"><path d="M1 8h68m-6-5 6 5-6 5"/></svg>
             <div class="mc-flow-step">
               <svg class="mc-step-icon" viewBox="0 0 36 40" aria-hidden="true"><rect class="wash" x="0" y="2" width="36" height="36" rx="8"/><path d="M9 9h17v23H9ZM13 14h9m-9 5h6m-6 7 3 3 7-8"/></svg>
               <div><div class="mc-flow-title">Review &amp; supplement</div><p class="mc-flow-note">Medically verify attributes<br>Add missing cases</p></div>
             </div>
-            <svg class="mc-arrow" viewBox="0 0 34 16" aria-hidden="true"><path d="M1 8h30m-6-5 6 5-6 5"/></svg>
+            <svg class="mc-arrow" viewBox="0 0 72 16" aria-hidden="true"><path d="M1 8h68m-6-5 6 5-6 5"/></svg>
             <div class="mc-flow-step">
               <svg class="mc-step-icon" viewBox="0 0 36 40" aria-hidden="true"><rect class="wash" x="0" y="2" width="36" height="36" rx="8"/><path d="m12 12-6 8 6 8m12-16 6 8-6 8m-9-5 3 3 5-7"/></svg>
               <div><div class="mc-flow-final">1,047 cases</div><p class="mc-flow-note">Template-computed answers<br>+ step-by-step explanations</p></div>
